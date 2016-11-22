@@ -1,4 +1,4 @@
-package TEST;
+package fr.cdf.TEST;
 
 import static org.junit.Assert.*;
 import fr.cdf.Inscriptions;
