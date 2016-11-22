@@ -1,7 +1,7 @@
 package TEST;
 
 import static org.junit.Assert.*;
-import inscriptions.Inscriptions;
+import fr.cdf.Inscriptions;
 
 import org.junit.Test;
 
