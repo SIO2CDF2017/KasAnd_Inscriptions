@@ -2,32 +2,33 @@ package fr.cdf.TEST;
 
 import static org.junit.Assert.*;
 import fr.cdf.Inscriptions;
+import java.io.IOException;
 
 import org.junit.Test;
 
 public class TestInscription {
 	
-	private 
+	private final 
 		Inscriptions insc = Inscriptions.getInscriptions();
 	
 	@Test
 	public void testGetCompetitions() {
-		fail("Not yet implemented");
+		insc.getCompetitions();
 	}
 
 	@Test
 	public void testGetCandidats() {
-		fail("Not yet implemented");
+		insc.getCandidats();
 	}
 
 	@Test
 	public void testGetPersonnes() {
-		fail("Not yet implemented");
+		insc.getPersonnes();
 	}
 
 	@Test
 	public void testGetEquipes() {
-		fail("Not yet implemented");
+		insc.getEquipes();
 	}
 
 	@Test
@@ -37,47 +38,37 @@ public class TestInscription {
 
 	@Test
 	public void testCreatePersonne() {
-		fail("Not yet implemented");
+		insc.createPersonne("kasperski", "victor", "kasperskivictor@gmail.com");
 	}
 
 	@Test
 	public void testCreateEquipe() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemoveCompetition() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemoveCandidat() {
-		fail("Not yet implemented");
-	}
-
+		insc.createEquipe("yolo");
+        }
+        
 	@Test
 	public void testGetInscriptions() {
-		fail("Not yet implemented");
+		Inscriptions.getInscriptions();
 	}
 
 	@Test
 	public void testReinitialiser() {
-		fail("Not yet implemented");
+		insc.reinitialiser();
 	}
 
 	@Test
 	public void testRecharger() {
-		fail("Not yet implemented");
+		insc.recharger();
 	}
 
 	@Test
-	public void testSauvegarder() {
-		fail("Not yet implemented");
+	public void testSauvegarder() throws IOException{
+		insc.sauvegarder();
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		insc.toString();
 	}
 
 	@Test

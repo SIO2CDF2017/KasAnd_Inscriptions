@@ -1,54 +1,42 @@
 package fr.cdf.TEST;
 
+import fr.cdf.Candidat;
+import fr.cdf.Inscriptions;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 public class TestCandidat {
-
-	@Test
-	public void testCandidat() {
-		fail("Not yet implemented");
-	}
-
+        
 	@Test
 	public void testGetNom() {
-		fail("Not yet implemented");
+            cand.getNom();
 	}
 
 	@Test
 	public void testSetNom() {
-		fail("Not yet implemented");
+            String name = "toto";
+            cand.setNom(name);
 	}
 
 	@Test
 	public void testGetCompetitions() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAdd() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemove() {
-		fail("Not yet implemented");
+            cand.getCompetitions();
 	}
 
 	@Test
 	public void testDelete() {
-		fail("Not yet implemented");
+            cand.delete();
 	}
 
 	@Test
 	public void testCompareTo() {
-		fail("Not yet implemented");
+            cand.compareTo(cand2);
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+            cand.toString();
 	}
 
 }
