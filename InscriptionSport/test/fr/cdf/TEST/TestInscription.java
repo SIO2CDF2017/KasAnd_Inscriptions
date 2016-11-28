@@ -66,14 +66,11 @@ public class TestInscription {
 		insc.sauvegarder();
 	}
 
+        
 	@Test
 	public void testToString() {
 		insc.toString();
 	}
 
-	@Test
-	public void testMain() {
-		fail("Not yet implemented");
-	}
 
 }
