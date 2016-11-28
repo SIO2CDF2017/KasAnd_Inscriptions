@@ -44,7 +44,7 @@ public class MySQL {
         return false;
     }
     
-    public ResultSet execInsert(String s){
+    public ResultSet execSelect(String s){
         try {
             ResultSet rs = this.dbStatement.executeQuery(s);
             return rs;

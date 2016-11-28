@@ -20,14 +20,14 @@ public class TestMysql {
         MySQL ms = new MySQL("jdbc:mysql://localhost:3306/ins", "root", "");
         if (ms.connect()) {
             try {
-                ResultSet rs = ms.execInsert("SELECT * FROM test;");
+                ResultSet rs = ms.execSelect("SELECT * FROM test;");
                 if (rs != null) {
                     while (rs.next()) {                        
                         System.out.println("ID : "+rs.getString("id")+" libele : "+rs.getString("libele"));
                     }
                 }
                 
-                int rs2 = ms.execUpdate("INSERT INTO test VALUES(3,'MICHEL')");
+                int rs2 = ms.execUpdate("INSERT INTO test VALUES(4,'JEan')");
                 if (rs2 == -1) {
                     System.out.println("Erreur Insert");
                 }
@@ -37,5 +37,6 @@ public class TestMysql {
         }else{
             System.out.println("Erreur Connexion !");
         }
+        ms.close();
     }
 }

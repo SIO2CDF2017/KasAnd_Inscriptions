@@ -20,6 +20,7 @@ public class Competition implements Comparable<Competition>, Serializable
 	private Set<Candidat> candidats;
 	private LocalDate dateCloture;
 	private boolean enEquipe = false;
+        private LocalDate ajd = LocalDate.now();
 
 	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
@@ -57,8 +58,12 @@ public class Competition implements Comparable<Competition>, Serializable
 	
 	public boolean inscriptionsOuvertes()
 	{
-		// TODO retourner vrai si et seulement si la date système est antérieure à la date de clôture.
-		return true;
+		// retourner vrai si et seulement si la date système est antérieure à la date de clôture.    
+            
+            if (ajd.isBefore(this.dateCloture)) {
+                return true;
+            }
+            return false;
 	}
 	
 	/**
@@ -87,10 +92,13 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * @param dateCloture
 	 */
 	
-	public void setDateCloture(LocalDate dateCloture)
+	public void setDateCloture(LocalDate DateC)
 	{
-		// TODO vérifier que l'on avance pas la date.
-		this.dateCloture = dateCloture;
+		//  vérifier que l'on avance pas la date.
+                
+            if (DateC.isAfter(this.dateCloture) || DateC.isBefore(ajd)) {}else{
+                    this.dateCloture = DateC;
+                }
 	}
 	
 	/**
@@ -113,11 +121,15 @@ public class Competition implements Comparable<Competition>, Serializable
 	
 	public boolean add(Personne personne)
 	{
-		// TODO vérifier que la date de clôture n'est pas passée
-		if (enEquipe)
+            	//  vérifier que la date de clôture n'est pas passée
+            
+            if (ajd.isBefore(this.dateCloture)) {
+                if (enEquipe)
 			throw new RuntimeException();
 		personne.add(this);
-		return candidats.add(personne);
+		return candidats.add(personne);  
+            }
+            return false;
 	}
 
 	/**
@@ -130,11 +142,15 @@ public class Competition implements Comparable<Competition>, Serializable
 
 	public boolean add(Equipe equipe)
 	{
-		// TODO vérifier que la date de clôture n'est pas passée
-		if (!enEquipe)
+		//  vérifier que la date de clôture n'est pas passée
+            if (ajd.isBefore(this.dateCloture)) {
+                if (!enEquipe)
 			throw new RuntimeException();
 		equipe.add(this);
-		return candidats.add(equipe);
+		return candidats.add(equipe);                
+            }
+            return false;
+
 	}
 
 	/**

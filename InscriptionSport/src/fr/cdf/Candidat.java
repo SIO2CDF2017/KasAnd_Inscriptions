@@ -56,7 +56,7 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	
 	boolean add(Competition competition)
 	{
-		return competitions.add(competition);
+            return competitions.add(competition);
 	}
 
 	boolean remove(Competition competition)
