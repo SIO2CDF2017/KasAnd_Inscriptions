@@ -29,7 +29,7 @@ public class TestCompetition {
 
 	@Test
 	public void testInscriptionsOuvertes() {
-		comp.inscriptionsOuvertes();
+            assert(comp.inscriptionsOuvertes());
 	}
 
 	@Test
@@ -54,10 +54,8 @@ public class TestCompetition {
 
 	@Test
 	public void testAddPersonne() {
-            if(comp.estEnEquipe())
-            {
-                assert(comp2.add(p));
-            }
+            assert(comp.add(p));
+            
 	}
 
 	@Test
