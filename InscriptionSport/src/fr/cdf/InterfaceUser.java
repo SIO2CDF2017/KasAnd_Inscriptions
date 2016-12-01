@@ -5,39 +5,38 @@ import utilitaires.ligneDeCommande.*;
  * @author vkasperski
  */
 public class InterfaceUser {
-    static Option getRecherche()
+    static Action ActionMenuRecherche()
     {
-        Option rechercher = new Option("rechercher","1");
-        return rechercher;
+        return new Action()
+        {
+            public void optionSelectionnee()
+            {
+                Menu mr = new Menu("Rechercher :");
+                Option candGetCand = new Option("Recherche de Candidat","1");
+                Option candGetCand = new Option("Recherche de Candidat","1");
+                mr.start();
+                
+            }
+	};
     }
-    
-    static Option getInscription()
-    {
-        Option inscrir = new Option("Inscription","2");
-        return inscrir;
-    }
-    
-    static Option getSuppr()
-    {
-        Option suppr = new Option("Supprimer","3");
-        return suppr;
-    }
-    
-    static Option getModif()
-    {
-        Option modif = new Option("Modifier","4");
-        return modif;
-    }
-    
+
     static Menu MenuP()
     {
         Menu menuPrincipal = new Menu("Menu Principal");
-        menuPrincipal.ajoute(getRecherche());
-        menuPrincipal.ajoute(getInscription());
-        menuPrincipal.ajoute(getSuppr());
-        menuPrincipal.ajoute(getModif());
+        Option rechercher = new Option("rechercher","1",ActionMenuRecherche());
+        Option inscrire = new Option("Inscriptions","2");
+        Option suppr = new Option("Supprimer","3");
+        Option modif = new Option("Modifier","4");
+        menuPrincipal.ajoute(rechercher);
+        menuPrincipal.ajoute(inscrire);
+        menuPrincipal.ajoute(suppr);
+        menuPrincipal.ajoute(modif);
         menuPrincipal.ajouteQuitter("q");
         return menuPrincipal;
     }
-    
+    public static void main(String[] args)
+    {
+        Menu m = MenuP();
+        m.start();
+    }
 }
