@@ -151,13 +151,59 @@ public class InterfaceUser {
             }
         };
     }
+    
+    static Action ActionMenuSuprimer(){
+        return new Action(){
+            @Override
+            public void optionSelectionnee() {
+                Menu MenuS = new Menu("Suprimer : ");
+                Option SupPers = new Option("Suprimer un candidat", "1");
+                Option deInsCand = new Option("Deinscrire un candidat", "2");
+                Option supMbrEquip = new Option("Suimer un membre d'une equipe", "3");
+                Option SupComp = new Option("Suprimer une competition", "4");
+                MenuS.ajoute(SupPers);
+                MenuS.ajoute(deInsCand);
+                MenuS.ajoute(supMbrEquip);
+                MenuS.ajoute(SupComp);
+                MenuS.ajouteRevenir("r");
+                MenuS.ajouteQuitter("q");
+                MenuS.start();
+            }
+            
+        };
+    }
+    
+    static Action ActionMenuModifier(){
+        return new Action(){
+            @Override
+            public void optionSelectionnee() {
+                Menu MenuM = new Menu("Modifier : ");
+                
+                Option chNomCand = new Option("Modifier le nom de l equipe ou le nom de famille d un candidat","1");
+                Option ChPrenomPers = new Option("Modifier le prenom d une personne","2");
+                Option ChMailPers = new Option("Modifier le mail d une personne","3");
+                Option ChDateCloComp = new Option("Modifier la date de cloture d une competition","4");
+                Option ChNomComp = new Option("Modifier le nom d une competition","5");             
+                MenuM.ajoute(chNomCand);
+                MenuM.ajoute(ChPrenomPers);
+                MenuM.ajoute(ChMailPers);
+                MenuM.ajoute(ChDateCloComp);
+                MenuM.ajoute(ChNomComp);                
+                MenuM.ajouteRevenir("r");
+                MenuM.ajouteQuitter("q");
+                MenuM.start();
+            }
+            
+        };
+    }
+    
     static Menu MenuP()
     {
         Menu menuPrincipal = new Menu("Menu Principal");
         Option rechercher = new Option("rechercher","1",ActionMenuRecherche());
         Option inscrire = new Option("Inscriptions","2",ActionMenuInscription());
-        Option suppr = new Option("Supprimer","3");
-        Option modif = new Option("Modifier","4");
+        Option suppr = new Option("Supprimer","3",ActionMenuSuprimer());
+        Option modif = new Option("Modifier","4",ActionMenuModifier());
         menuPrincipal.ajoute(rechercher);
         menuPrincipal.ajoute(inscrire);
         menuPrincipal.ajoute(suppr);
@@ -169,5 +215,9 @@ public class InterfaceUser {
     {
         Menu m = MenuP();
         m.start();
+    }
+
+    private static Action Action() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
