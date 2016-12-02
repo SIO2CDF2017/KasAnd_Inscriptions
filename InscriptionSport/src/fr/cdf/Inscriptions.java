@@ -23,9 +23,9 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
-        private static String mysql_url = "jdbc:mysql://localhost/inscription";
-        private static String mysql_user = "root";
-        private static String mysql_psw = "";
+        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
+        private static final String MYSQL_USER = "root";
+        private static final String MYSQL_PSW = "";
 	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
@@ -92,7 +92,7 @@ public class Inscriptions implements Serializable
 	 */
 	
 	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
-	{       MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
+	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
 		competitions.add(competition);
                 if (ms.connect()) {
@@ -126,7 +126,7 @@ public class Inscriptions implements Serializable
 	
 	public Personne createPersonne(String nom, String prenom, String mail)
 	{       
-                MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
+                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
                 
@@ -162,7 +162,7 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(String nom)
 	{
-                MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
+                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
 		
