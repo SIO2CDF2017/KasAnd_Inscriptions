@@ -21,7 +21,7 @@ public class EntreesSorties
 	public static String getString() throws IOException
 	{
 		BufferedReader br = new BufferedReader(
-					new InputStreamReader(System.in));
+				new InputStreamReader(System.in));
 		return br.readLine();
 	}
 	

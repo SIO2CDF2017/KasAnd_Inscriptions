@@ -40,16 +40,13 @@ delimiter ;
 
 
 /*getCandidat*/
-
 delimiter @
 DROP PROCEDURE getcand;
 CREATE FUNCTION getcand()
 BEGIN
 	RETURN(
 	SELECT* 
-	FROM CANDIDAT C, PERSONNE P, EQUIPE 
-	WHERE C.id_cand = P.id_cand 
-	AND C.id_cand = E.id_cand );
+	FROM CANDIDAT C;);
 END	
 @
 delimiter ;

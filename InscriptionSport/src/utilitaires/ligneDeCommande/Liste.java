@@ -19,7 +19,7 @@ public class Liste<T> extends Menu
 	private Option optionQuitter = null, optionRevenir = null;
 	
 	/**
-	 * Créée une liste.
+	 * Créée une liste
 	 * @param titre intitulé affiché au dessus-de la liste.
 	 * @param action l'objet permettant de gérer la liste.
 	 */
