@@ -15,10 +15,9 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-               // Liste<Candidat> Lcand = new Liste("Choisir un candidat",i.getCandidats()); 
                 Menu rechCand = new Menu("Recherche de Candidats :");
-                 //Liste<Candidat> Cand = new Liste<Candidat>("Liste des candidats :",Inscription.getCandidats());
-                rechCand.ajouteRevenir("r");;
+                
+                rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
                 rechCand.start();                
             }
@@ -60,18 +59,18 @@ public class InterfaceUser {
             {
                 Menu insc = new Menu("Inscriptions :");
                 Option creatPers = new Option("nouvelle Personne","1",newPersonne());
-                Option creatEqui = new Option("nouvelle Equipe","2");
-                Option creatComp = new Option("nouvelle Competition","3");
+                Option creatEqui = new Option("nouvelle Equipe","2",newEquipe());
+                Option creatComp = new Option("nouvelle Competition","3",newCompetition());
                 Option addPersToEqui = new Option("Ajouter une personne existante à une Equipe existante","4");
                 Option addPersToComp = new Option("Inscrire une personne existante à une competition existante","5");
-                Option addEquiToComp = new Option("Inscrire une équipeexistante à une competion existante","6");
+                Option addEquiToComp = new Option("Inscrire une équipe existante à une competion existante","6");
                 insc.ajoute(creatPers);
                 insc.ajoute(creatEqui);
                 insc.ajoute(creatComp);
                 insc.ajoute(addPersToEqui);
                 insc.ajoute(addPersToComp);
                 insc.ajoute(addEquiToComp);
-                insc.ajouteRevenir("r");;
+                insc.ajouteRevenir("r");
                 insc.ajouteQuitter("q");
                 insc.start();
             }
@@ -113,17 +112,42 @@ public class InterfaceUser {
     {
         return new Action()
         {
+            @SuppressWarnings("StringEquality")
             public void optionSelectionnee()
             {
+                boolean Team = true;
+                boolean checkSaisie = false;
+                LocalDate auj = LocalDate.now();
+                String chx ;
+                do
+                {
+                   chx = utilitaires.EntreesSorties.getString(" 1 par Equpie \n 2 individuel:");
+                   switch (chx) 
+                   {
+                        case "1":
+                            Team=true;
+                            checkSaisie = true;
+                            break;
+                        case "2":
+                            Team=true;
+                            checkSaisie = true;
+                            break;
+                        default:
+                            System.out.println("Erreur de saisie");
+                            checkSaisie = false;
+                            break;
+                    }
+                }while(!checkSaisie);
                 Inscriptions i = Inscriptions.getInscriptions();
                 String nom = utilitaires.EntreesSorties.getString("Nom :");
                 int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
                 int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
                 int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
-                LocalDate dateClo = new LocalDate(annee+"-"+mois+"-"+jour);
-                dateClo = dateClo.
-                i.createCompetition(nom);
-                
+                LocalDate dateClo = LocalDate.of(annee, mois, jour);
+                if(dateClo.isAfter(auj))
+                    i.createCompetition(nom,dateClo,Team);
+                else
+                    System.out.println("Erreur de saisie, creation de la competition annule");   
             }
         };
     }
