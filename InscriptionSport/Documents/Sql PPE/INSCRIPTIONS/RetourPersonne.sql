@@ -5,8 +5,8 @@ DROP PROCEDURE IF EXISTS getPers;
 /* retoune toutes les personnes */
 CREATE PROCEDURE getPers() 
 BEGIN
-SELECT * FROM `personne`, `candidat`
-WHERE `personne`.`id_cand`= `candidat`.`id_cand`
-GROUP BY `personne`.`id_cand`;
+SELECT * FROM `PERSONNE`, `CANDIDAT`
+WHERE `PERSONNE`.`idCandidat`= `CANDIDAT`.`idCandidat`
+GROUP BY `PERSONNE`.`idCandidat`;
 END;|
 DELIMITER ;

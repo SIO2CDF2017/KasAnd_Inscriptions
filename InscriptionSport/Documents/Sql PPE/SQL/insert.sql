@@ -2,47 +2,47 @@ INSERT INTO CANDIDAT (IdCandidat,Nom)
 
 VALUES
 
-	('1','Admin'),
-	('2','Liermier'),
-	('3','Daurelle'),
-	('4','Nguy'),	
-	('5','Neto'),
-	('6','Fervil'),
-	('7','Tricoire'),
-	('8','Pinto'),
-	('9','Paris'),
-	('10','Lyon');
+	('1','Vinciguera'),
+	('2','Escriva'),
+	('3','Sandolo'),
+	('4','Kasperski'),	
+	('5','Le Blavec'),
+	('6','Gorski'),
+	('7','Gorski'),
+	('8','Haury'),
+	('9','Montcuq'),
+	('10','WTF');
 
 
 INSERT INTO COMPETITION (IdCompetition,Epreuve,Date_Cloture,EnEquipe)
 
 VALUES
 
-	('1','Curling sur Gazon','2015-01-08', false),
-	('2','FootBall sur Glace','2017-01-20',true),
-	('3','Formule 1 en 2 Chevaux','2017-03-18', false),
-	('4','Préparation du PPE','2017-01-03', true),
-	('5','Mise en epreuve PPE','2017-02-08', false);
+	('1','Patin a nuage','2015-01-08', false),
+	('2','Chasse a l abre','2017-01-20',true),
+	('3','Lancé de cadavre','2017-03-18', true),
+	('4','Dressage Pokemouille','2017-01-03', false),
+	('5','Domptage de dragon','2017-02-08', true);
 
 INSERT INTO PERSONNE (idCandidat,Prenom,Mail)
 
 VALUES
 
-	('1','Admin','Admin@Admin.fr'),
-	('2','Thomas','Savoisien@Fondu.fr'),
-	('3','Sebastien','Dorcelle@Producteur.com'),
-	('4','Fabrice','Nike@Pompe.ch'),	
-	('5','Adrien','Steam@Succes.st'),
-	('6','Darwin','Noir@White.r'),
-	('7','Elliot','BGTMTC@LOL.fr'),
-	('8','Remy','Levieux@PremiereGuerre.gouv');
+	('1','Michel','Michel@dieu.fr'),
+	('2','Agnes','Agnes@dragon.wow'),
+	('3','Alexandre','contact@asandolo.fr'),
+	('4','Victor','Victor@Pompe.ch'),	
+	('5','Erwan','Erwan@Succes.st'),
+	('6','Laurie','Laurue@toulouse.r'),
+	('7','Stan','Stan@dieu.fr'),
+	('8','Michel','Michel@haury.gouv');
 
-INSERT INTO EQUIPE (idCandidat,NomEquipe)
+INSERT INTO EQUIPE (idCandidat)
 
 VALUES
 
-	('9','Paris'),
-	('10','Lyon');
+	('9'),
+	('10');
 
 INSERT INTO APPARTENIR (idCandidatPersonne,IdCandidatEquipe)
 

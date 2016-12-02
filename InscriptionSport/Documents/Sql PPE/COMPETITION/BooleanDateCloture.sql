@@ -1,5 +1,5 @@
 DELIMITER |
-DROP function IF EXISTS inscriptions_date;
+
 CREATE function inscriptions_date (id_competition int) RETURNS varchar(25)
 BEGIN
 DECLARE retour varchar(25);
@@ -16,4 +16,4 @@ ELSE
 END IF;
 RETURN retour;
 
-END |
+END | DELIMITER ,

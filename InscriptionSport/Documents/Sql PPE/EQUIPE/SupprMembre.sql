@@ -1,7 +1,6 @@
-SupprMembre.sql
+
 
 DELIMITER |
-DROP PROCEDURE IF EXISTS supprMembrEq;
 CREATE PROCEDURE supprMembrEq(id int)
 
 BEGIN

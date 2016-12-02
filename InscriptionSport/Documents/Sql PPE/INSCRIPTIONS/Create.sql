@@ -1,4 +1,4 @@
-DROP PROCEDURE creatComp;
+
 DELIMITER @
 
 CREATE PROCEDURE creatComp(nom varchar(255), date_cloture date, enEqupie boolean)
@@ -15,11 +15,11 @@ DELIMITER @
 CREATE PROCEDURE creatEquipe(nom varchar(255))
 BEGIN
 DECLARE a int;
-INSERT INTO CANDIDAT (nom_cand) VALUES (nom);
+INSERT INTO CANDIDAT (Nom) VALUES (nom);
 
-SET a = (SELECT id_cand FROM candidat ORDER BY id_cand DESC LIMIT 1);
+SET a = (SELECT idCandidat FROM candidat ORDER BY idCandidat DESC LIMIT 1);
 
-INSERT INTO equipe (id_cand) VALUES(a);
+INSERT INTO equipe (idCandidat) VALUES(a);
 END;
 @
 DELIMITER ;
@@ -32,11 +32,11 @@ DELIMITER @
 CREATE FUNCTION creatPers(nom varchar(50),prenom varchar(50), mail varchar(100))
 BEGIN
 DECLARE a int;
-INSERT INTO CANDIDAT (nom_cand) VALUES (nom);
+INSERT INTO CANDIDAT (Nom) VALUES (nom);
 
-SET a = (SELECT id_cand FROM candidat ORDER BY id_cand DESC LIMIT 1);
+SET a = (SELECT idCandidat FROM candidat ORDER BY idCandidat DESC LIMIT 1);
 
-INSERT INTO personne (prenom,mail,id_cand) VALUES(prenom,mail,a);
+INSERT INTO personne (Prenom,Mail,idCandidat) VALUES(prenom,mail,a);
 END;
 @
 DELIMITER ;

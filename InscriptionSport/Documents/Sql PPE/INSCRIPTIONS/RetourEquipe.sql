@@ -6,8 +6,8 @@ DROP PROCEDURE IF EXISTS getEquipe;
 CREATE PROCEDURE getEquipe() 
 BEGIN
 SELECT * 
-FROM `equipe`, `candidat`
-WHERE `equipe`.`id_cand`= `candidat`.`id_cand`
-GROUP BY `equipe`.`id_cand`;
+FROM `EQUIPE`, `CANDIDAT`
+WHERE `EQUIPE`.`idCandidat`= `CANDIDAT`.`idCandidat`
+GROUP BY `EQUIPE`.`idCandidat`;
 END;|
 DELIMITER ;

@@ -1,5 +1,5 @@
 DELIMITER |
- DROP PROCEDURE IF EXISTS ajoutPer ;
+
  CREATE PROCEDURE ajoutPer(numpersonne int, numequipe int)
 
 
@@ -9,4 +9,4 @@ DELIMITER |
  	VALUES (numpersonne,numequipe);
 
 
- END; | DELIMITER;
+ END; | DELIMITER ;

@@ -1,5 +1,5 @@
 
-DROP PROCEDURE IF EXISTS RetourPersonnEquipe;
+DELIMITER |
 CREATE PROCEDURE RetourPersonnEquipe(numequipe int)
 
 BEGIN
@@ -10,4 +10,4 @@ WHERE APPARTENIR.idcandidatpersonne = CANDIDAT.idcandidat
 AND idcandidatequipe=numequipe;
 
 
-END; | DELIMITER;
+END; | DELIMITER ;
