@@ -26,6 +26,8 @@ public class Inscriptions implements Serializable
         private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
         private static final String MYSQL_USER = "root";
         private static final String MYSQL_PSW = "";
+        
+        
 	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
