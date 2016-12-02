@@ -22,6 +22,7 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
+        MySQL ms = new MySQL("jdbc:mysql://localhost/inscription", "root", "");
 	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
@@ -109,7 +110,14 @@ public class Inscriptions implements Serializable
 	{
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
-		return personne;
+                
+                //BDD
+                if (ms.connect()) {
+                    ms.execUpdate("call creatPers("+nom+","+prenom+","+mail+");");
+                }else{
+                    System.out.println("Erreur de connexion !"); 
+                }
+                return personne;
 	}
 	
 	/**
@@ -239,7 +247,7 @@ public class Inscriptions implements Serializable
 			+ "\nCompetitions  " + getCompetitions().toString();
 	}
 	
-	public static void main(String[] args)
+        /* public static void main(String[] args)
 	{
 		Inscriptions inscriptions = Inscriptions.getInscriptions();
 		Competition flechettes = inscriptions.createCompetition("Mondial de fléchettes", null, false);
@@ -260,5 +268,5 @@ public class Inscriptions implements Serializable
 		{
 			System.out.println("Sauvegarde impossible." + e);
 		}
-	}
+	} */
 }
