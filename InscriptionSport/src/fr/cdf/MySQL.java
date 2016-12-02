@@ -64,6 +64,16 @@ public class MySQL {
         return -1;
     }
     
+    public boolean exec(String s){
+        try {
+            boolean rs = this.dbStatement.execute(s);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }  
+    
     public void close(){
         try {
             this.dbStatement.close();

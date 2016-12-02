@@ -2,7 +2,6 @@ RetourCandidatEquipe.sql
 
 DELIMITER |
 
-DROP PROCEDURE IF EXISTS RetourCandidatEquipe;
 CREATE PROCEDURE RetourCandidatEquipe(Numcandidat int)
 
 BEGIN

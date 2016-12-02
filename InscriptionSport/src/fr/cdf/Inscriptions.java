@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.SortedSet;
@@ -22,7 +23,9 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
-        MySQL ms = new MySQL("jdbc:mysql://localhost/inscription", "root", "");
+        private static String mysql_url = "jdbc:mysql://localhost/inscription";
+        private static String mysql_user = "root";
+        private static String mysql_psw = "";
 	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
@@ -88,12 +91,27 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	
-	public Competition createCompetition(String nom, 
-			LocalDate dateCloture, boolean enEquipe)
-	{
+	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
+	{       MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
 		competitions.add(competition);
-		return competition;
+                if (ms.connect()) {
+                    try {
+                        ResultSet  rs = ms.execSelect("SELECT * FROM COMPETITION WHERE Epreuve = \""+nom+"\"");
+                        if (rs.next()) {
+                            System.out.println("La competition existe deja !");
+                        }else{
+                            ms.exec("call creatComp('"+nom+"','"+dateCloture+"',"+enEquipe+")");
+                            System.out.println("Competition cree");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println("Erreur Connexion !");
+                }
+                ms.close();
+                return competition;
 	}
 
 	/**
@@ -107,16 +125,29 @@ public class Inscriptions implements Serializable
 	 */
 	
 	public Personne createPersonne(String nom, String prenom, String mail)
-	{
+	{       
+                MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
 		Personne personne = new Personne(this, nom, prenom, mail);
 		candidats.add(personne);
                 
                 //BDD
                 if (ms.connect()) {
-                    ms.execUpdate("call creatPers("+nom+","+prenom+","+mail+");");
+                    try {
+                        ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, PERSONNE WHERE CANDIDAT.idCandidat = PERSONNE.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND PERSONNE.Mail = \""+mail+"\" AND PERSONNE.Prenom = \""+prenom+"\"");
+                        if (rs.next()) {
+                            System.out.println("Personne deja inscrite !");
+                        }else{
+                            ms.exec("call creatPers('"+nom+"','"+prenom+"','"+mail+"');");
+                            System.out.println("Personne inscrite ! ");                       
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }else{
                     System.out.println("Erreur de connexion !"); 
                 }
+                
+                ms.close();
                 return personne;
 	}
 	
@@ -131,9 +162,28 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(String nom)
 	{
+                MySQL ms = new MySQL(Inscriptions.mysql_url, this.mysql_user, this.mysql_psw);
 		Equipe equipe = new Equipe(this, nom);
 		candidats.add(equipe);
-		return equipe;
+		
+                //BDD
+                if (ms.connect()) {
+                    try {
+                    ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, EQUIPE WHERE CANDIDAT.idCandidat = EQUIPE.idCandidat AND CANDIDAT.Nom = \""+nom+"\"");
+                    if (rs.next()) {
+                        System.out.println("Equipe deja inscrite !");
+                    }else{
+                        ms.exec("call creatEquipe('"+nom+"')");
+                        System.out.println("Equipe inscrite ! ");
+                    }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println("Erreur Connexion !");
+                }
+                ms.close();
+                return equipe;
 	}
 	
 	void remove(Competition competition)

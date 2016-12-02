@@ -17,13 +17,13 @@ import java.sql.SQLException;
  */
 public class TestMysql {
     public static void main(String[] args){
-        MySQL ms = new MySQL("jdbc:mysql://localhost:3306/ins", "root", "");
+        MySQL ms = new MySQL("jdbc:mysql://localhost/inscription", "root", "");
         if (ms.connect()) {
             try {
-                ResultSet rs = ms.execSelect("SELECT * FROM test;");
+                ResultSet rs = ms.execSelect("SELECT * FROM candidat;");
                 if (rs != null) {
                     while (rs.next()) {                        
-                        System.out.println("ID : "+rs.getString("id")+" libele : "+rs.getString("libele"));
+                        System.out.println("ID : "+rs.getString("id")+" nom : "+rs.getString("nom"));
                     }
                 }
                 
