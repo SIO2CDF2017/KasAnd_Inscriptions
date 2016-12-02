@@ -9,4 +9,4 @@ SELECT Mail
 FROM PERSONNE
 WHERE idCandidat = Numcandidat;
 
-END; | DELIMITER;
+END; | DELIMITER ;

@@ -9,4 +9,4 @@ SELECT Prenom
 FROM PERSONNE
 WHERE idCandidat = Numcandidat;
 
-END; | DELIMITER;
+END; | DELIMITER ;

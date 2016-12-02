@@ -12,4 +12,4 @@ WHERE idCandidat = Numcandidat;
 SELECT idcandidat, Prenom
 FROM PERSONNE;
 
-END; | DELIMITER;
+END; | DELIMITER ;

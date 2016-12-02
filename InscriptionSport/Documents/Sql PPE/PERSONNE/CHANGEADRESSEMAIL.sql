@@ -14,4 +14,4 @@ WHERE idCandidat = Numcandidat;
 SELECT idcandidat, Prenom, Mail
 FROM PERSONNE;
 
-END; | DELIMITER;
+END; | DELIMITER ;
