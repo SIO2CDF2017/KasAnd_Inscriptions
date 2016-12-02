@@ -1,0 +1,17 @@
+CHANGEADRESSEMAIL.sql
+
+DELIMITER |
+
+DROP PROCEDURE IF EXISTS CHANGEMAIL;
+CREATE PROCEDURE CHANGEMAIL(Numcandidat int, NomMail Varchar(25))
+
+BEGIN
+
+UPDATE PERSONNE
+SET Mail = NomMail
+WHERE idCandidat = Numcandidat;
+
+SELECT idcandidat, Prenom, Mail
+FROM PERSONNE;
+
+END; | DELIMITER;

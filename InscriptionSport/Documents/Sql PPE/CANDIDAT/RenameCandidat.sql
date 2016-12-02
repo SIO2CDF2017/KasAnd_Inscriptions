@@ -1,0 +1,15 @@
+DELIMITER |
+
+DROP PROCEDURE IF EXISTS RENAMECANDIDAT;
+CREATE PROCEDURE RENAMECANDIDAT(Numcandidat int, Nomcandidat Varchar(25))
+
+BEGIN
+
+UPDATE CANDIDAT
+SET Nom = Nomcandidat
+WHERE idCandidat = Numcandidat;
+
+SELECT idcandidat, Nom
+FROM CANDIDAT;
+
+END; | DELIMITER;
