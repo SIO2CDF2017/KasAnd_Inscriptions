@@ -145,7 +145,13 @@ public class InterfaceUser {
                 int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
                 LocalDate dateClo = LocalDate.of(annee, mois, jour);
                 if(dateClo.isAfter(auj))
+                {
                     i.createCompetition(nom,dateClo,Team);
+                    if(i.BDCompetition(nom,dateClo,Team))
+                        System.out.println("Competion "+nom+" cree avec succes");
+                    else
+                        System.out.println("Erreur, competition non cree");
+                }
                 else
                     System.out.println("Erreur de saisie, creation de la competition annule");   
             }
