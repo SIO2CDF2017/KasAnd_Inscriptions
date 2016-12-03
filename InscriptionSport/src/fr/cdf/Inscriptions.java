@@ -44,7 +44,21 @@ public class Inscriptions implements Serializable
 	 */
 	
 	public SortedSet<Competition> getCompetitions()
-	{
+	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		SortedSet<Competition> competitions = new TreeSet<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getComp();");
+                    while (r.next()) {                        
+                        Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"));
+                        
+                        competitions.add(c);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
 		return Collections.unmodifiableSortedSet(competitions);
 	}
 	
