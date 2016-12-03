@@ -128,7 +128,7 @@ public class Inscriptions implements Serializable
                 try {
                 ms.connect();
                 
-                    ResultSet r = ms.execSelect("call getPers();");
+                    ResultSet r = ms.execSelect("call getEquipe();");
                     while (r.next()) {                        
                         Equipe e = inscriptions.createEquipe(r.getNString("nom"));
                         
