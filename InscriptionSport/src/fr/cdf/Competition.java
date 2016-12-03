@@ -110,8 +110,9 @@ public class Competition implements Comparable<Competition>, Serializable
              LocalDate dci = LocalDate.MIN;
             if (ms.connect()) {
                 try {
-                    ResultSet rs = ms.execSelect("get dateClotureInscriptions("+id+");");
-                    dci = rs.getObject("Date_cloture", LocalDate.class);
+                    ResultSet rs = ms.execSelect("call dateClotureInscriptions("+id+");");
+                    if(rs.next())
+                        dci = rs.getObject("Date_Cloture", LocalDate.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
