@@ -172,30 +172,34 @@ public class Inscriptions implements Serializable
 	 * @param mail
 	 * @return
 	 */
-	
-	public Equipe createEquipe(String nom)
-	{
-                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		Equipe equipe = new Equipe(this, nom);
-		candidats.add(equipe);
-		
-                //BDD
+	public boolean BDCreateEquipe(String nom){
+            this.createEquipe(nom);
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+                            //BDD
                 if (ms.connect()) {
                     try {
                     ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, EQUIPE WHERE CANDIDAT.idCandidat = EQUIPE.idCandidat AND CANDIDAT.Nom = \""+nom+"\"");
                     if (rs.next()) {
-                        System.out.println("Equipe deja inscrite !");
+                        return false;
                     }else{
                         ms.exec("call creatEquipe('"+nom+"')");
-                        System.out.println("Equipe inscrite ! ");
+                        return true;
                     }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
-                    System.out.println("Erreur Connexion !");
+                    return false;
                 }
                 ms.close();
+            return false;
+        }
+        
+	public Equipe createEquipe(String nom)
+	{
+                
+		Equipe equipe = new Equipe(this, nom);
+		candidats.add(equipe)
                 return equipe;
 	}
 	
