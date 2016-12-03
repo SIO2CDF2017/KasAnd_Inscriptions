@@ -11,7 +11,41 @@ import utilitaires.ligneDeCommande.*;
  */
 public class InterfaceUser {
 
-
+    static void AffichEqupie(SortedSet<Equipe> e)
+    {
+       Inscriptions i = Inscriptions.getInscriptions();
+       SortedSet<Integer> ide = i.getIdEquipe();
+       Iterator iterE = e.iterator();
+       Iterator iterIde = ide.iterator();
+       while(iterE.hasNext() && iterIde.hasNext())
+       {
+            System.out.println ("ID : "+iterIde.next()+" Nom : "+iterE.next());
+       } 
+    }
+    
+    static void AffichPers(SortedSet<Personne> p)
+    {
+        Inscriptions i = Inscriptions.getInscriptions();
+        SortedSet<Integer> in = i.getIdPers();
+        Iterator iterP = p.iterator();
+        Iterator iterIn = in.iterator();
+        while(iterP.hasNext() && iterIn.hasNext())
+        {
+            System.out.println ("ID : "+iterIn.next()+" Nom : "+iterP.next());
+        }
+    }
+    
+    static void AffichComp(SortedSet<Competition> comp)
+    {
+        Inscriptions i = Inscriptions.getInscriptions();
+        SortedSet<Integer> in = i.getIDComp();
+        Iterator iterP = comp.iterator();
+        Iterator iterIn = in.iterator();
+        while(iterP.hasNext() && iterIn.hasNext())
+        {
+            System.out.println ("ID : "+iterIn.next()+" Nom : "+iterP.next());
+        }
+    }
 /******************************************************************************/
 /*                         MENU RECHERCHE                                     */
 /******************************************************************************/
@@ -28,7 +62,7 @@ public class InterfaceUser {
                 Option SearchGetCand = new Option("Recherche de Candidats(équipes et personnes)","1",ActionMenuRechercheCand());
                 Option SearchGetEqui = new Option("Recherche d'équipes","2",ActionMenuRechercheEqui());
                 Option SearchGetPers = new Option("Recherche de personnes","3",ActionMenuRecherchePers());
-                Option SearchGetComp = new Option("Recherche de Ccompetitions","4");
+                Option SearchGetComp = new Option("Recherche de Competitions","4",ActionMenuRechercheComp());
                 Option SearchGetInsc = new Option("Recherche d'inscriptions","5");
                 mr.ajoute(SearchGetCand);
                 mr.ajoute(SearchGetEqui);
@@ -37,8 +71,7 @@ public class InterfaceUser {
                 mr.ajoute(SearchGetInsc);
                 mr.ajouteRevenir("r");
                 mr.ajouteQuitter("q");
-                mr.start();
-                
+                mr.start(); 
             }
 	};
     }
@@ -53,12 +86,12 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                SortedSet<Candidat> c = i.getCandidats();
-                Iterator iter = c.iterator();
-                while(iter.hasNext())
-                {
-                    System.out.println (iter.next());
-                }
+                SortedSet<Personne> p = i.getPersonnes();
+                SortedSet<Equipe> e = i.getEquipes();
+                System.out.println("Personnes : ");
+                AffichPers(p);
+                System.out.println("Equipes : ");
+                AffichEqupie(e);
                 Menu rechCand = new Menu("Recherche de Candidats : ");
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
@@ -78,11 +111,7 @@ public class InterfaceUser {
             {
                 Inscriptions i = Inscriptions.getInscriptions();
                 SortedSet<Equipe> e = i.getEquipes();
-                Iterator iter = e.iterator();
-                while(iter.hasNext())
-                {
-                    System.out.println (iter.next());
-                }
+                AffichEqupie(e);
                 Menu rechCand = new Menu("Recherche d Equipes : ");
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
@@ -100,15 +129,9 @@ public class InterfaceUser {
             @Override
             public void optionSelectionnee()
             {
-                Inscriptions i = Inscriptions.getInscriptions();
-                SortedSet<Integer> in = i.getIdPers(); 
+                Inscriptions i = Inscriptions.getInscriptions(); 
                 SortedSet<Personne> p = i.getPersonnes();
-                Iterator iterP = p.iterator();
-                Iterator iterIn = in.iterator();
-                while(iterP.hasNext() && iterIn.hasNext())
-                {
-                    System.out.println (iterIn.next()+"  "+iterP.next());
-                }
+                AffichPers(p);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
@@ -117,7 +140,27 @@ public class InterfaceUser {
         };
     }
      
-
+/**************************RECHERCHER COMPETITONS******************************/
+    
+    static Action ActionMenuRechercheComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions(); 
+                SortedSet<Competition> comp = i.getCompetitions();
+                AffichComp(comp);
+                Menu rechCand = new Menu("Recherche de Personnes : ");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();
+            }
+        };
+    }
+    
+    
 /******************************************************************************/
 /*************************MENU INSCRIPTION/CREATION****************************/
 /******************************************************************************/
@@ -259,6 +302,12 @@ public class InterfaceUser {
         };
     }
     
+    
+/******************************************************************************/
+/********************************MENU SUPPRIMER********************************/
+/******************************************************************************/    
+    
+    
     static Action ActionMenuSuprimer(){
         return new Action(){
             @Override
@@ -279,6 +328,12 @@ public class InterfaceUser {
             
         };
     }
+ 
+    
+/******************************************************************************/
+/********************************MENU MODIFIER*********************************/
+/******************************************************************************/  
+    
     
     static Action ActionMenuModifier(){
         return new Action(){
@@ -300,7 +355,6 @@ public class InterfaceUser {
                 MenuM.ajouteQuitter("q");
                 MenuM.start();
             }
-            
         };
     }
     
