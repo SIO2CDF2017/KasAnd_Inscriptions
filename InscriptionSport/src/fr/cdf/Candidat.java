@@ -72,6 +72,7 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
         
         
         public Set<String> getCompetCandidat(int id){
+            
             MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             Set<String> c = new LinkedHashSet<>();
             try {
