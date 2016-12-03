@@ -132,30 +132,35 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	
-	public Personne createPersonne(String nom, String prenom, String mail)
-	{       
-                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		Personne personne = new Personne(this, nom, prenom, mail);
-		candidats.add(personne);
-                
-                //BDD
+        public boolean BDCreatePersonne(String nom, String prenom, String mail){
+            this.createPersonne(nom, prenom, mail);
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+                            //BDD
                 if (ms.connect()) {
                     try {
                         ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, PERSONNE WHERE CANDIDAT.idCandidat = PERSONNE.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND PERSONNE.Mail = \""+mail+"\" AND PERSONNE.Prenom = \""+prenom+"\"");
                         if (rs.next()) {
-                            System.out.println("Personne deja inscrite !");
+                            return false;
                         }else{
                             ms.exec("call creatPers('"+nom+"','"+prenom+"','"+mail+"');");
-                            System.out.println("Personne inscrite ! ");                       
+                           return true;                      
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
-                    System.out.println("Erreur de connexion !"); 
+                    return false;
                 }
                 
                 ms.close();
+            return false;
+        }
+        
+	public Personne createPersonne(String nom, String prenom, String mail)
+	{       
+
+		Personne personne = new Personne(this, nom, prenom, mail);
+		candidats.add(personne);
                 return personne;
 	}
 	
