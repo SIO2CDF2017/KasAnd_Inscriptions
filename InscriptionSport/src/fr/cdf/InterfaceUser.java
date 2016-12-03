@@ -2,7 +2,7 @@ package fr.cdf;
 
 import java.time.LocalDate;
 import java.util.Iterator;
-import java.util.SortedMap;
+import java.util.Set;
 import java.util.SortedSet;
 import utilitaires.ligneDeCommande.*;
 /**
@@ -11,7 +11,7 @@ import utilitaires.ligneDeCommande.*;
  */
 public class InterfaceUser {
 
-    static void AffichEqupie(SortedSet<Equipe> e)
+    static void AffichEqupie(Set<Equipe> e)
     {
        Inscriptions i = Inscriptions.getInscriptions();
        SortedSet<Integer> ide = i.getIdEquipe();
@@ -35,10 +35,10 @@ public class InterfaceUser {
         }
     }
     
-    static void AffichComp(SortedSet<Competition> comp)
+    static void AffichComp(Set<Competition> comp)
     {
         Inscriptions i = Inscriptions.getInscriptions();
-        SortedSet<Integer> in = i.getIDComp();
+        Set<Integer> in = i.getIDComp();
         Iterator iterP = comp.iterator();
         Iterator iterIn = in.iterator();
         while(iterP.hasNext() && iterIn.hasNext())
@@ -150,7 +150,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions(); 
-                SortedSet<Competition> comp = i.getCompetitions();
+                Set<Competition> comp = i.getCompetitions();
                 AffichComp(comp);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
