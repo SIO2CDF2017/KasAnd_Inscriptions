@@ -58,7 +58,8 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
             
-            
+        
+           
             return Collections.unmodifiableSet(idcomp);
         }
         
