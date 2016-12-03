@@ -79,7 +79,7 @@ public class Inscriptions implements Serializable
                 ms.close();
 		return Collections.unmodifiableSortedSet(personnes);
 	}
-
+        
 	/**
 	 * Retourne toutes les équipes.
 	 * @return
