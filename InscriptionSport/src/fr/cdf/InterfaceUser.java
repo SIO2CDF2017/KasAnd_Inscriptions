@@ -1,41 +1,32 @@
 package fr.cdf;
 
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.SortedSet;
 import utilitaires.ligneDeCommande.*;
 /**
  *
  * @author vkasperski
  */
 public class InterfaceUser {
-    
-    static Action ActionMenuRechercheCand()
-    {
-        return new Action()
-        {
-            public void optionSelectionnee()
-            {
-                Inscriptions i = Inscriptions.getInscriptions();
-                Menu rechCand = new Menu("Recherche de Candidats :");
-                
-                rechCand.ajouteRevenir("r");
-                rechCand.ajouteQuitter("q");
-                rechCand.start();                
-            }
-        };
-    }
-    
-    
+
+
+/********************************************************************/
+/*                         MENU RECHERCHE                           */
+/********************************************************************/
+
     
     static Action ActionMenuRecherche()
     {
         return new Action()
         {
+            @Override
             public void optionSelectionnee()
             {
                 Menu mr = new Menu("Rechercher :");
-                Option SearchGetCand = new Option("Recherche de Candidats(équipes et personnes)","1");
-                Option SearchGetEqui = new Option("Recherche d'équipes","2");
-                Option SearchGetPers = new Option("Recherche de personnes","3");
+                Option SearchGetCand = new Option("Recherche de Candidats(équipes et personnes)","1",ActionMenuRechercheCand());
+                Option SearchGetEqui = new Option("Recherche d'équipes","2",ActionMenuRechercheEqui());
+                Option SearchGetPers = new Option("Recherche de personnes","3",ActionMenuRecherchePers());
                 Option SearchGetComp = new Option("Recherche de Ccompetitions","4");
                 Option SearchGetInsc = new Option("Recherche d'inscriptions","5");
                 mr.ajoute(SearchGetCand);
@@ -43,25 +34,96 @@ public class InterfaceUser {
                 mr.ajoute(SearchGetPers);
                 mr.ajoute(SearchGetComp);
                 mr.ajoute(SearchGetInsc);
-                mr.ajouteRevenir("r");;
+                mr.ajouteRevenir("r");
                 mr.ajouteQuitter("q");
                 mr.start();
                 
             }
 	};
     }
+    
+    
+/**********************RECHERCHER CANDIDAT***************************/
 
+    
+    static Action ActionMenuRechercheCand()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                SortedSet<Candidat> c = i.getCandidats();
+                Iterator iter = c.iterator();
+                while(iter.hasNext())
+                {
+                    System.out.println (iter.next());
+                }
+                Menu rechCand = new Menu("Recherche de Candidats : ");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();                
+            }
+        };
+    }
+    
+    static Action ActionMenuRechercheEqui()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                SortedSet<Equipe> e = i.getEquipes();
+                Iterator iter = e.iterator();
+                while(iter.hasNext())
+                {
+                    System.out.println (iter.next());
+                }
+                Menu rechCand = new Menu("Recherche d Equipes : ");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();  
+            }
+        };
+    }
+    
+     static Action ActionMenuRecherchePers()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                SortedSet<Personne> p = i.getPersonnes();
+                Iterator iter = p.iterator();
+                while(iter.hasNext())
+                {
+                    System.out.println (iter.next());
+                }
+                Menu rechCand = new Menu("Recherche de Personnes : ");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();  
+            }
+        };
+    }
+ 
     static Action ActionMenuInscription()
     {
         return new Action()
         {
+            @Override
             public void optionSelectionnee()
             {
                 Menu insc = new Menu("Inscriptions :");
                 Option creatPers = new Option("nouvelle Personne","1",newPersonne());
                 Option creatEqui = new Option("nouvelle Equipe","2",newEquipe());
                 Option creatComp = new Option("nouvelle Competition","3",newCompetition());
-                Option addPersToEqui = new Option("Ajouter une personne existante à une Equipe existante","4");
+                Option addPersToEqui = new Option("Ajouter une personne existante à une Equipe existante","4",AddPersToEqui());
                 Option addPersToComp = new Option("Inscrire une personne existante à une competition existante","5");
                 Option addEquiToComp = new Option("Inscrire une équipe existante à une competion existante","6");
                 insc.ajoute(creatPers);
@@ -76,11 +138,24 @@ public class InterfaceUser {
             }
         };
     }
+
+    static Action AddPersToEqui()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {    
+                
+            }
+        };
+    }
     
     static Action newPersonne()
     {
         return new Action()
         {
+            @Override
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
@@ -89,7 +164,10 @@ public class InterfaceUser {
                 prenom = utilitaires.EntreesSorties.getString("Prenom : ");
                 mail = utilitaires.EntreesSorties.getString("mail : ");
                 i.createPersonne(nom,prenom,mail);
-                
+                if(i.BDCreatePersonne(nom, prenom, mail))
+                        System.out.println("Personne "+nom+" cree avec succes");
+                    else
+                        System.out.println("Erreur, Personne non cree");
             }
         };
     }
@@ -98,12 +176,17 @@ public class InterfaceUser {
     {
         return new Action()
         {
+            @Override
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
                 String nom;
                 nom = utilitaires.EntreesSorties.getString("Nom :");
                 i.createEquipe(nom);
+                if(i.BDCreateEquipe(nom))
+                        System.out.println("Equipe "+nom+" cree avec succes");
+                    else
+                        System.out.println("Erreur, Equipe non cree");
             }
         };
     }
@@ -112,7 +195,7 @@ public class InterfaceUser {
     {
         return new Action()
         {
-            @SuppressWarnings("StringEquality")
+            @Override
             public void optionSelectionnee()
             {
                 boolean Team = true;
@@ -202,6 +285,11 @@ public class InterfaceUser {
             
         };
     }
+    
+    
+/********************************************************************/
+/*                         MENU PRINCIPAL                           */
+/********************************************************************/
     
     static Menu MenuP()
     {

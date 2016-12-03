@@ -5,9 +5,8 @@ DROP PROCEDURE IF EXISTS getEquipe;
 /* retoune toutes les equipes */
 CREATE PROCEDURE getEquipe() 
 BEGIN
-SELECT * 
+SELECT `EQUIPE`.`idCandidat`,nom
 FROM `EQUIPE`, `CANDIDAT`
-WHERE `EQUIPE`.`idCandidat`= `CANDIDAT`.`idCandidat`
-GROUP BY `EQUIPE`.`idCandidat`;
-END;|
+WHERE `EQUIPE`.`idCandidat`= `CANDIDAT`.`idCandidat`;
+END; |
 DELIMITER ;
