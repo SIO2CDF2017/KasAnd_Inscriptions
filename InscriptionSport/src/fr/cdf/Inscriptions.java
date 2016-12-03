@@ -113,7 +113,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
             
-            return Collections.unmodifiableSortedSet(idpers);
+            return Collections.unmodifiableSet(idpers);
         }
 	
 	public Set<Personne> getPersonnes()
@@ -132,7 +132,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
                 ms.close();
-		return Collections.unmodifiableSortedSet(personnes);
+		return Collections.unmodifiableSet(personnes);
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
             
-            return Collections.unmodifiableSortedSet(idequip);
+            return Collections.unmodifiableSet(idequip);
             
         }
         
@@ -174,7 +174,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
                 ms.close();                
-		return Collections.unmodifiableSortedSet(equipes);
+		return Collections.unmodifiableSet(equipes);
 	}
 
 	/**
