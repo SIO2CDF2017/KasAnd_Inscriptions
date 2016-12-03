@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -61,25 +63,25 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	
-	public SortedSet<Personne> getPersonnes()
+	public SortedMap<Integer,Personne> getPersonnes()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		SortedSet<Personne> personnes = new TreeSet<>();
+		SortedMap<Integer,Personne> personnes = new TreeMap<>();
                 try {
                 ms.connect();
                 
-                    ResultSet r = ms.execSelect("call getPersonnes();");
+                    ResultSet r = ms.execSelect("call getPers();");
                     while (r.next()) {                        
-                        Personne p = inscriptions.createPersonne(r.getNString("Nom"), r.getNString("prenom"), r.getNString("mail"));
+                        Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"));
                         
-                        personnes.add(p);
+                        personnes.put(r.getInt("ID"), p);
                     }
             } catch (Exception e) {
                 e.printStackTrace();
             }
                 ms.close();
-		return Collections.unmodifiableSortedSet(personnes);
+		return Collections.unmodifiableSortedMap(personnes);
 	}
-        
+
 	/**
 	 * Retourne toutes les équipes.
 	 * @return
