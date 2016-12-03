@@ -99,9 +99,9 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
         
-        public SortedSet<Integer> getIdPers(){
+        public Set<Integer> getIdPers(){
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-            SortedSet<Integer> idpers = new TreeSet<>();
+            Set<Integer> idpers = new LinkedHashSet<>();
             try {
                 ms.connect();
                 
@@ -116,9 +116,9 @@ public class Inscriptions implements Serializable
             return Collections.unmodifiableSortedSet(idpers);
         }
 	
-	public SortedSet<Personne> getPersonnes()
+	public Set<Personne> getPersonnes()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		SortedSet<Personne> personnes = new TreeSet<>();
+		Set<Personne> personnes = new LinkedHashSet<>();
                 try {
                 ms.connect();
                 
@@ -139,9 +139,9 @@ public class Inscriptions implements Serializable
 	 * Retourne toutes les équipes.
 	 * @return
 	 */
-	public SortedSet<Integer> getIdEquipe(){
+	public Set<Integer> getIdEquipe(){
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-            SortedSet<Integer> idequip = new TreeSet<Integer>();
+            Set<Integer> idequip = new LinkedHashSet<Integer>();
             try {
                 ms.connect();
                 
@@ -157,10 +157,10 @@ public class Inscriptions implements Serializable
             
         }
         
-	public SortedSet<Equipe> getEquipes()
+	public Set<Equipe> getEquipes()
 	{
                 MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		SortedSet<Equipe> equipes = new TreeSet<>();
+		Set<Equipe> equipes = new LinkedHashSet<>();
                 try {
                 ms.connect();
                 
