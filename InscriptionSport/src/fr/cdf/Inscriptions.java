@@ -199,7 +199,7 @@ public class Inscriptions implements Serializable
 	{
                 
 		Equipe equipe = new Equipe(this, nom);
-		candidats.add(equipe)
+		candidats.add(equipe);
                 return equipe;
 	}
 	
