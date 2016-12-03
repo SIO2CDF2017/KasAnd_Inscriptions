@@ -152,13 +152,37 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 AffichComp(comp);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
+                Option ListCand = new Option("Voir les Personnes / Equipe Inscritent a une competition","l",ActionMenuRechercheMembresComp());
+                rechCand.ajoute(ListCand);
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
                 rechCand.start();
             }
         };
     }
+
+/*********************RECHERCHER MEMBRES COMPETITONS***************************/
     
+    static Action ActionMenuRechercheMembresComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                Competition c = i.createCompetition("compSelect", LocalDate.MAX, true);
+                int IdComp = utilitaires.EntreesSorties.getInt("Entrez l ID de la competition : ");
+                Set<String> Membres = c.getCandidatInscrit(IdComp);
+                Iterator in = Membres.iterator();
+                while(in.hasNext())
+                {
+                    System.out.println(in.next());
+                }
+                
+            }    
+        };
+    }
     
 /******************************************************************************/
 /*************************MENU INSCRIPTION/CREATION****************************/
@@ -178,7 +202,7 @@ public class InterfaceUser {
                 Option creatComp = new Option("nouvelle Competition","3",newCompetition());
                 Option addPersToEqui = new Option("Ajouter une personne existante à une Equipe existante","4",AddPersToEqui());
                 Option addPersToComp = new Option("Inscrire une personne existante à une competition existante","5",AddPersToComp());
-                Option addEquiToComp = new Option("Inscrire une équipe existante à une competion existante","6");
+                Option addEquiToComp = new Option("Inscrire une équipe existante à une competion existante","6",AddEquipeToComp());
                 insc.ajoute(creatPers);
                 insc.ajoute(creatEqui);
                 insc.ajoute(creatComp);
@@ -284,10 +308,70 @@ public class InterfaceUser {
                 else if(p1 == null)
                     System.out.println("Erreur : Personne inexistante");
                 else
-                    if(c1.addBD(p1))
-                        System.out.println("Succes");
+                    if(!c1.estEnEquipe())
+                    {
+                        if(c1.addBD(p1))
+                            System.out.println("Succes");
+                        else
+                            System.out.println("Echec de l'inscription de la personne a la Competition");
+                    }
                     else
-                        System.out.println("Echec de l'inscription de la personne a la Competition");
+                        System.out.println("Echec de l'inscription : Cette competion se fait en Equipe");
+            }
+        };
+    }
+    
+/**********************AJOUTER EQUIPE A UNE COMPETITION************************/
+    
+    static Action AddEquipeToComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Equipe> e = i.getEquipes();
+                Set<Competition> c = i.getCompetitions();
+                
+                AffichEquipe(e);
+                int idEquipe = utilitaires.EntreesSorties.getInt("Id de l Equipe :");
+                
+                Equipe e1 = null;
+                for(Equipe _e : e){
+                    if(_e.getId() == idEquipe){
+                        e1 = _e;
+                        break;
+                    }
+                }
+                
+                if(e1 == null){
+                    System.out.println("Equipe invalide");
+                }
+                
+                AffichComp(c);
+                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                Competition c1 = null;
+                for(Competition _c : c)
+                    if (_c.getId()== idcomp){
+                        c1 = _c;
+                        break;
+                    }
+                
+                if(c1 == null)
+                    System.out.println("Erreur : Competition inexistante");
+                else if(e1 == null)
+                    System.out.println("Erreur : Equipe inexistante");
+                else
+                   if(c1.estEnEquipe())
+                   {   
+                        if(c1.addBD(e1))
+                            System.out.println("Succes");
+                        else
+                            System.out.println("Echec de l'inscription de l Equipe a la Competition");
+                   }
+                   else
+                       System.out.println("Echec de l'inscription : Cette competition est individuel ");
             }
         };
     }
@@ -314,6 +398,8 @@ public class InterfaceUser {
             }
         };
     }
+    
+
 
 /****************************CREER UNE EQUIPE********************************/
     
