@@ -21,14 +21,22 @@ public class Competition implements Comparable<Competition>, Serializable
 	private LocalDate dateCloture;
 	private boolean enEquipe = false;
         private LocalDate ajd = LocalDate.now();
+        private int id;
 
-	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
+        
+        Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
+	{
+		this(inscriptions,nom,dateCloture,enEquipe,-1);
+	}
+        
+	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe, int id)
 	{
 		this.enEquipe = enEquipe;
 		this.inscriptions = inscriptions;
 		this.nom = nom;
 		this.dateCloture = dateCloture;
 		candidats = new TreeSet<>();
+                this.id = id;
 	}
 	
 	/**
@@ -36,6 +44,15 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * @return
 	 */
 	
+        public int getId(){
+            return this.id;
+        }
+        
+        public int setId(int id){
+            this.id = id;
+        }
+        
+        
 	public String getNom()
 	{
 		return nom;
