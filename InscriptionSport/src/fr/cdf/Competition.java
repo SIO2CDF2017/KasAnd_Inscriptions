@@ -93,7 +93,21 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * Retourne la date de cloture des inscriptions.
 	 * @return
 	 */
-	
+	public LocalDate dateClotureInscriptions(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+             LocalDate dci = LocalDate.MIN;
+            if (ms.connect()) {
+                try {
+                    ResultSet rs = ms.execSelect("get dateClotureInscriptions("+id+");");
+                    dci = rs.getObject("Date_cloture", LocalDate.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }  
+
+            return dci;
+        }
+        
 	public LocalDate getDateCloture()
 	{
 		return dateCloture;
