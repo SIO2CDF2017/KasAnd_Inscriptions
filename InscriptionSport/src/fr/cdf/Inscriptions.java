@@ -72,7 +72,7 @@ public class Inscriptions implements Serializable
                 
                     ResultSet r = ms.execSelect("call getComp();");
                     while (r.next()) {                        
-                        Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"));
+                        Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"), r.getInt("idCompetition"));
                         
                         competitions.add(c);
                     }
@@ -208,9 +208,12 @@ public class Inscriptions implements Serializable
             
         }
 	
-	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
+        public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe){
+            return this.createCompetition(nom, dateCloture, enEquipe, -1);
+        }
+        public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe, int id)
 	{       
-		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
+		Competition competition = new Competition(this, nom, dateCloture, enEquipe, id);
 		competitions.add(competition);
                 return competition;
 	}
