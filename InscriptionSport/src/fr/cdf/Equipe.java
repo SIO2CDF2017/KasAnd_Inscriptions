@@ -1,5 +1,6 @@
 package fr.cdf;
 
+import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -50,12 +51,22 @@ public class Equipe extends Candidat
             Personne p = membre;
             
             if (ms.connect()) {
-                ms.exec("call ajoutPers("+p.getId()+","+this.getId()+")");
-                return true;
+                try {
+                    ResultSet rs = ms.execSelect("SELECT * FROM APPARTENIR WHERE IdCandidatPersonne = "+p.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
+                    if (rs.next()) {
+                        return false;
+                    }else{
+                       ms.exec("call ajoutPers("+p.getId()+","+this.getId()+")");
+                       return true;
+                    }                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }else{
                 return false;
             }
-            
+            ms.close();
+            return false;
 	}
         
 	public boolean add(Personne membre)
