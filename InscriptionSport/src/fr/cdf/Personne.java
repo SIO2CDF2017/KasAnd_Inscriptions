@@ -13,15 +13,22 @@ public class Personne extends Candidat
 	private static final long serialVersionUID = 4434646724271327254L;
 	private String prenom, mail;
 	private Set<Equipe> equipes;
+        private int id;
+        
+     
 	
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail)
 	{
-		super(inscriptions, nom);
+		this(inscriptions,nom,prenom,mail,-1);
+	}
+        
+	Personne(Inscriptions inscriptions, String nom, String prenom, String mail, int id)
+	{
+		super(inscriptions, nom, id);
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
 	}
-
 	/**
 	 * Retourne le prénom de la personne.
 	 * @return
@@ -71,6 +78,7 @@ public class Personne extends Candidat
 	{
 		return Collections.unmodifiableSet(equipes);
 	}
+        
 	
 	boolean add(Equipe equipe)
 	{

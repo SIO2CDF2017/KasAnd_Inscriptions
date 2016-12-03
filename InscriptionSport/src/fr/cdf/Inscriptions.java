@@ -124,7 +124,7 @@ public class Inscriptions implements Serializable
                 
                     ResultSet r = ms.execSelect("call getPers();");
                     while (r.next()) {                        
-                        Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"));
+                        Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"), r.getInt("ID"));
                         
                         personnes.add(p);
                     }
@@ -166,7 +166,7 @@ public class Inscriptions implements Serializable
                 
                     ResultSet r = ms.execSelect("call getEquipe();");
                     while (r.next()) {                        
-                        Equipe e = inscriptions.createEquipe(r.getNString("nom"));
+                        Equipe e = inscriptions.createEquipe(r.getNString("nom"), r.getInt("id"));
                         
                         equipes.add(e);
                     }
@@ -249,10 +249,15 @@ public class Inscriptions implements Serializable
             return false;
         }
         
-	public Personne createPersonne(String nom, String prenom, String mail)
-	{       
+        
+        public Personne createPersonne(String nom, String prenom, String mail){
+            return this.createPersonne(nom, prenom, mail, -1);
+        }
+        
+	public Personne createPersonne(String nom, String prenom, String mail, int id)
+	{
 
-		Personne personne = new Personne(this, nom, prenom, mail);
+		Personne personne = new Personne(this, nom, prenom, mail, id);
 		candidats.add(personne);
                 return personne;
 	}
@@ -288,10 +293,13 @@ public class Inscriptions implements Serializable
             return false;
         }
         
-	public Equipe createEquipe(String nom)
+        public Equipe createEquipe(String nom){
+            return createEquipe(nom, -1);
+        }
+        
+	public Equipe createEquipe(String nom, int id)
 	{
-                
-		Equipe equipe = new Equipe(this, nom);
+		Equipe equipe = new Equipe(this, nom, id);
 		candidats.add(equipe);
                 return equipe;
 	}

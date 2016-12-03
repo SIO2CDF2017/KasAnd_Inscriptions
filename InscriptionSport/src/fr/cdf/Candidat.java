@@ -16,12 +16,23 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	private Inscriptions inscriptions;
 	private String nom;
 	private Set<Competition> competitions;
+        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
+        private static final String MYSQL_USER = "root";
+        private static final String MYSQL_PSW = "";
+        private int id;
 	
 	Candidat(Inscriptions inscriptions, String nom)
+	{
+		this(inscriptions,nom,-1);
+	}
+        
+        
+        Candidat(Inscriptions inscriptions, String nom,int id)
 	{
 		this.inscriptions = inscriptions;	
 		this.nom = nom;
 		competitions = new TreeSet<>();
+                this.id = id;
 	}
 
 	/**
@@ -31,7 +42,7 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	
 	public String getNom()
 	{
-		return nom;
+            return nom;
 	}
 
 	/**
@@ -48,6 +59,14 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	 * Retourne toutes les compétitions auxquelles ce candidat est inscrit.s
 	 * @return
 	 */
+        
+        public void setId(int id){
+            this.id = id;
+        }
+        
+        public int getId(){
+            return this.id;
+        }
 
 	public Set<Competition> getCompetitions()
 	{

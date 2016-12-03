@@ -15,10 +15,18 @@ public class Equipe extends Candidat
 {
 	private static final long serialVersionUID = 4147819927233466035L;
 	private SortedSet<Personne> membres = new TreeSet<>();
+        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
+        private static final String MYSQL_USER = "root";
+        private static final String MYSQL_PSW = "";
 	
 	Equipe(Inscriptions inscriptions, String nom)
 	{
-		super(inscriptions, nom);
+		this(inscriptions, nom,-1);
+	}
+        
+        Equipe(Inscriptions inscriptions, String nom, int id)
+	{
+		super(inscriptions, nom,id);
 	}
 
 	/**
@@ -35,7 +43,21 @@ public class Equipe extends Candidat
 	 * @param membre
 	 * @return
 	 */
-
+        
+        public boolean addBD(Personne membre)
+	{
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Personne p = membre;
+            
+            if (ms.connect()) {
+                ms.exec("call ajoutPers("+p.getId()+","+this.getId()+")");
+                return true;
+            }else{
+                return false;
+            }
+            
+	}
+        
 	public boolean add(Personne membre)
 	{
 		membre.add(this);

@@ -2,9 +2,7 @@ package fr.cdf;
 
 import java.time.LocalDate;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.SortedSet;
 import utilitaires.ligneDeCommande.*;
 /**
  *
@@ -202,8 +200,41 @@ public class InterfaceUser {
         {
             @Override
             public void optionSelectionnee()
-            {    
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
                 
+                AffichPers(p);
+                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                
+                Personne p1 = null;
+                for(Personne _p : p){
+                    if(_p.getId() == idpers){
+                        p1 = _p;
+                        break;
+                    }
+                }
+                
+                if(p1 == null){
+                    System.out.println("Personne invalide");
+                }
+                
+                AffichEqupie(e);
+                int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
+                Equipe e1 = null;
+                for(Equipe _e : e)
+                    if (_e.getId() == idequip){
+                        e1 = _e;
+                        break;
+                    }
+                
+                if(e1 == null)
+                    System.out.println("Equipe nulle");
+                else if(p1 == null)
+                    System.out.println("Candidat null");
+                else
+                    e1.addBD(p1);
             }
         };
     }
@@ -241,8 +272,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                String nom;
-                nom = utilitaires.EntreesSorties.getString("Nom :");
+                String nom = utilitaires.EntreesSorties.getString("Nom :");
                 i.createEquipe(nom);
                 if(i.BDCreateEquipe(nom))
                         System.out.println("Equipe "+nom+" cree avec succes");
