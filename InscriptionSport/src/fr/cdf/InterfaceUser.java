@@ -46,7 +46,7 @@ public class InterfaceUser {
         }
     }
 /******************************************************************************/
-/*                         MENU RECHERCHE                                     */
+/********************************MENU RECHERCHE********************************/
 /******************************************************************************/
 
     
@@ -234,7 +234,10 @@ public class InterfaceUser {
                 else if(p1 == null)
                     System.out.println("Candidat null");
                 else
-                    e1.addBD(p1);
+                    if(e1.addBD(p1))
+                        System.out.println("Succes");
+                    else
+                        System.out.println("Echec de l'ajout de la personne a l equipe");
             }
         };
     }
