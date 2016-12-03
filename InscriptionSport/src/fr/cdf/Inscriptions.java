@@ -62,10 +62,27 @@ public class Inscriptions implements Serializable
 	 * Retourne toutes les personnes.
 	 * @return
 	 */
+        
+        public SortedSet<Integer> getIdPers(){
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            SortedSet<Integer> idpers = new TreeSet<>();
+            try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT idCandidat FROM PERSONNE;");
+                while (rs.next()) {                    
+                    idpers.add(rs.getInt("idCandidat"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            return Collections.unmodifiableSortedSet(idpers);
+        }
 	
-	public SortedMap<Integer,Personne> getPersonnes()
+	public SortedSet<Personne> getPersonnes()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		SortedMap<Integer,Personne> personnes = new TreeMap<>();
+		SortedSet<Personne> personnes = new TreeSet<>();
                 try {
                 ms.connect();
                 
@@ -73,13 +90,13 @@ public class Inscriptions implements Serializable
                     while (r.next()) {                        
                         Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"));
                         
-                        personnes.put(r.getInt("ID"), p);
+                        personnes.add(p);
                     }
             } catch (Exception e) {
                 e.printStackTrace();
             }
                 ms.close();
-		return Collections.unmodifiableSortedMap(personnes);
+		return Collections.unmodifiableSortedSet(personnes);
 	}
 
 	/**
