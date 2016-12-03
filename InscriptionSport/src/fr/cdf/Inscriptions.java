@@ -103,13 +103,41 @@ public class Inscriptions implements Serializable
 	 * Retourne toutes les équipes.
 	 * @return
 	 */
-	
+	public SortedSet<Integer> getIdEquipe(){
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            SortedSet<Integer> idequip = new TreeSet<Integer>();
+            try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT idCandidat FROM EQUIPE;");
+                while (rs.next()) {                    
+                    idequip.add(rs.getInt("idCandidat"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            return Collections.unmodifiableSortedSet(idequip);
+            
+        }
+        
 	public SortedSet<Equipe> getEquipes()
 	{
+                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		SortedSet<Equipe> equipes = new TreeSet<>();
-		for (Candidat c : getCandidats())
-			if (c instanceof Equipe)
-				equipes.add((Equipe)c);
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getPers();");
+                    while (r.next()) {                        
+                        Equipe e = inscriptions.createEquipe(r.getNString("nom"));
+                        
+                        equipes.add(e);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();                
 		return Collections.unmodifiableSortedSet(equipes);
 	}
 
