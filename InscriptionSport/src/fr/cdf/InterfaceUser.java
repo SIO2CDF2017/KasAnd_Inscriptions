@@ -2,6 +2,7 @@ package fr.cdf;
 
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import utilitaires.ligneDeCommande.*;
@@ -14,7 +15,7 @@ public class InterfaceUser {
     static void AffichEqupie(Set<Equipe> e)
     {
        Inscriptions i = Inscriptions.getInscriptions();
-       SortedSet<Integer> ide = i.getIdEquipe();
+       Set<Integer> ide = i.getIdEquipe();
        Iterator iterE = e.iterator();
        Iterator iterIde = ide.iterator();
        while(iterE.hasNext() && iterIde.hasNext())
@@ -23,10 +24,10 @@ public class InterfaceUser {
        } 
     }
     
-    static void AffichPers(SortedSet<Personne> p)
+    static void AffichPers(Set<Personne> p)
     {
         Inscriptions i = Inscriptions.getInscriptions();
-        SortedSet<Integer> in = i.getIdPers();
+        Set<Integer> in = i.getIdPers();
         Iterator iterP = p.iterator();
         Iterator iterIn = in.iterator();
         while(iterP.hasNext() && iterIn.hasNext())
@@ -86,8 +87,8 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                SortedSet<Personne> p = i.getPersonnes();
-                SortedSet<Equipe> e = i.getEquipes();
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
                 System.out.println("Equipes : ");
@@ -110,7 +111,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                SortedSet<Equipe> e = i.getEquipes();
+                Set<Equipe> e = i.getEquipes();
                 AffichEqupie(e);
                 Menu rechCand = new Menu("Recherche d Equipes : ");
                 rechCand.ajouteRevenir("r");
@@ -130,7 +131,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions(); 
-                SortedSet<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 AffichPers(p);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
