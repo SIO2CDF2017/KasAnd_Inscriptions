@@ -1,6 +1,7 @@
 package fr.cdf;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.Set;
@@ -22,6 +23,9 @@ public class Competition implements Comparable<Competition>, Serializable
 	private boolean enEquipe = false;
         private LocalDate ajd = LocalDate.now();
         private int id;
+        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
+        private static final String MYSQL_USER = "root";
+        private static final String MYSQL_PSW = "";
 
         
         Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
@@ -135,7 +139,29 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * @param personne
 	 * @return
 	 */
-	
+	public boolean addBD(Personne personne){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Personne p = personne;
+            
+            if (ms.connect()) {
+                try {
+                    ResultSet rs = ms.execSelect("SELECT * FROM INSCRIRE WHERE IdCandidat = "+p.getId()+" AND IdCompetition = "+this.getId()+"");
+                    if (rs.next()) {
+                        return false;
+                    }else{
+                       ms.exec("call ajouterPersonneACompetition("+p.getId()+","+this.getId()+")");
+                       return true;
+                    }                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return false;
+            }
+            ms.close();
+            return false;            
+        }
+        
 	public boolean add(Personne personne)
 	{
             	//  vérifier que la date de clôture n'est pas passée
