@@ -92,27 +92,33 @@ public class Inscriptions implements Serializable
 	 * @param enEquipe
 	 * @return
 	 */
-	
-	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
-	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
-		competitions.add(competition);
-                if (ms.connect()) {
+        public boolean BDCompetition(String nom, LocalDate dateCloture, boolean enEquipe){
+            this.createCompetition(nom, dateCloture, enEquipe);
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            if (ms.connect()) {
                     try {
                         ResultSet  rs = ms.execSelect("SELECT * FROM COMPETITION WHERE Epreuve = \""+nom+"\"");
                         if (rs.next()) {
-                            System.out.println("La competition existe deja !");
+                            return false;
                         }else{
                             ms.exec("call creatComp('"+nom+"','"+dateCloture+"',"+enEquipe+")");
-                            System.out.println("Competition cree");
+                            return true;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
-                    System.out.println("Erreur Connexion !");
+                    return false;
                 }
                 ms.close();
+                return false;
+            
+        }
+	
+	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
+	{       
+		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
+		competitions.add(competition);
                 return competition;
 	}
 
