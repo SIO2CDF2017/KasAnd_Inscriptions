@@ -62,11 +62,21 @@ public class Inscriptions implements Serializable
 	 */
 	
 	public SortedSet<Personne> getPersonnes()
-	{
+	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		SortedSet<Personne> personnes = new TreeSet<>();
-		for (Candidat c : getCandidats())
-			if (c instanceof Personne)
-				personnes.add((Personne)c);
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getEquipe();");
+                    while (r.next()) {                        
+                        Personne p = inscriptions.createPersonne(r.getNString("Nom"), r.getNString("prenom"), r.getNString("mail"));
+                        
+                        personnes.add(p);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
 		return Collections.unmodifiableSortedSet(personnes);
 	}
 
