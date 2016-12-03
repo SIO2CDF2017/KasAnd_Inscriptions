@@ -51,7 +51,18 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	 * Modifie le nom du candidat.
 	 * @param nom
 	 */
-	
+	public void modifNom(int id, String name){
+           MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.execUpdate("call RENAMECANDIDAT("+id+",'"+name+"');");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+           ms.close();
+        }
+        
 	public void setNom(String nom)
 	{
 		this.nom = nom;
