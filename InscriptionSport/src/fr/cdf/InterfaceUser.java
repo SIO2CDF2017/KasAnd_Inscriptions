@@ -2,6 +2,7 @@ package fr.cdf;
 
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import utilitaires.ligneDeCommande.*;
 /**
@@ -11,9 +12,9 @@ import utilitaires.ligneDeCommande.*;
 public class InterfaceUser {
 
 
-/********************************************************************/
-/*                         MENU RECHERCHE                           */
-/********************************************************************/
+/******************************************************************************/
+/*                         MENU RECHERCHE                                     */
+/******************************************************************************/
 
     
     static Action ActionMenuRecherche()
@@ -41,10 +42,8 @@ public class InterfaceUser {
             }
 	};
     }
-    
-    
-/**********************RECHERCHER CANDIDAT***************************/
-
+     
+/**************************RECHERCHER CANDIDATS********************************/
     
     static Action ActionMenuRechercheCand()
     {
@@ -68,6 +67,8 @@ public class InterfaceUser {
         };
     }
     
+/**************************RECHERCHER EQUIPES**********************************/  
+    
     static Action ActionMenuRechercheEqui()
     {
         return new Action()
@@ -89,7 +90,9 @@ public class InterfaceUser {
             }
         };
     }
-    
+
+/**************************RECHERCHER PERSONNES********************************/  
+
      static Action ActionMenuRecherchePers()
     {
         return new Action()
@@ -98,11 +101,13 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
+                SortedSet<Integer> in = i.getIdPers(); 
                 SortedSet<Personne> p = i.getPersonnes();
-                Iterator iter = p.iterator();
-                while(iter.hasNext())
+                Iterator iterP = p.iterator();
+                Iterator iterIn = in.iterator();
+                while(iterP.hasNext() && iterIn.hasNext())
                 {
-                    System.out.println (iter.next());
+                    System.out.println (iterIn.next()+"  "+iterP.next());
                 }
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
@@ -111,7 +116,13 @@ public class InterfaceUser {
             }
         };
     }
- 
+     
+
+/******************************************************************************/
+/*************************MENU INSCRIPTION/CREATION****************************/
+/******************************************************************************/
+     
+     
     static Action ActionMenuInscription()
     {
         return new Action()
@@ -139,6 +150,8 @@ public class InterfaceUser {
         };
     }
 
+/**********************AJOUTER PERSONNE A UNE EQUIPE***************************/
+    
     static Action AddPersToEqui()
     {
         return new Action()
@@ -150,6 +163,8 @@ public class InterfaceUser {
             }
         };
     }
+
+/****************************CREER UNE PERSONNE********************************/
     
     static Action newPersonne()
     {
@@ -171,6 +186,8 @@ public class InterfaceUser {
             }
         };
     }
+
+/****************************CREER UNE EQUIPE********************************/
     
     static Action newEquipe()
     {
@@ -190,7 +207,8 @@ public class InterfaceUser {
             }
         };
     }
-    
+
+/****************************CREER UNE EQUIPE**********************************/    
     static Action newCompetition()
     {
         return new Action()
@@ -309,9 +327,5 @@ public class InterfaceUser {
     {
         Menu m = MenuP();
         m.start();
-    }
-
-    private static Action Action() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
