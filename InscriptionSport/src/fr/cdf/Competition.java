@@ -2,6 +2,7 @@ package fr.cdf;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.Set;
@@ -154,6 +155,29 @@ public class Competition implements Comparable<Competition>, Serializable
                     }                    
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            }else{
+                return false;
+            }
+            ms.close();
+            return false;            
+        }
+        
+	public boolean addBD(Equipe equipe){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Equipe e = equipe;
+            
+            if (ms.connect()) {
+                try {
+                    ResultSet rs = ms.execSelect("SELECT * FROM INSCRIRE WHERE IdCandidat = "+e.getId()+" AND IdCompetition = "+this.getId()+"");
+                    if (rs.next()) {
+                        return false;
+                    }else{
+                       ms.exec("call ajouterEquipeACompetition("+e.getId()+","+this.getId()+")");
+                       return true;
+                    }                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }else{
                 return false;
