@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -127,7 +128,22 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * Retourne l'ensemble des candidats inscrits.
 	 * @return
 	 */
-	
+	public Set<String> getCandidatInscrit(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Set<String> names = new LinkedHashSet<>();
+            try {
+                ms.connect();
+                ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
+                while (rs.next()) {                    
+                    names.add(rs.getNString("nom"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+            return Collections.unmodifiableSet(names);
+        }
+        
 	public Set<Candidat> getCandidats()
 	{
 		return Collections.unmodifiableSet(candidats);
