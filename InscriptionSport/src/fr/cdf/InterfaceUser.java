@@ -1,6 +1,8 @@
 package fr.cdf;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Iterator;
 import java.util.Set;
 import utilitaires.ligneDeCommande.*;
@@ -152,8 +154,10 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 AffichComp(comp);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
-                Option ListCand = new Option("Voir les Personnes / Equipe Inscritent a une competition","l",ActionMenuRechercheMembresComp());
+                Option ListCand = new Option("Voir les Personnes / Equipe Inscritent a une competition","1",ActionMenuRechercheMembresComp());
+                Option ListEnEquipe = new Option("Voir la date de cloture d une competitions ","2",ActionMenuRechercheIsClo());
                 rechCand.ajoute(ListCand);
+                rechCand.ajoute(ListEnEquipe);
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
                 rechCand.start();
@@ -179,8 +183,30 @@ public class InterfaceUser {
                 {
                     System.out.println(in.next());
                 }
-                
             }    
+        };
+    }
+    
+/*********************RECHERCHER DATE CLOTURE COMPETITION**********************/
+    
+    static Action ActionMenuRechercheIsClo()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                int id = utilitaires.EntreesSorties.getInt("id de la competition : ");
+                Inscriptions i = Inscriptions.getInscriptions();
+                Competition c = i.createCompetition("En Equipe", LocalDate.MAX, true);
+                LocalDate dateInsc = c.dateClotureInscriptions(id);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String formattedString = dateInsc.format(formatter);
+                if(c.isopen(id))
+                    System.out.println("Inscription possible jusqu'au "+formattedString);
+                else
+                    System.out.println("Inscription expire depuis le "+formattedString); 
+            }
         };
     }
     
