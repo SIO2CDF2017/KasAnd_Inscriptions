@@ -42,7 +42,23 @@ public class Inscriptions implements Serializable
 	 * Retourne les compétitions.
 	 * @return
 	 */
-	
+	public SortedSet<Integer> getIDComp(){
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            SortedSet<Integer> idcomp = new TreeSet<>();
+            try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT idCompetition FROM COMPETITION;");
+                while (rs.next()) {                    
+                    idcomp.add(rs.getInt("idCompetition"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            return Collections.unmodifiableSortedSet(idcomp);
+        }
+        
 	public SortedSet<Competition> getCompetitions()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		SortedSet<Competition> competitions = new TreeSet<>();
