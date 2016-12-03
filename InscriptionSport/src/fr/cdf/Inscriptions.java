@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -46,7 +47,7 @@ public class Inscriptions implements Serializable
 	 */
 	public Set<Integer> getIDComp(){
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-           Set<Integer> idcomp = new HashSet<>();
+           Set<Integer> idcomp = new LinkedHashSet<>();
             try {
                 ms.connect();
                 
@@ -65,7 +66,7 @@ public class Inscriptions implements Serializable
         
 	public Set<Competition> getCompetitions()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		Set<Competition> competitions = new HashSet<>();
+		Set<Competition> competitions = new LinkedHashSet<>();
                 try {
                 ms.connect();
                 
@@ -79,6 +80,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
                 ms.close();
+                
 		return Collections.unmodifiableSet(competitions);
 	}
 	
