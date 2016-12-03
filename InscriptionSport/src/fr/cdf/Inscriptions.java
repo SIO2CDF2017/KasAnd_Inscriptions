@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -42,9 +44,9 @@ public class Inscriptions implements Serializable
 	 * Retourne les compétitions.
 	 * @return
 	 */
-	public SortedSet<Integer> getIDComp(){
+	public Set<Integer> getIDComp(){
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-            SortedSet<Integer> idcomp = new TreeSet<>();
+           Set<Integer> idcomp = new HashSet<>();
             try {
                 ms.connect();
                 
@@ -56,12 +58,12 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
             
-            return Collections.unmodifiableSortedSet(idcomp);
+            return Collections.unmodifiableSet(idcomp);
         }
         
-	public SortedSet<Competition> getCompetitions()
+	public Set<Competition> getCompetitions()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-		SortedSet<Competition> competitions = new TreeSet<>();
+		Set<Competition> competitions = new HashSet<>();
                 try {
                 ms.connect();
                 
@@ -75,7 +77,7 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
             }
                 ms.close();
-		return Collections.unmodifiableSortedSet(competitions);
+		return Collections.unmodifiableSet(competitions);
 	}
 	
 	/**
