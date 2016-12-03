@@ -1,7 +1,9 @@
 package fr.cdf;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -67,7 +69,24 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
         public int getId(){
             return this.id;
         }
-
+        
+        
+        public Set<String> getCompetCandidat(int id){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            Set<String> c = new LinkedHashSet<>();
+            try {
+                ms.connect();
+                ResultSet rs = ms.execSelect("call COMPETCAMDIDAT("+id+")");
+                while (rs.next()) {                    
+                    c.add(rs.getNString("Epreuve"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            return c;
+        }
+        
 	public Set<Competition> getCompetitions()
 	{
 		return Collections.unmodifiableSet(competitions);
