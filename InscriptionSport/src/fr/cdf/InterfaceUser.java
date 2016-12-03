@@ -10,7 +10,7 @@ import utilitaires.ligneDeCommande.*;
  */
 public class InterfaceUser {
 
-    static void AffichEqupie(Set<Equipe> e)
+    static void AffichEquipe(Set<Equipe> e)
     {
        Inscriptions i = Inscriptions.getInscriptions();
        Set<Integer> ide = i.getIdEquipe();
@@ -90,7 +90,7 @@ public class InterfaceUser {
                 System.out.println("Personnes : ");
                 AffichPers(p);
                 System.out.println("Equipes : ");
-                AffichEqupie(e);
+                AffichEquipe(e);
                 Menu rechCand = new Menu("Recherche de Candidats : ");
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
@@ -110,7 +110,7 @@ public class InterfaceUser {
             {
                 Inscriptions i = Inscriptions.getInscriptions();
                 Set<Equipe> e = i.getEquipes();
-                AffichEqupie(e);
+                AffichEquipe(e);
                 Menu rechCand = new Menu("Recherche d Equipes : ");
                 rechCand.ajouteRevenir("r");
                 rechCand.ajouteQuitter("q");
@@ -177,7 +177,7 @@ public class InterfaceUser {
                 Option creatEqui = new Option("nouvelle Equipe","2",newEquipe());
                 Option creatComp = new Option("nouvelle Competition","3",newCompetition());
                 Option addPersToEqui = new Option("Ajouter une personne existante à une Equipe existante","4",AddPersToEqui());
-                Option addPersToComp = new Option("Inscrire une personne existante à une competition existante","5");
+                Option addPersToComp = new Option("Inscrire une personne existante à une competition existante","5",AddPersToComp());
                 Option addEquiToComp = new Option("Inscrire une équipe existante à une competion existante","6");
                 insc.ajoute(creatPers);
                 insc.ajoute(creatEqui);
@@ -220,7 +220,7 @@ public class InterfaceUser {
                     System.out.println("Personne invalide");
                 }
                 
-                AffichEqupie(e);
+                AffichEquipe(e);
                 int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
                 Equipe e1 = null;
                 for(Equipe _e : e)
@@ -230,9 +230,9 @@ public class InterfaceUser {
                     }
                 
                 if(e1 == null)
-                    System.out.println("Equipe nulle");
+                    System.out.println("Erreur : Equipe inexistante");
                 else if(p1 == null)
-                    System.out.println("Candidat null");
+                    System.out.println("Erreur : Personne inexistante");
                 else
                     if(e1.addBD(p1))
                         System.out.println("Succes");
@@ -242,6 +242,56 @@ public class InterfaceUser {
         };
     }
 
+/**********************AJOUTER PERSONNE A UNE COMPETITION***************************/
+    
+    static Action AddPersToComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Personne> p = i.getPersonnes();
+                Set<Competition> c = i.getCompetitions();
+                
+                AffichPers(p);
+                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                
+                Personne p1 = null;
+                for(Personne _p : p){
+                    if(_p.getId() == idpers){
+                        p1 = _p;
+                        break;
+                    }
+                }
+                
+                if(p1 == null){
+                    System.out.println("Personne invalide");
+                }
+                
+                AffichComp(c);
+                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                Competition c1 = null;
+                for(Competition _c : c)
+                    if (_c.getId()== idcomp){
+                        c1 = _c;
+                        break;
+                    }
+                
+                if(c1 == null)
+                    System.out.println("Erreur : Competition inexistante");
+                else if(p1 == null)
+                    System.out.println("Erreur : Personne inexistante");
+                else
+                    if(c1.addBD(p1))
+                        System.out.println("Succes");
+                    else
+                        System.out.println("Echec de l'inscription de la personne a la Competition");
+            }
+        };
+    }
+    
 /****************************CREER UNE PERSONNE********************************/
     
     static Action newPersonne()
@@ -360,6 +410,24 @@ public class InterfaceUser {
                 MenuS.start();
             }
             
+        };
+    }
+    
+/*************************SUPPRIMER UN CANDIDAT********************************/    
+   
+    static Action ActionMenuSupprCand()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                
+                Menu MenuS = new Menu("Suprimer : ");
+                MenuS.ajouteRevenir("r");
+                MenuS.ajouteQuitter("q");
+                MenuS.start();
+            }
         };
     }
  
