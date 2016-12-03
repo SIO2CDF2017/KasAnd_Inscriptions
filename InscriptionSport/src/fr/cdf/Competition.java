@@ -93,6 +93,18 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * Retourne la date de cloture des inscriptions.
 	 * @return
 	 */
+        
+        public boolean isopen(int id){
+            LocalDate dc = this.dateClotureInscriptions(id);
+            LocalDate ajd = LocalDate.now();
+            
+            if (ajd.isBefore(dc))
+                return true;
+            else
+                return false;
+            
+        }
+        
 	public LocalDate dateClotureInscriptions(int id){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
              LocalDate dci = LocalDate.MIN;
