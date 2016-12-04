@@ -117,6 +117,18 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	/**
 	 * Supprime un candidat de l'application.
 	 */
+
+        public void supCand(int id){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW); 
+            try {
+                ms.connect();
+                
+                ms.exec("call DELETECANDIDAT("+id+")");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+        } 
 	
 	public void delete()
 	{

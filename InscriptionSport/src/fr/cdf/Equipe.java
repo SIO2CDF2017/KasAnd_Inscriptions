@@ -81,6 +81,22 @@ public class Equipe extends Candidat
 	 * @return
 	 */
 	
+        public boolean supPers(int id){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            if (ms.connect()) {
+                try {
+                    ms.exec("call supprMembrEq("+id+","+this.getId()+")");
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return false;
+            }
+            ms.close();
+            return false;
+        }
+        
 	public boolean remove(Personne membre)
 	{
 		membre.remove(this);

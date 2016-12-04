@@ -162,7 +162,7 @@ public class Competition implements Comparable<Competition>, Serializable
              }else{
                  if(ms.connect()){
                      try {
-                         ms.execUpdate("call modifdatecloture('"+DateC+"',"+id+")");
+                         ms.execUpdate("call modifdatecloture("+id+",'"+DateC+"')");
                          return true;
                      } catch (Exception e) {
                          e.printStackTrace();
@@ -300,7 +300,17 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * @param candidat
 	 * @return
 	 */
-	
+        public void deInsCand(int idCand){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.exec("call DesinscritCandidat("+idCand+","+this.id+")");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
 	public boolean remove(Candidat candidat)
 	{
 		candidat.remove(this);
@@ -310,7 +320,17 @@ public class Competition implements Comparable<Competition>, Serializable
 	/**
 	 * Supprime la compétition de l'application.
 	 */
-	
+	public void supComp(int id){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.exec("call suprComp("+id+")");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
 	public void delete()
 	{
 		for (Candidat candidat : candidats)
