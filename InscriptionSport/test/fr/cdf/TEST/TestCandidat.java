@@ -14,7 +14,8 @@ public class TestCandidat {
 	
         @Test
 	public void testGetNom() {
-            cand.getNom();
+            String name = cand.getNom();
+            System.out.println(name);
 	}
 
 	@Test

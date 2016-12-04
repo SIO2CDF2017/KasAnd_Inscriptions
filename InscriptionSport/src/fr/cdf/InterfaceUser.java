@@ -1,5 +1,6 @@
 package fr.cdf;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
@@ -93,7 +94,7 @@ public class InterfaceUser {
             
         };
     }    
-/**************************RECHERCHER CANDIDATS********************************/
+/********************RECHERCHER INSCRIPTIONS CANDIDATS*************************/
     static Action ActionMenuRechercheInsCand(){
         return new Action(){
             @Override
@@ -111,8 +112,7 @@ public class InterfaceUser {
                 {
                     System.out.println("- "+in.next());
                 }                
-            }
-            
+            }   
         };
     }
 /**************************RECHERCHER CANDIDATS********************************/
@@ -488,7 +488,7 @@ public class InterfaceUser {
     }
 
 /****************************CREER UNE COMPETITION**********************************/    
-    static Action newCompetition()
+    static Action newCompetition() //throws LocalDateException
     {
         return new Action()
         {
@@ -520,10 +520,23 @@ public class InterfaceUser {
                 }while(!checkSaisie);
                 Inscriptions i = Inscriptions.getInscriptions();
                 String nom = utilitaires.EntreesSorties.getString("Nom :");
-                int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
-                int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
-                int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
-                LocalDate dateClo = LocalDate.of(annee, mois, jour);
+                LocalDate dateClo = LocalDate.now();
+                boolean checkDate = false;
+                do
+                {
+                    int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
+                    int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                    int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
+                    try
+                    {
+                        dateClo = LocalDate.of(annee, mois, jour);
+                        checkDate=true;
+                    }
+                    catch(DateTimeException e)
+                    {
+                        System.out.println("Erreur : date Inexistante !");
+                    }
+                }while(!checkDate);
                 if(dateClo.isAfter(auj))
                 {
                     i.createCompetition(nom,dateClo,Team);
@@ -623,34 +636,52 @@ public class InterfaceUser {
                     System.out.println("Personne invalide");
                 }
                 
-                AffichComp(c);
-                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
-                Competition c1 = null;
-                for(Competition _c : c)
-                    if (_c.getId()== idcomp){
-                        c1 = _c;
-                        break;
+                Set<String> c2 = i.getinsCand(idpers);
+                Competition comp = i.createCompetition("", LocalDate.MAX, true);
+                Set<Integer> in = comp.getIdComp(idpers);
+                Iterator iterP = c2.iterator();
+                Iterator iterIn = in.iterator();
+                
+                if(in.isEmpty())
+                {
+                    System.out.println("Cette Personne n est inscrite a aucune competition. ");
+                }
+                else
+                {
+                    while(iterP.hasNext() && iterIn.hasNext())
+                    {
+                        System.out.println("ID : "+iterIn.next()+"  "+iterP.next());
                     }
                 
-                if(c1 == null)
-                    System.out.println("Erreur : Competition inexistante");
-                else if(p1 == null)
-                    System.out.println("Erreur : Personne inexistante");
-                else
-                    if(!c1.estEnEquipe())
-                    {
-                        if(c1.deInsCand(p1))
-                            System.out.println("Succes");
-                        else
-                            System.out.println("Echec de la suppression de la personne a la Competition");
-                    }
+                
+                    int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                    Competition c1 = null;
+                    for(Competition _c : c)
+                        if (_c.getId()== idcomp){
+                            c1 = _c;
+                            break;
+                        }
+                
+                    if(c1 == null)
+                        System.out.println("Erreur : Competition inexistante");
+                    else if(p1 == null)
+                        System.out.println("Erreur : Personne inexistante");
                     else
-                        System.out.println("Echec de la suppression : Cette competion se fait en Equipe");
+                        if(!c1.estEnEquipe())
+                        {
+                            if(c1.deInsCand(p1))
+                                System.out.println("Succes");
+                            else
+                                System.out.println("Echec de la suppression de la personne a la Competition");
+                        }
+                            else
+                                System.out.println("Echec de la suppression : Cette competion se fait en Equipe");
+                }
             }
         };
     }
     
-    /********************SUPPRIMER EQUIPE D'UNE COMPETITION********************/
+    /****************************DESINSCRIR EQUIPE*****************************/
     
     static Action ActionMenuSupprEquipeFromComp()
     {
@@ -678,29 +709,47 @@ public class InterfaceUser {
                     System.out.println("Equipe invalide");
                 }
                 
-                AffichComp(c);
-                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
-                Competition c1 = null;
-                for(Competition _c : c)
-                    if (_c.getId()== idcomp){
-                        c1 = _c;
-                        break;
+                
+                Set<String> c2 = i.getinsCand(idEquipe);
+                Competition comp = i.createCompetition("", LocalDate.MAX, true);
+                Set<Integer> in = comp.getIdComp(idEquipe);
+                Iterator iterP = c2.iterator();
+                Iterator iterIn = in.iterator();
+                if(in.isEmpty())
+                {
+                    System.out.println("Cette equipe n est inscrite a aucune competition. ");
+                }
+                else
+                {
+                    while(iterP.hasNext() && iterIn.hasNext())
+                    {
+                        System.out.println("ID : "+iterIn.next()+"  "+iterP.next());
                     }
                 
-                if(c1 == null)
-                    System.out.println("Erreur : Competition inexistante");
-                else if(e1 == null)
-                    System.out.println("Erreur : Equipe inexistante");
-                else
-                   if(c1.estEnEquipe())
-                   {   
-                        if(c1.deInsCand(e1))
-                            System.out.println("Succes");
+                
+                    int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                    Competition c1 = null;
+                    for(Competition _c : c)
+                        if (_c.getId()== idcomp){
+                            c1 = _c;
+                            break;
+                        }
+                
+                    if(c1 == null)
+                        System.out.println("Erreur : Competition inexistante");
+                    else if(e1 == null)
+                        System.out.println("Erreur : Equipe inexistante");
+                    else
+                        if(c1.estEnEquipe())
+                        {   
+                            if(c1.deInsCand(e1))
+                                System.out.println("Succes");
+                            else
+                                System.out.println("Echec de la suppression de l Equipe a la Competition");
+                        }
                         else
-                            System.out.println("Echec de la suppression de l Equipe a la Competition");
-                   }
-                   else
-                       System.out.println("Echec de la suppression : Cette competition est individuel ");
+                            System.out.println("Echec de la suppression : Cette competition est individuel ");
+                }
             }
         };
     }
@@ -733,24 +782,39 @@ public class InterfaceUser {
                     System.out.println("Personne invalide");
                 }
                 
-                AffichEquipe(e);
-                int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
-                Equipe e1 = null;
-                for(Equipe _e : e)
-                    if (_e.getId() == idequip){
-                        e1 = _e;
-                        break;
-                    }
-                
-                if(e1 == null)
-                    System.out.println("Erreur : Equipe inexistante");
-                else if(p1 == null)
-                    System.out.println("Erreur : Personne inexistante");
+                Equipe eq = i.createEquipe("");
+                Set<String> c2 = eq.getNomMbr(idpers);
+                Set<Integer> in = eq.getIdEqui(idpers);
+                Iterator iterP = c2.iterator();
+                Iterator iterIn = in.iterator();
+                if(in.isEmpty())
+                {
+                    System.out.println("Cette Personne n appartient a aucune Equipe . ");
+                }
                 else
-                    if(e1.supPers(p1))
-                        System.out.println("Succes");
+                {
+                    while(iterP.hasNext() && iterIn.hasNext())
+                    {
+                        System.out.println("ID : "+iterIn.next()+"  "+iterP.next());
+                    }
+                    int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
+                    Equipe e1 = null;
+                    for(Equipe _e : e)
+                        if (_e.getId() == idequip){
+                            e1 = _e;
+                            break;
+                        }
+                
+                    if(e1 == null)
+                        System.out.println("Erreur : Equipe inexistante");
+                    else if(p1 == null)
+                        System.out.println("Erreur : Personne inexistante");
                     else
-                        System.out.println("Echec de la suppression de la personne de l equipe");             
+                        if(e1.supPers(p1))
+                            System.out.println("Succes");
+                        else
+                            System.out.println("Echec de la suppression de la personne de l equipe");
+                }
             }
         };
     }
@@ -829,7 +893,20 @@ public class InterfaceUser {
                 int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
                 int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
                 int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
-                LocalDate dateClo = LocalDate.of(annee, mois, jour);
+                LocalDate dateClo = LocalDate.MAX;
+                boolean checkDate = false;
+                do
+                {
+                    try
+                    {
+                       dateClo = LocalDate.of(annee, mois, jour);
+                       checkDate = true;
+                    }
+                    catch(DateTimeException e)
+                    {
+                        System.out.println("Erreur : Date invalide ");
+                    }
+                }while(!checkDate);
                 c.modifDateCloture(id, dateClo);
                 Menu rechCand = new Menu("");
                 rechCand.ajouteRevenir("r");
