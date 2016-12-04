@@ -14,6 +14,9 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
+        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
+        private static final String MYSQL_USER = "root";
+        private static final String MYSQL_PSW = "";
         
      
 	
@@ -43,7 +46,19 @@ public class Personne extends Candidat
 	 * Modifie le prénom de la personne.
 	 * @param prenom
 	 */
-	
+	public void modifPrenom(int id, String name){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.execUpdate("call RENAMEPERSONNE("+id+",'"+name+"')");
+                        
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+        }
+        
 	public void setPrenom(String prenom)
 	{
 		this.prenom = prenom;
