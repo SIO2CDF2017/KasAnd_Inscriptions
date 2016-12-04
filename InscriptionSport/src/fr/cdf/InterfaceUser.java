@@ -62,7 +62,7 @@ public class InterfaceUser {
                 Option SearchGetEqui = new Option("Recherche d'équipes","2",ActionMenuRechercheEqui());
                 Option SearchGetPers = new Option("Recherche de personnes","3",ActionMenuRecherchePers());
                 Option SearchGetComp = new Option("Recherche de Competitions","4",ActionMenuRechercheComp());
-                Option SearchGetInsc = new Option("Recherche d'inscriptions","5");
+                Option SearchGetInsc = new Option("Recherche d'inscriptions","5",ActionMenuRechercherIns());
                 mr.ajoute(SearchGetCand);
                 mr.ajoute(SearchGetEqui);
                 mr.ajoute(SearchGetPers);
@@ -74,7 +74,47 @@ public class InterfaceUser {
             }
 	};
     }
-     
+    
+/*************************MENU RECHERCHE INSCROPTION***************************/
+    
+    static Action ActionMenuRechercherIns(){
+        return new Action(){
+            @Override
+            public void optionSelectionnee() {
+                Menu mrs = new Menu("Rechercher par :");
+                Option pcand = new Option("Par candidat", "1",ActionMenuRechercheInsCand());
+                Option pcomp = new Option("Par competition", "2",ActionMenuRechercheMembresComp());
+                mrs.ajoute(pcand);
+                mrs.ajoute(pcomp);
+                mrs.ajouteRevenir("r");
+                mrs.ajouteQuitter("q");
+                mrs.start();
+            }
+            
+        };
+    }    
+/**************************RECHERCHER CANDIDATS********************************/
+    static Action ActionMenuRechercheInsCand(){
+        return new Action(){
+            @Override
+            public void optionSelectionnee() {
+                Inscriptions i = Inscriptions.getInscriptions();
+                Set<Candidat>  c1 = i.getCandidats();
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
+                AffichPers(p);
+                AffichEquipe(e);
+                int IdCand = utilitaires.EntreesSorties.getInt("Entrez l ID du candidat : ");
+                Set<String> Comp = i.getinsCand(IdCand);
+                Iterator in = Comp.iterator();
+                while(in.hasNext())
+                {
+                    System.out.println("- "+in.next());
+                }                
+            }
+            
+        };
+    }
 /**************************RECHERCHER CANDIDATS********************************/
     
     static Action ActionMenuRechercheCand()
@@ -173,13 +213,15 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
+                Set<Competition>  c1 = i.getCompetitions();
                 Competition c = i.createCompetition("compSelect", LocalDate.MAX, true);
+                AffichComp(c1);
                 int IdComp = utilitaires.EntreesSorties.getInt("Entrez l ID de la competition : ");
                 Set<String> Membres = c.getCandidatInscrit(IdComp);
                 Iterator in = Membres.iterator();
                 while(in.hasNext())
                 {
-                    System.out.println(in.next());
+                    System.out.println("- "+in.next());
                 }
             }    
         };

@@ -9,12 +9,9 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -322,6 +319,38 @@ public class Inscriptions implements Serializable
 	 * Crée cet objet s'il n'existe déjà.
 	 * @return l'unique objet de type {@link Inscriptions}.
 	 */
+        
+        public Set<String> getinsCand(int idcand){
+             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, Inscriptions.MYSQL_USER, this.MYSQL_PSW);
+             Set<String> comp = new LinkedHashSet<>();
+             try {
+                ms.connect();
+                ResultSet rs = ms.execSelect("call COMPETCANDIDAT("+idcand+")");
+                 while (rs.next()) {                     
+                     comp.add(rs.getNString("Epreuve")); 
+                 }
+                            
+            } catch (Exception e) {
+            }
+             return Collections.unmodifiableSet(comp);
+             
+        }
+        
+        public Set<String> getinscomp(int idcomp){
+            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, Inscriptions.MYSQL_USER, this.MYSQL_PSW);
+            Set<String> pers = new LinkedHashSet<>();
+            try {
+                ms.connect();
+                ResultSet rs = ms.execSelect("call candidatsInscrits("+idcomp+")");
+                while (rs.next()) {                    
+                    pers.add(rs.getNString("nom"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+            return pers;
+        }
 	
 	public static Inscriptions getInscriptions()
 	{
