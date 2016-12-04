@@ -78,7 +78,19 @@ public class Personne extends Candidat
 	 * Modifie l'adresse électronique de la personne.
 	 * @param mail
 	 */
-	
+	public void modifMail(int id, String mail){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.execUpdate("call CHANGEMAIL("+id+",'"+mail+"')");
+                        
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+        }
+                
 	public void setMail(String mail)
 	{
 		this.mail = mail;
