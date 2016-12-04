@@ -44,7 +44,7 @@ public class Equipe extends Candidat
              try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT APPARTENIR.IdCandidatEquipe As id WHERE IdCandidatPersonne = "+id+" ");
+                ResultSet rs = ms.execSelect("SELECT IdCandidatEquipe As id FROM APPARTENIR WHERE IdCandidatPersonne = "+id+" ");
                  while (rs.next()) {                     
                      ids.add(rs.getInt("id"));
                  }
