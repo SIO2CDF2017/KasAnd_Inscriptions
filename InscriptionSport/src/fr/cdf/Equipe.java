@@ -54,6 +54,21 @@ public class Equipe extends Candidat
              ms.close();
              return Collections.unmodifiableSet(ids);
         }
+        
+        public Set<String> getNomMbr(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Set<String> noms = new LinkedHashSet<>();
+            try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT Nom FROM CANDIDAT, APPARTENIR WHERE CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND APPARTENIR.IdCandidatPersonne = "+id+"");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            ms.close();
+            return Collections.unmodifiableSet(noms);
+        }
 	
 	public SortedSet<Personne> getMembres()
 	{
