@@ -128,6 +128,6 @@ public class Personne extends Candidat
 	@Override
 	public String toString()
 	{
-		return super.toString() + " membre de " + equipes.toString();
+		return super.toString() + /*" membre de " + equipes.toString()*/ " " + this.getPrenom();
 	}
 }
