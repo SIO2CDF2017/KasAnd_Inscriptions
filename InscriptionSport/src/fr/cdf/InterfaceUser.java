@@ -2,7 +2,6 @@ package fr.cdf;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Iterator;
 import java.util.Set;
 import utilitaires.ligneDeCommande.*;
@@ -11,7 +10,6 @@ import utilitaires.ligneDeCommande.*;
  * @author vkasperski
  */
 public class InterfaceUser {
-
     static void AffichEquipe(Set<Equipe> e)
     {
        Inscriptions i = Inscriptions.getInscriptions();
@@ -447,7 +445,7 @@ public class InterfaceUser {
         };
     }
 
-/****************************CREER UNE EQUIPE**********************************/    
+/****************************CREER UNE COMPETITION**********************************/    
     static Action newCompetition()
     {
         return new Action()
@@ -504,17 +502,20 @@ public class InterfaceUser {
 /******************************************************************************/    
     
     
-    static Action ActionMenuSuprimer(){
+    static Action ActionMenuSuprimer()
+    {
         return new Action(){
             @Override
             public void optionSelectionnee() {
                 Menu MenuS = new Menu("Suprimer : ");
-                Option SupPers = new Option("Suprimer un candidat", "1");
-                Option deInsCand = new Option("Deinscrire un candidat", "2");
-                Option supMbrEquip = new Option("Suimer un membre d'une equipe", "3");
-                Option SupComp = new Option("Suprimer une competition", "4");
+                Option SupPers = new Option("Suprimer un candidat", "1",ActionMenuSupprCand());
+                Option deInsPers = new Option("Deinscrire une Personne", "2",ActionMenuSupprPersFromComp());
+                Option deInsEquipe = new Option("Deinscrire une Equipe", "3",ActionMenuSupprEquipeFromComp());
+                Option supMbrEquip = new Option("Suipprimer un membre d'une equipe", "4",ActionMenuSupprPersFromteam());
+                Option SupComp = new Option("Suprimer une competition", "5");
                 MenuS.ajoute(SupPers);
-                MenuS.ajoute(deInsCand);
+                MenuS.ajoute(deInsPers);
+                MenuS.ajoute(deInsEquipe);
                 MenuS.ajoute(supMbrEquip);
                 MenuS.ajoute(SupComp);
                 MenuS.ajouteRevenir("r");
@@ -534,7 +535,16 @@ public class InterfaceUser {
             @Override
             public void optionSelectionnee()
             {
-                
+                Inscriptions i = Inscriptions.getInscriptions();
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
+                System.out.println("Personnes : ");
+                AffichPers(p);
+                System.out.println("Equipes : ");
+                AffichEquipe(e);
+                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
+                Candidat c = i.createEquipe("SetCandName");
+                c.supCand(Id);
                 Menu MenuS = new Menu("Suprimer : ");
                 MenuS.ajouteRevenir("r");
                 MenuS.ajouteQuitter("q");
@@ -543,6 +553,165 @@ public class InterfaceUser {
         };
     }
  
+/************************DESINSCRIRE UNE PERSONNE******************************/    
+   
+    static Action ActionMenuSupprPersFromComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Personne> p = i.getPersonnes();
+                Set<Competition> c = i.getCompetitions();
+                
+                AffichPers(p);
+                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                
+                Personne p1 = null;
+                for(Personne _p : p){
+                    if(_p.getId() == idpers){
+                        p1 = _p;
+                        break;
+                    }
+                }
+                
+                if(p1 == null){
+                    System.out.println("Personne invalide");
+                }
+                
+                AffichComp(c);
+                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                Competition c1 = null;
+                for(Competition _c : c)
+                    if (_c.getId()== idcomp){
+                        c1 = _c;
+                        break;
+                    }
+                
+                if(c1 == null)
+                    System.out.println("Erreur : Competition inexistante");
+                else if(p1 == null)
+                    System.out.println("Erreur : Personne inexistante");
+                else
+                    if(!c1.estEnEquipe())
+                    {
+                        if(c1.deInsCand(p1))
+                            System.out.println("Succes");
+                        else
+                            System.out.println("Echec de la suppression de la personne a la Competition");
+                    }
+                    else
+                        System.out.println("Echec de la suppression : Cette competion se fait en Equipe");
+            }
+        };
+    }
+    
+    /********************SUPPRIMER EQUIPE D'UNE COMPETITION********************/
+    
+    static Action ActionMenuSupprEquipeFromComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Equipe> e = i.getEquipes();
+                Set<Competition> c = i.getCompetitions();
+                
+                AffichEquipe(e);
+                int idEquipe = utilitaires.EntreesSorties.getInt("Id de l Equipe :");
+                
+                Equipe e1 = null;
+                for(Equipe _e : e){
+                    if(_e.getId() == idEquipe){
+                        e1 = _e;
+                        break;
+                    }
+                }
+                
+                if(e1 == null){
+                    System.out.println("Equipe invalide");
+                }
+                
+                AffichComp(c);
+                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                Competition c1 = null;
+                for(Competition _c : c)
+                    if (_c.getId()== idcomp){
+                        c1 = _c;
+                        break;
+                    }
+                
+                if(c1 == null)
+                    System.out.println("Erreur : Competition inexistante");
+                else if(e1 == null)
+                    System.out.println("Erreur : Equipe inexistante");
+                else
+                   if(c1.estEnEquipe())
+                   {   
+                        if(c1.deInsCand(e1))
+                            System.out.println("Succes");
+                        else
+                            System.out.println("Echec de la suppression de l Equipe a la Competition");
+                   }
+                   else
+                       System.out.println("Echec de la suppression : Cette competition est individuel ");
+            }
+        };
+    }
+    
+    /********************ENLEVER PERSONNE FROM EQUIPE**************************/    
+   
+    static Action ActionMenuSupprPersFromteam()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();                 
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
+                
+                AffichPers(p);
+                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                
+                Personne p1 = null;
+                for(Personne _p : p){
+                    if(_p.getId() == idpers){
+                        p1 = _p;
+                        break;
+                    }
+                }
+                
+                if(p1 == null){
+                    System.out.println("Personne invalide");
+                }
+                
+                AffichEquipe(e);
+                int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
+                Equipe e1 = null;
+                for(Equipe _e : e)
+                    if (_e.getId() == idequip){
+                        e1 = _e;
+                        break;
+                    }
+                
+                if(e1 == null)
+                    System.out.println("Erreur : Equipe inexistante");
+                else if(p1 == null)
+                    System.out.println("Erreur : Personne inexistante");
+                else
+                    if(e1.supPers(p1))
+                        System.out.println("Succes");
+                    else
+                        System.out.println("Echec de la suppression de la personne de l equipe");             
+            }
+        };
+    }
     
 /******************************************************************************/
 /********************************MENU MODIFIER*********************************/
@@ -555,11 +724,11 @@ public class InterfaceUser {
             public void optionSelectionnee() {
                 Menu MenuM = new Menu("Modifier : ");
                 
-                Option chNomCand = new Option("Modifier le nom de l equipe ou le nom de famille d un candidat","1");
+                Option chNomCand = new Option("Modifier le nom de l equipe ou le nom de famille d un candidat","1",ActionMenuSetCand());
                 Option ChPrenomPers = new Option("Modifier le prenom d une personne","2");
-                Option ChMailPers = new Option("Modifier le mail d une personne","3");
-                Option ChDateCloComp = new Option("Modifier la date de cloture d une competition","4");
-                Option ChNomComp = new Option("Modifier le nom d une competition","5");             
+                Option ChMailPers = new Option("Modifier le mail d une personne","3",ActionMenuSetMailPers());
+                Option ChDateCloComp = new Option("Modifier la date de cloture d une competition","4",ActionMenuSetDateCloComp());
+                Option ChNomComp = new Option("Modifier le nom d une competition","5",ActionMenuSetNomComp());             
                 MenuM.ajoute(chNomCand);
                 MenuM.ajoute(ChPrenomPers);
                 MenuM.ajoute(ChMailPers);
@@ -571,7 +740,111 @@ public class InterfaceUser {
             }
         };
     }
+
+/*************************CHANGER NOM CANDIDAT********************************/    
+   
+    static Action ActionMenuSetCand()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                Set<Personne> p = i.getPersonnes();
+                Set<Equipe> e = i.getEquipes();
+                System.out.println("Personnes : ");
+                AffichPers(p);
+                System.out.println("Equipes : ");
+                AffichEquipe(e);
+                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
+                String name = utilitaires.EntreesSorties.getString("Entrez le nouveau nom : ");
+                Candidat c = i.createEquipe("SetCandName");
+                c.modifNom(Id, name);
+                System.out.println("Succes");
+                Menu rechCand = new Menu("");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start(); 
+            }
+        };
+    }
     
+/********************CHANGER DATE CLOTURE COMPETITION**************************/    
+   
+    static Action ActionMenuSetDateCloComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions(); 
+                Set<Competition> comp = i.getCompetitions();
+                Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
+                AffichComp(comp);
+                int id = utilitaires.EntreesSorties.getInt("ID de la Competition : ");
+                int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
+                int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
+                LocalDate dateClo = LocalDate.of(annee, mois, jour);
+                c.modifDateCloture(id, dateClo);
+                Menu rechCand = new Menu("");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();
+            }
+        };
+    }
+    
+/************************CHANGER MAIL PERSONNE*******************************/    
+   
+    static Action ActionMenuSetMailPers()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions(); 
+                Set<Personne> p = i.getPersonnes();
+                AffichPers(p);
+                Personne p1 = i.createPersonne("", "", "");
+                int id = utilitaires.EntreesSorties.getInt("ID de la personne : ");
+                String mail = utilitaires.EntreesSorties.getString("Nouveau Mail : ");
+                p1.modifMail(id, mail);
+                Menu rechCand = new Menu("Recherche de Personnes : ");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();  
+                
+            }
+        };
+    }
+    
+/************************CHANGER NOM COMPETITION*******************************/    
+   
+    static Action ActionMenuSetNomComp()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions(); 
+                Set<Competition> comp = i.getCompetitions();
+                Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
+                AffichComp(comp);
+                int id = utilitaires.EntreesSorties.getInt("ID de la Competition : ");
+                String name = utilitaires.EntreesSorties.getString("Nouveau Nom :");
+                c.modifNom(id, name);
+                Menu rechCand = new Menu("");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start();
+            }
+        };
+    }
     
 /********************************************************************/
 /*                         MENU PRINCIPAL                           */
