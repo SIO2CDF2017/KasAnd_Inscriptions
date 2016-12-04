@@ -62,6 +62,9 @@ public class Equipe extends Candidat
                 ms.connect();
                 
                 ResultSet rs = ms.execSelect("SELECT Nom FROM CANDIDAT, APPARTENIR WHERE CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND APPARTENIR.IdCandidatPersonne = "+id+"");
+                while (rs.next()) {                    
+                    noms.add(rs.getNString("Nom"));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
