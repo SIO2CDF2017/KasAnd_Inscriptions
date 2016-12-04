@@ -306,7 +306,7 @@ public class Competition implements Comparable<Competition>, Serializable
             
             if (ms.connect()) {
                 try {
-                       ms.exec("call ajouterEquipeACompetition("+c.getId()+","+this.getId()+")");
+                       ms.exec("call DesinscritCandidat("+c.getId()+","+this.getId()+")");
                        return true;                   
                 } catch (Exception ex) {
                     ex.printStackTrace();
