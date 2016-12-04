@@ -300,13 +300,30 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * @param candidat
 	 * @return
 	 */
-        public boolean deInsCand(Candidat cand){
+        public boolean deInsCand(Equipe equipe){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
-            Candidat c = cand;
+            Equipe e = equipe;
             
             if (ms.connect()) {
                 try {
-                       ms.exec("call DesinscritCandidat("+c.getId()+","+this.getId()+")");
+                       ms.exec("call DesinscritCandidat("+e.getId()+","+this.getId()+")");
+                       return true;                   
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else{
+                return false;
+            }
+            ms.close();
+            return false;  
+        }
+        public boolean deInsCand(Personne membre){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Personne p = membre;
+            
+            if (ms.connect()) {
+                try {
+                       ms.exec("call DesinscritCandidat("+p.getId()+","+this.getId()+")");
                        return true;                   
                 } catch (Exception ex) {
                     ex.printStackTrace();
