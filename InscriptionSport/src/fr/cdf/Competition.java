@@ -67,6 +67,19 @@ public class Competition implements Comparable<Competition>, Serializable
 	/**
 	 * Modifie le nom de la compétition.
 	 */
+        
+       public void modifNom(int id, String name){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.execUpdate("call modifnomcompetition("+id+",'"+name+"')");
+                        
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+        }
 	
 	public void setNom(String nom)
 	{
@@ -121,6 +134,7 @@ public class Competition implements Comparable<Competition>, Serializable
             return dci;
         }
         
+        
 	public LocalDate getDateCloture()
 	{
 		return dateCloture;
@@ -141,14 +155,32 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * mais pas de l'avancer.
 	 * @param dateCloture
 	 */
-	
+	public boolean modifDateCloture(int id, LocalDate DateC){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+             if (DateC.isAfter(this.dateCloture) || DateC.isBefore(ajd)) { 
+                 return false; 
+             }else{
+                 if(ms.connect()){
+                     try {
+                         ms.execUpdate("call modifdatecloture('"+DateC+"',"+id+")");
+                         return true;
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
+                 }else{
+                     return false;
+                 }
+                return true;
+            }
+        }
+        
 	public void setDateCloture(LocalDate DateC)
 	{
 		//  vérifier que l'on avance pas la date.
                 
             if (DateC.isAfter(this.dateCloture) || DateC.isBefore(ajd)) {}else{
                     this.dateCloture = DateC;
-                }
+            }
 	}
 	
 	/**
