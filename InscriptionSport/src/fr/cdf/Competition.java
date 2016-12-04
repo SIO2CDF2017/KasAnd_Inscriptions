@@ -58,6 +58,21 @@ public class Competition implements Comparable<Competition>, Serializable
             this.id = id;
         }
         
+        public Set<Integer> getIdComp(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            Set<Integer> ids = new LinkedHashSet<>();
+            try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT INSCRIRE.IdCompetition As id FROM INSCRIRE WHERE IdCandidat = "+id+"");
+                while (rs.next()) {                    
+                    ids.add(rs.getInt("id"));
+                }
+            } catch (Exception e) {
+            }
+            ms.close();
+            return Collections.unmodifiableSet(ids);
+        }
         
 	public String getNom()
 	{
