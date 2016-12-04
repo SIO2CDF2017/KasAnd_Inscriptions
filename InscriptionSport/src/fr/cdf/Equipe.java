@@ -2,6 +2,8 @@ package fr.cdf;
 
 import java.sql.ResultSet;
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -32,7 +34,26 @@ public class Equipe extends Candidat
 
 	/**
 	 * Retourne l'ensemble des personnes formant l'équipe.
+     * @param id
+     * @return 
 	 */
+        
+        public Set<Integer> getIdEqui(int id){
+             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+             Set<Integer> ids = new LinkedHashSet<>();
+             try {
+                ms.connect();
+                
+                ResultSet rs = ms.execSelect("SELECT APPARTENIR.IdCandidatEquipe As id WHERE IdCandidatPersonne = "+id+" ");
+                 while (rs.next()) {                     
+                     ids.add(rs.getInt("id"));
+                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+             ms.close();
+             return Collections.unmodifiableSet(ids);
+        }
 	
 	public SortedSet<Personne> getMembres()
 	{
