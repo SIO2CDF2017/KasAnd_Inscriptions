@@ -6,11 +6,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Set;
 import utilitaires.ligneDeCommande.*;
+
 /**
  *
  * @author vkasperski
  */
+
 public class InterfaceUser {
+    
+    
     static void AffichEquipe(Set<Equipe> e)
     {
        Inscriptions i = Inscriptions.getInscriptions();
@@ -46,6 +50,8 @@ public class InterfaceUser {
             System.out.println ("ID : "+iterIn.next()+" Nom : "+iterP.next());
         }
     }
+    
+    
 /******************************************************************************/
 /********************************MENU RECHERCHE********************************/
 /******************************************************************************/
@@ -93,8 +99,10 @@ public class InterfaceUser {
             }
             
         };
-    }    
+    }  
+    
 /********************RECHERCHER INSCRIPTIONS CANDIDATS*************************/
+    
     static Action ActionMenuRechercheInsCand(){
         return new Action(){
             @Override
@@ -115,6 +123,7 @@ public class InterfaceUser {
             }   
         };
     }
+    
 /**************************RECHERCHER CANDIDATS********************************/
     
     static Action ActionMenuRechercheCand()
@@ -249,6 +258,7 @@ public class InterfaceUser {
             }
         };
     }
+  
     
 /******************************************************************************/
 /*************************MENU INSCRIPTION/CREATION****************************/
@@ -465,8 +475,6 @@ public class InterfaceUser {
         };
     }
     
-
-
 /****************************CREER UNE EQUIPE********************************/
     
     static Action newEquipe()
@@ -487,7 +495,8 @@ public class InterfaceUser {
         };
     }
 
-/****************************CREER UNE COMPETITION**********************************/    
+/****************************CREER UNE COMPETITION**********************************/  
+    
     static Action newCompetition() //throws LocalDateException
     {
         return new Action()
