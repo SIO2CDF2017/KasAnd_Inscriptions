@@ -840,7 +840,7 @@ public class InterfaceUser {
                 Menu MenuM = new Menu("Modifier : ");
                 
                 Option chNomCand = new Option("Modifier le nom de l equipe ou le nom de famille d un candidat","1",ActionMenuSetCand());
-                Option ChPrenomPers = new Option("Modifier le prenom d une personne","2");
+                Option ChPrenomPers = new Option("Modifier le prenom d une personne","2",ActionMenuSetCandPrenom());
                 Option ChMailPers = new Option("Modifier le mail d une personne","3",ActionMenuSetMailPers());
                 Option ChDateCloComp = new Option("Modifier la date de cloture d une competition","4",ActionMenuSetDateCloComp());
                 Option ChNomComp = new Option("Modifier le nom d une competition","5",ActionMenuSetNomComp());             
@@ -884,7 +884,33 @@ public class InterfaceUser {
             }
         };
     }
-    
+
+/*************************CHANGER PRENOM CANDIDAT********************************/    
+   
+    static Action ActionMenuSetCandPrenom()
+    {
+        return new Action()
+        {
+            @Override
+            public void optionSelectionnee()
+            {
+                Inscriptions i = Inscriptions.getInscriptions();
+                Set<Personne> p = i.getPersonnes();
+                System.out.println("Personnes : ");
+                AffichPers(p);
+                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
+                String name = utilitaires.EntreesSorties.getString("Entrez le nouveau nom : ");
+                Personne c = i.createPersonne("SetCandName","","");
+                c.modifPrenom(Id, name);
+                System.out.println("Succes");
+                Menu rechCand = new Menu("");
+                rechCand.ajouteRevenir("r");
+                rechCand.ajouteQuitter("q");
+                rechCand.start(); 
+            }
+        };
+    }
+      
 /********************CHANGER DATE CLOTURE COMPETITION**************************/    
    
     static Action ActionMenuSetDateCloComp()
