@@ -1,6 +1,6 @@
-package fr.cdf;
+package fr.teamKasAnd;
 
-import fr.cdf.data.MySQL;
+import fr.teamKasAnd.data.MySQL;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;

@@ -1,8 +1,8 @@
-package fr.cdf.Utils.CommandsLigne.Exemples;
+package fr.teamKasAnd.Utils.CommandsLigne.Exemples;
 
-import fr.cdf.Utils.CommandsLigne.Action;
-import fr.cdf.Utils.CommandsLigne.Option;
-import fr.cdf.Utils.CommandsLigne.Menu;
+import fr.teamKasAnd.Utils.CommandsLigne.Action;
+import fr.teamKasAnd.Utils.CommandsLigne.Option;
+import fr.teamKasAnd.Utils.CommandsLigne.Menu;
 
 public class ExempleFonctions
 {
@@ -26,8 +26,8 @@ public class ExempleFonctions
 		{
 			public void optionSelectionnee()
 			{
-				int a = fr.cdf.Utils.InOut.getInt("Saisissez la première opérande : "),
-						b = fr.cdf.Utils.InOut.getInt("Saisissez la deuxième opérande : ");
+				int a = fr.teamKasAnd.Utils.InOut.getInt("Saisissez la première opérande : "),
+						b = fr.teamKasAnd.Utils.InOut.getInt("Saisissez la deuxième opérande : ");
 				System.out.println("" + a + " + " + b + " = " + (a+b));
 			}
 		};

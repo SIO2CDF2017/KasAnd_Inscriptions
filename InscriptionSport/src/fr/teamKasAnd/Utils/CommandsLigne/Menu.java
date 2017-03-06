@@ -1,11 +1,11 @@
-package fr.cdf.Utils.CommandsLigne;
+package fr.teamKasAnd.Utils.CommandsLigne;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import fr.cdf.Utils.InOut;
+import fr.teamKasAnd.Utils.InOut;
 
 /**
  * Menu affiché en ligne de commande. En haut du menu est affiché le {@link titre}, 

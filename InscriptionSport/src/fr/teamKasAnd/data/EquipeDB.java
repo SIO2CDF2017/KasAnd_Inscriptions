@@ -4,11 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.cdf.data;
+package fr.teamKasAnd.data;
 
-import fr.cdf.Equipe;
-import fr.cdf.Inscriptions;
-import fr.cdf.Personne;
+import fr.teamKasAnd.Equipe;
+import fr.teamKasAnd.Inscriptions;
+import fr.teamKasAnd.Personne;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.SortedSet;
