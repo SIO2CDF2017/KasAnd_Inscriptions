@@ -1,4 +1,4 @@
-package utilitaires.ligneDeCommande;
+package fr.cdf.Utils.CommandsLigne;
 
 /**
  * Option figurant dans un menu.

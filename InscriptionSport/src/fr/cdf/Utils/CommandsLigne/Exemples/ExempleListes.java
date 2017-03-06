@@ -1,11 +1,11 @@
-package utilitaires.ligneDeCommande.exemples;
+package fr.cdf.Utils.CommandsLigne.Exemples;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import utilitaires.ligneDeCommande.ActionListe;
-import utilitaires.ligneDeCommande.Liste;
-import utilitaires.ligneDeCommande.Liste.ToString;
+import fr.cdf.Utils.CommandsLigne.ActionListe;
+import fr.cdf.Utils.CommandsLigne.Liste;
+import fr.cdf.Utils.CommandsLigne.Liste.ToString;
 
 public class ExempleListes
 {

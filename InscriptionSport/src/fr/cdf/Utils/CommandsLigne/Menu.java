@@ -1,11 +1,11 @@
-package utilitaires.ligneDeCommande;
+package fr.cdf.Utils.CommandsLigne;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import utilitaires.EntreesSorties;
+import fr.cdf.Utils.InOut;
 
 /**
  * Menu affiché en ligne de commande. En haut du menu est affiché le {@link titre}, 
@@ -120,7 +120,7 @@ public class Menu extends Option
 	
 	protected String saisitOption()
 	{
-		return EntreesSorties.getString(this.toString());
+		return InOut.getString(this.toString());
 	}
 	
 	/**

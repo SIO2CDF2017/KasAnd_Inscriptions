@@ -226,4 +226,4 @@ public static void main(String[] args)
  * <A HREF="https://github.com/alexandreMesle/personnel">Exemple d'implémentation</A>.
  */
 
-package utilitaires.ligneDeCommande;
+package fr.cdf.Utils.CommandsLigne;

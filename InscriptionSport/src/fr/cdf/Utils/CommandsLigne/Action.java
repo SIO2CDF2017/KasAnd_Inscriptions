@@ -1,4 +1,4 @@
-package utilitaires.ligneDeCommande;
+package fr.cdf.Utils.CommandsLigne;
 
 /**
  * Permet d'affecter des actions au choix d'un élément dans un menu.

@@ -1,4 +1,4 @@
-package utilitaires;
+package fr.cdf.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.StringWriter;
  * Fonctions de simplification des opérations de saisie.
  */
 
-public class EntreesSorties
+public class InOut
 {
 	/**
 	 * Saisit une chaîne de caractères.

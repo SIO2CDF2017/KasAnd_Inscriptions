@@ -1,8 +1,8 @@
-package utilitaires.ligneDeCommande.exemples;
+package fr.cdf.Utils.CommandsLigne.Exemples;
 
-import utilitaires.ligneDeCommande.Action;
-import utilitaires.ligneDeCommande.Menu;
-import utilitaires.ligneDeCommande.Option;
+import fr.cdf.Utils.CommandsLigne.Action;
+import fr.cdf.Utils.CommandsLigne.Menu;
+import fr.cdf.Utils.CommandsLigne.Option;
 
 class Bonjour
 {

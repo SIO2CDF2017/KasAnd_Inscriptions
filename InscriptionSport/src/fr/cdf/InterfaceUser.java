@@ -1,11 +1,13 @@
 package fr.cdf;
 
+import fr.cdf.Utils.CommandsLigne.Action;
+import fr.cdf.Utils.CommandsLigne.Option;
+import fr.cdf.Utils.CommandsLigne.Menu;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Set;
-import utilitaires.ligneDeCommande.*;
 
 /**
  *
@@ -113,7 +115,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 AffichPers(p);
                 AffichEquipe(e);
-                int IdCand = utilitaires.EntreesSorties.getInt("Entrez l ID du candidat : ");
+                int IdCand = fr.cdf.Utils.InOut.getInt("Entrez l ID du candidat : ");
                 Set<String> Comp = i.getinsCand(IdCand);
                 Iterator in = Comp.iterator();
                 while(in.hasNext())
@@ -225,7 +227,7 @@ public class InterfaceUser {
                 Set<Competition>  c1 = i.getCompetitions();
                 Competition c = i.createCompetition("compSelect", LocalDate.MAX, true);
                 AffichComp(c1);
-                int IdComp = utilitaires.EntreesSorties.getInt("Entrez l ID de la competition : ");
+                int IdComp = fr.cdf.Utils.InOut.getInt("Entrez l ID de la competition : ");
                 Set<String> Membres = c.getCandidatInscrit(IdComp);
                 Iterator in = Membres.iterator();
                 while(in.hasNext())
@@ -245,7 +247,7 @@ public class InterfaceUser {
             @Override
             public void optionSelectionnee()
             {
-                int id = utilitaires.EntreesSorties.getInt("id de la competition : ");
+                int id = fr.cdf.Utils.InOut.getInt("id de la competition : ");
                 Inscriptions i = Inscriptions.getInscriptions();
                 Competition c = i.createCompetition("En Equipe", LocalDate.MAX, true);
                 LocalDate dateInsc = c.dateClotureInscriptions(id);
@@ -306,7 +308,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
-                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                int idpers = fr.cdf.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -321,7 +323,7 @@ public class InterfaceUser {
                 }
                 
                 AffichEquipe(e);
-                int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
+                int idequip = fr.cdf.Utils.InOut.getInt("Id de l'equipe : ");
                 Equipe e1 = null;
                 for(Equipe _e : e)
                     if (_e.getId() == idequip){
@@ -356,7 +358,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
-                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                int idpers = fr.cdf.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -371,7 +373,7 @@ public class InterfaceUser {
                 }
                 
                 AffichComp(c);
-                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                int idcomp = fr.cdf.Utils.InOut.getInt("Id de la competition : ");
                 Competition c1 = null;
                 for(Competition _c : c)
                     if (_c.getId()== idcomp){
@@ -411,7 +413,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichEquipe(e);
-                int idEquipe = utilitaires.EntreesSorties.getInt("Id de l Equipe :");
+                int idEquipe = fr.cdf.Utils.InOut.getInt("Id de l Equipe :");
                 
                 Equipe e1 = null;
                 for(Equipe _e : e){
@@ -426,7 +428,7 @@ public class InterfaceUser {
                 }
                 
                 AffichComp(c);
-                int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                int idcomp = fr.cdf.Utils.InOut.getInt("Id de la competition : ");
                 Competition c1 = null;
                 for(Competition _c : c)
                     if (_c.getId()== idcomp){
@@ -463,9 +465,9 @@ public class InterfaceUser {
             {
                 Inscriptions i = Inscriptions.getInscriptions();
                 String nom,prenom,mail;
-                nom = utilitaires.EntreesSorties.getString("Nom : ");
-                prenom = utilitaires.EntreesSorties.getString("Prenom : ");
-                mail = utilitaires.EntreesSorties.getString("mail : ");
+                nom = fr.cdf.Utils.InOut.getString("Nom : ");
+                prenom = fr.cdf.Utils.InOut.getString("Prenom : ");
+                mail = fr.cdf.Utils.InOut.getString("mail : ");
                 i.createPersonne(nom,prenom,mail);
                 if(i.BDCreatePersonne(nom, prenom, mail))
                         System.out.println("Personne "+nom+" cree avec succes");
@@ -485,7 +487,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                String nom = utilitaires.EntreesSorties.getString("Nom :");
+                String nom = fr.cdf.Utils.InOut.getString("Nom :");
                 i.createEquipe(nom);
                 if(i.BDCreateEquipe(nom))
                         System.out.println("Equipe "+nom+" cree avec succes");
@@ -510,7 +512,7 @@ public class InterfaceUser {
                 String chx ;
                 do
                 {
-                   chx = utilitaires.EntreesSorties.getString(" 1 par Equpie \n 2 individuel:");
+                   chx = fr.cdf.Utils.InOut.getString(" 1 par Equpie \n 2 individuel:");
                    switch (chx) 
                    {
                         case "1":
@@ -528,14 +530,14 @@ public class InterfaceUser {
                     }
                 }while(!checkSaisie);
                 Inscriptions i = Inscriptions.getInscriptions();
-                String nom = utilitaires.EntreesSorties.getString("Nom :");
+                String nom = fr.cdf.Utils.InOut.getString("Nom :");
                 LocalDate dateClo = LocalDate.now();
                 boolean checkDate = false;
                 do
                 {
-                    int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
-                    int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
-                    int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
+                    int jour = fr.cdf.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
+                    int mois = fr.cdf.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                    int annee = fr.cdf.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
                     try
                     {
                         dateClo = LocalDate.of(annee, mois, jour);
@@ -606,7 +608,7 @@ public class InterfaceUser {
                 AffichPers(p);
                 System.out.println("Equipes : ");
                 AffichEquipe(e);
-                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
+                int Id = fr.cdf.Utils.InOut.getInt("entrez l ID du candidat : ");
                 Candidat c = i.createEquipe("SetCandName");
                 c.supCand(Id);
                 Menu MenuS = new Menu("Suprimer : ");
@@ -631,7 +633,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
-                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                int idpers = fr.cdf.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -663,7 +665,7 @@ public class InterfaceUser {
                     }
                 
                 
-                    int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                    int idcomp = fr.cdf.Utils.InOut.getInt("Id de la competition : ");
                     Competition c1 = null;
                     for(Competition _c : c)
                         if (_c.getId()== idcomp){
@@ -704,7 +706,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichEquipe(e);
-                int idEquipe = utilitaires.EntreesSorties.getInt("Id de l Equipe :");
+                int idEquipe = fr.cdf.Utils.InOut.getInt("Id de l Equipe :");
                 
                 Equipe e1 = null;
                 for(Equipe _e : e){
@@ -736,7 +738,7 @@ public class InterfaceUser {
                     }
                 
                 
-                    int idcomp = utilitaires.EntreesSorties.getInt("Id de la competition : ");
+                    int idcomp = fr.cdf.Utils.InOut.getInt("Id de la competition : ");
                     Competition c1 = null;
                     for(Competition _c : c)
                         if (_c.getId()== idcomp){
@@ -777,7 +779,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
-                int idpers = utilitaires.EntreesSorties.getInt("Id de la personne :");
+                int idpers = fr.cdf.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -806,7 +808,7 @@ public class InterfaceUser {
                     {
                         System.out.println("ID : "+iterIn.next()+"  "+iterP.next());
                     }
-                    int idequip = utilitaires.EntreesSorties.getInt("Id de l'equipe : ");
+                    int idequip = fr.cdf.Utils.InOut.getInt("Id de l'equipe : ");
                     Equipe e1 = null;
                     for(Equipe _e : e)
                         if (_e.getId() == idequip){
@@ -872,8 +874,8 @@ public class InterfaceUser {
                 AffichPers(p);
                 System.out.println("Equipes : ");
                 AffichEquipe(e);
-                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
-                String name = utilitaires.EntreesSorties.getString("Entrez le nouveau nom : ");
+                int Id = fr.cdf.Utils.InOut.getInt("entrez l ID du candidat : ");
+                String name = fr.cdf.Utils.InOut.getString("Entrez le nouveau nom : ");
                 Candidat c = i.createEquipe("SetCandName");
                 c.modifNom(Id, name);
                 System.out.println("Succes");
@@ -898,8 +900,8 @@ public class InterfaceUser {
                 Set<Personne> p = i.getPersonnes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
-                int Id = utilitaires.EntreesSorties.getInt("entrez l ID du candidat : ");
-                String name = utilitaires.EntreesSorties.getString("Entrez le nouveau nom : ");
+                int Id = fr.cdf.Utils.InOut.getInt("entrez l ID du candidat : ");
+                String name = fr.cdf.Utils.InOut.getString("Entrez le nouveau nom : ");
                 Personne c = i.createPersonne("SetCandName","","");
                 c.modifPrenom(Id, name);
                 System.out.println("Succes");
@@ -924,10 +926,10 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
                 AffichComp(comp);
-                int id = utilitaires.EntreesSorties.getInt("ID de la Competition : ");
-                int jour = utilitaires.EntreesSorties.getInt("Jour de la date de cloture des inscriptions : ");
-                int mois = utilitaires.EntreesSorties.getInt("Mois(numero) de la date de cloture des inscriptions : ");
-                int annee = utilitaires.EntreesSorties.getInt("Annee de la date de cloture des inscriptions : ");
+                int id = fr.cdf.Utils.InOut.getInt("ID de la Competition : ");
+                int jour = fr.cdf.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
+                int mois = fr.cdf.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                int annee = fr.cdf.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
                 LocalDate dateClo = LocalDate.MAX;
                 boolean checkDate = false;
                 do
@@ -964,8 +966,8 @@ public class InterfaceUser {
                 Set<Personne> p = i.getPersonnes();
                 AffichPers(p);
                 Personne p1 = i.createPersonne("", "", "");
-                int id = utilitaires.EntreesSorties.getInt("ID de la personne : ");
-                String mail = utilitaires.EntreesSorties.getString("Nouveau Mail : ");
+                int id = fr.cdf.Utils.InOut.getInt("ID de la personne : ");
+                String mail = fr.cdf.Utils.InOut.getString("Nouveau Mail : ");
                 p1.modifMail(id, mail);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
@@ -989,8 +991,8 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
                 AffichComp(comp);
-                int id = utilitaires.EntreesSorties.getInt("ID de la Competition : ");
-                String name = utilitaires.EntreesSorties.getString("Nouveau Nom :");
+                int id = fr.cdf.Utils.InOut.getInt("ID de la Competition : ");
+                String name = fr.cdf.Utils.InOut.getString("Nouveau Nom :");
                 c.modifNom(id, name);
                 Menu rechCand = new Menu("");
                 rechCand.ajouteRevenir("r");
