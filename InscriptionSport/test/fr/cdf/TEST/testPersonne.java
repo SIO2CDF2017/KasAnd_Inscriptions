@@ -1,6 +1,6 @@
 package fr.cdf.TEST;
 
-import fr.teamKasAnd.Inscriptions;
+import xyz.teamkasand.Inscriptions;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

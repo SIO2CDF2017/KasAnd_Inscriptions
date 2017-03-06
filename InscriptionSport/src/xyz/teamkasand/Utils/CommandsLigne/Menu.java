@@ -1,11 +1,11 @@
-package fr.teamKasAnd.Utils.CommandsLigne;
+package xyz.teamkasand.Utils.CommandsLigne;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import fr.teamKasAnd.Utils.InOut;
+import xyz.teamkasand.Utils.InOut;
 
 /**
  * Menu affiché en ligne de commande. En haut du menu est affiché le {@link titre}, 

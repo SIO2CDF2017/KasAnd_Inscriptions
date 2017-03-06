@@ -1,8 +1,8 @@
 package fr.cdf.TEST;
 
-import fr.teamKasAnd.Equipe;
-import fr.teamKasAnd.Inscriptions;
-import fr.teamKasAnd.Personne;
+import xyz.teamkasand.Equipe;
+import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Personne;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

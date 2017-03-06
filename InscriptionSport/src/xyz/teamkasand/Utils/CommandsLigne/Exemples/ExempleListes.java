@@ -1,11 +1,11 @@
-package fr.teamKasAnd.Utils.CommandsLigne.Exemples;
+package xyz.teamkasand.Utils.CommandsLigne.Exemples;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.teamKasAnd.Utils.CommandsLigne.ActionListe;
-import fr.teamKasAnd.Utils.CommandsLigne.Liste;
-import fr.teamKasAnd.Utils.CommandsLigne.Liste.ToString;
+import xyz.teamkasand.Utils.CommandsLigne.ActionListe;
+import xyz.teamkasand.Utils.CommandsLigne.Liste;
+import xyz.teamkasand.Utils.CommandsLigne.Liste.ToString;
 
 public class ExempleListes
 {

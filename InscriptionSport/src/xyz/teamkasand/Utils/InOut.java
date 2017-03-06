@@ -1,4 +1,4 @@
-package fr.teamKasAnd.Utils;
+package xyz.teamkasand.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
-package fr.teamKasAnd.Interface;
+package xyz.teamkasand.Interface;
 
-import fr.teamKasAnd.Utils.CommandsLigne.Menu;
+import xyz.teamkasand.Utils.CommandsLigne.Menu;
 
 
 

@@ -1,4 +1,4 @@
-package fr.teamKasAnd.Utils.CommandsLigne;
+package xyz.teamkasand.Utils.CommandsLigne;
 
 import java.util.List;
 

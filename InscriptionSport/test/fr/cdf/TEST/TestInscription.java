@@ -1,7 +1,7 @@
 package fr.cdf.TEST;
 
 import static org.junit.Assert.*;
-import fr.teamKasAnd.Inscriptions;
+import xyz.teamkasand.Inscriptions;
 import java.io.IOException;
 
 import org.junit.Test;

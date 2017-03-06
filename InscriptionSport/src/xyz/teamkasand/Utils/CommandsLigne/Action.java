@@ -1,4 +1,4 @@
-package fr.teamKasAnd.Utils.CommandsLigne;
+package xyz.teamkasand.Utils.CommandsLigne;
 
 /**
  * Permet d'affecter des actions au choix d'un élément dans un menu.

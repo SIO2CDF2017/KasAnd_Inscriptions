@@ -1,8 +1,8 @@
-package fr.teamKasAnd.Utils.CommandsLigne.Exemples;
+package xyz.teamkasand.Utils.CommandsLigne.Exemples;
 
-import fr.teamKasAnd.Utils.CommandsLigne.Action;
-import fr.teamKasAnd.Utils.CommandsLigne.Menu;
-import fr.teamKasAnd.Utils.CommandsLigne.Option;
+import xyz.teamkasand.Utils.CommandsLigne.Action;
+import xyz.teamkasand.Utils.CommandsLigne.Menu;
+import xyz.teamkasand.Utils.CommandsLigne.Option;
 
 class Bonjour
 {

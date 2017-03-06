@@ -1,9 +1,9 @@
 package fr.cdf.TEST;
 
-import fr.teamKasAnd.Competition;
-import fr.teamKasAnd.Equipe;
-import fr.teamKasAnd.Inscriptions;
-import fr.teamKasAnd.Personne;
+import xyz.teamkasand.Competition;
+import xyz.teamkasand.Equipe;
+import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Personne;
 import java.time.LocalDate;
 import java.time.Month;
 import static org.junit.Assert.*;

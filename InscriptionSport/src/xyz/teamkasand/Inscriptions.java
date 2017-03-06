@@ -1,6 +1,6 @@
-package fr.teamKasAnd;
+package xyz.teamkasand;
 
-import fr.teamKasAnd.data.MySQL;
+import xyz.teamkasand.data.MySQL;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

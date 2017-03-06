@@ -1,4 +1,4 @@
-package fr.teamKasAnd.Utils.CommandsLigne;
+package xyz.teamkasand.Utils.CommandsLigne;
 
 /**
  * Option figurant dans un menu.

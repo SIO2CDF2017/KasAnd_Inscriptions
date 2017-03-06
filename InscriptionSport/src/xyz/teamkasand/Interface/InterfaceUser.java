@@ -1,13 +1,13 @@
-package fr.teamKasAnd.Interface;
+package xyz.teamkasand.Interface;
 
-import fr.teamKasAnd.Candidat;
-import fr.teamKasAnd.Competition;
-import fr.teamKasAnd.Equipe;
-import fr.teamKasAnd.Inscriptions;
-import fr.teamKasAnd.Personne;
-import fr.teamKasAnd.Utils.CommandsLigne.Action;
-import fr.teamKasAnd.Utils.CommandsLigne.Option;
-import fr.teamKasAnd.Utils.CommandsLigne.Menu;
+import xyz.teamkasand.Candidat;
+import xyz.teamkasand.Competition;
+import xyz.teamkasand.Equipe;
+import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Personne;
+import xyz.teamkasand.Utils.CommandsLigne.Action;
+import xyz.teamkasand.Utils.CommandsLigne.Option;
+import xyz.teamkasand.Utils.CommandsLigne.Menu;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -120,7 +120,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 AffichPers(p);
                 AffichEquipe(e);
-                int IdCand = fr.teamKasAnd.Utils.InOut.getInt("Entrez l ID du candidat : ");
+                int IdCand = xyz.teamkasand.Utils.InOut.getInt("Entrez l ID du candidat : ");
                 Set<String> Comp = i.getinsCand(IdCand);
                 Iterator in = Comp.iterator();
                 while(in.hasNext())
@@ -232,7 +232,7 @@ public class InterfaceUser {
                 Set<Competition>  c1 = i.getCompetitions();
                 Competition c = i.createCompetition("compSelect", LocalDate.MAX, true);
                 AffichComp(c1);
-                int IdComp = fr.teamKasAnd.Utils.InOut.getInt("Entrez l ID de la competition : ");
+                int IdComp = xyz.teamkasand.Utils.InOut.getInt("Entrez l ID de la competition : ");
                 Set<String> Membres = c.getCandidatInscrit(IdComp);
                 Iterator in = Membres.iterator();
                 while(in.hasNext())
@@ -252,7 +252,7 @@ public class InterfaceUser {
             @Override
             public void optionSelectionnee()
             {
-                int id = fr.teamKasAnd.Utils.InOut.getInt("id de la competition : ");
+                int id = xyz.teamkasand.Utils.InOut.getInt("id de la competition : ");
                 Inscriptions i = Inscriptions.getInscriptions();
                 Competition c = i.createCompetition("En Equipe", LocalDate.MAX, true);
                 LocalDate dateInsc = c.dateClotureInscriptions(id);
@@ -313,7 +313,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
-                int idpers = fr.teamKasAnd.Utils.InOut.getInt("Id de la personne :");
+                int idpers = xyz.teamkasand.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -328,7 +328,7 @@ public class InterfaceUser {
                 }
                 
                 AffichEquipe(e);
-                int idequip = fr.teamKasAnd.Utils.InOut.getInt("Id de l'equipe : ");
+                int idequip = xyz.teamkasand.Utils.InOut.getInt("Id de l'equipe : ");
                 Equipe e1 = null;
                 for(Equipe _e : e)
                     if (_e.getId() == idequip){
@@ -363,7 +363,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
-                int idpers = fr.teamKasAnd.Utils.InOut.getInt("Id de la personne :");
+                int idpers = xyz.teamkasand.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -378,7 +378,7 @@ public class InterfaceUser {
                 }
                 
                 AffichComp(c);
-                int idcomp = fr.teamKasAnd.Utils.InOut.getInt("Id de la competition : ");
+                int idcomp = xyz.teamkasand.Utils.InOut.getInt("Id de la competition : ");
                 Competition c1 = null;
                 for(Competition _c : c)
                     if (_c.getId()== idcomp){
@@ -418,7 +418,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichEquipe(e);
-                int idEquipe = fr.teamKasAnd.Utils.InOut.getInt("Id de l Equipe :");
+                int idEquipe = xyz.teamkasand.Utils.InOut.getInt("Id de l Equipe :");
                 
                 Equipe e1 = null;
                 for(Equipe _e : e){
@@ -433,7 +433,7 @@ public class InterfaceUser {
                 }
                 
                 AffichComp(c);
-                int idcomp = fr.teamKasAnd.Utils.InOut.getInt("Id de la competition : ");
+                int idcomp = xyz.teamkasand.Utils.InOut.getInt("Id de la competition : ");
                 Competition c1 = null;
                 for(Competition _c : c)
                     if (_c.getId()== idcomp){
@@ -470,9 +470,9 @@ public class InterfaceUser {
             {
                 Inscriptions i = Inscriptions.getInscriptions();
                 String nom,prenom,mail;
-                nom = fr.teamKasAnd.Utils.InOut.getString("Nom : ");
-                prenom = fr.teamKasAnd.Utils.InOut.getString("Prenom : ");
-                mail = fr.teamKasAnd.Utils.InOut.getString("mail : ");
+                nom = xyz.teamkasand.Utils.InOut.getString("Nom : ");
+                prenom = xyz.teamkasand.Utils.InOut.getString("Prenom : ");
+                mail = xyz.teamkasand.Utils.InOut.getString("mail : ");
                 i.createPersonne(nom,prenom,mail);
                 if(i.BDCreatePersonne(nom, prenom, mail))
                         System.out.println("Personne "+nom+" cree avec succes");
@@ -492,7 +492,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                String nom = fr.teamKasAnd.Utils.InOut.getString("Nom :");
+                String nom = xyz.teamkasand.Utils.InOut.getString("Nom :");
                 i.createEquipe(nom);
                 if(i.BDCreateEquipe(nom))
                         System.out.println("Equipe "+nom+" cree avec succes");
@@ -517,7 +517,7 @@ public class InterfaceUser {
                 String chx ;
                 do
                 {
-                   chx = fr.teamKasAnd.Utils.InOut.getString(" 1 par Equpie \n 2 individuel:");
+                   chx = xyz.teamkasand.Utils.InOut.getString(" 1 par Equpie \n 2 individuel:");
                    switch (chx) 
                    {
                         case "1":
@@ -535,14 +535,14 @@ public class InterfaceUser {
                     }
                 }while(!checkSaisie);
                 Inscriptions i = Inscriptions.getInscriptions();
-                String nom = fr.teamKasAnd.Utils.InOut.getString("Nom :");
+                String nom = xyz.teamkasand.Utils.InOut.getString("Nom :");
                 LocalDate dateClo = LocalDate.now();
                 boolean checkDate = false;
                 do
                 {
-                    int jour = fr.teamKasAnd.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
-                    int mois = fr.teamKasAnd.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
-                    int annee = fr.teamKasAnd.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
+                    int jour = xyz.teamkasand.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
+                    int mois = xyz.teamkasand.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                    int annee = xyz.teamkasand.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
                     try
                     {
                         dateClo = LocalDate.of(annee, mois, jour);
@@ -613,7 +613,7 @@ public class InterfaceUser {
                 AffichPers(p);
                 System.out.println("Equipes : ");
                 AffichEquipe(e);
-                int Id = fr.teamKasAnd.Utils.InOut.getInt("entrez l ID du candidat : ");
+                int Id = xyz.teamkasand.Utils.InOut.getInt("entrez l ID du candidat : ");
                 Candidat c = i.createEquipe("SetCandName");
                 c.supCand(Id);
                 Menu MenuS = new Menu("Suprimer : ");
@@ -638,7 +638,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
-                int idpers = fr.teamKasAnd.Utils.InOut.getInt("Id de la personne :");
+                int idpers = xyz.teamkasand.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -670,7 +670,7 @@ public class InterfaceUser {
                     }
                 
                 
-                    int idcomp = fr.teamKasAnd.Utils.InOut.getInt("Id de la competition : ");
+                    int idcomp = xyz.teamkasand.Utils.InOut.getInt("Id de la competition : ");
                     Competition c1 = null;
                     for(Competition _c : c)
                         if (_c.getId()== idcomp){
@@ -711,7 +711,7 @@ public class InterfaceUser {
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichEquipe(e);
-                int idEquipe = fr.teamKasAnd.Utils.InOut.getInt("Id de l Equipe :");
+                int idEquipe = xyz.teamkasand.Utils.InOut.getInt("Id de l Equipe :");
                 
                 Equipe e1 = null;
                 for(Equipe _e : e){
@@ -743,7 +743,7 @@ public class InterfaceUser {
                     }
                 
                 
-                    int idcomp = fr.teamKasAnd.Utils.InOut.getInt("Id de la competition : ");
+                    int idcomp = xyz.teamkasand.Utils.InOut.getInt("Id de la competition : ");
                     Competition c1 = null;
                     for(Competition _c : c)
                         if (_c.getId()== idcomp){
@@ -784,7 +784,7 @@ public class InterfaceUser {
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
-                int idpers = fr.teamKasAnd.Utils.InOut.getInt("Id de la personne :");
+                int idpers = xyz.teamkasand.Utils.InOut.getInt("Id de la personne :");
                 
                 Personne p1 = null;
                 for(Personne _p : p){
@@ -813,7 +813,7 @@ public class InterfaceUser {
                     {
                         System.out.println("ID : "+iterIn.next()+"  "+iterP.next());
                     }
-                    int idequip = fr.teamKasAnd.Utils.InOut.getInt("Id de l'equipe : ");
+                    int idequip = xyz.teamkasand.Utils.InOut.getInt("Id de l'equipe : ");
                     Equipe e1 = null;
                     for(Equipe _e : e)
                         if (_e.getId() == idequip){
@@ -879,8 +879,8 @@ public class InterfaceUser {
                 AffichPers(p);
                 System.out.println("Equipes : ");
                 AffichEquipe(e);
-                int Id = fr.teamKasAnd.Utils.InOut.getInt("entrez l ID du candidat : ");
-                String name = fr.teamKasAnd.Utils.InOut.getString("Entrez le nouveau nom : ");
+                int Id = xyz.teamkasand.Utils.InOut.getInt("entrez l ID du candidat : ");
+                String name = xyz.teamkasand.Utils.InOut.getString("Entrez le nouveau nom : ");
                 Candidat c = i.createEquipe("SetCandName");
                 c.modifNom(Id, name);
                 System.out.println("Succes");
@@ -905,8 +905,8 @@ public class InterfaceUser {
                 Set<Personne> p = i.getPersonnes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
-                int Id = fr.teamKasAnd.Utils.InOut.getInt("entrez l ID du candidat : ");
-                String name = fr.teamKasAnd.Utils.InOut.getString("Entrez le nouveau nom : ");
+                int Id = xyz.teamkasand.Utils.InOut.getInt("entrez l ID du candidat : ");
+                String name = xyz.teamkasand.Utils.InOut.getString("Entrez le nouveau nom : ");
                 Personne c = i.createPersonne("SetCandName","","");
                 c.modifPrenom(Id, name);
                 System.out.println("Succes");
@@ -931,10 +931,10 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
                 AffichComp(comp);
-                int id = fr.teamKasAnd.Utils.InOut.getInt("ID de la Competition : ");
-                int jour = fr.teamKasAnd.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
-                int mois = fr.teamKasAnd.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
-                int annee = fr.teamKasAnd.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
+                int id = xyz.teamkasand.Utils.InOut.getInt("ID de la Competition : ");
+                int jour = xyz.teamkasand.Utils.InOut.getInt("Jour de la date de cloture des inscriptions : ");
+                int mois = xyz.teamkasand.Utils.InOut.getInt("Mois(numero) de la date de cloture des inscriptions : ");
+                int annee = xyz.teamkasand.Utils.InOut.getInt("Annee de la date de cloture des inscriptions : ");
                 LocalDate dateClo = LocalDate.MAX;
                 boolean checkDate = false;
                 do
@@ -971,8 +971,8 @@ public class InterfaceUser {
                 Set<Personne> p = i.getPersonnes();
                 AffichPers(p);
                 Personne p1 = i.createPersonne("", "", "");
-                int id = fr.teamKasAnd.Utils.InOut.getInt("ID de la personne : ");
-                String mail = fr.teamKasAnd.Utils.InOut.getString("Nouveau Mail : ");
+                int id = xyz.teamkasand.Utils.InOut.getInt("ID de la personne : ");
+                String mail = xyz.teamkasand.Utils.InOut.getString("Nouveau Mail : ");
                 p1.modifMail(id, mail);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
@@ -996,8 +996,8 @@ public class InterfaceUser {
                 Set<Competition> comp = i.getCompetitions();
                 Competition c = i.createCompetition("Modif Date", LocalDate.MAX, true);
                 AffichComp(comp);
-                int id = fr.teamKasAnd.Utils.InOut.getInt("ID de la Competition : ");
-                String name = fr.teamKasAnd.Utils.InOut.getString("Nouveau Nom :");
+                int id = xyz.teamkasand.Utils.InOut.getInt("ID de la Competition : ");
+                String name = xyz.teamkasand.Utils.InOut.getString("Nouveau Nom :");
                 c.modifNom(id, name);
                 Menu rechCand = new Menu("");
                 rechCand.ajouteRevenir("r");

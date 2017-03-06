@@ -1,8 +1,8 @@
-package fr.teamKasAnd.Utils.CommandsLigne.Exemples;
+package xyz.teamkasand.Utils.CommandsLigne.Exemples;
 
-import fr.teamKasAnd.Utils.CommandsLigne.Action;
-import fr.teamKasAnd.Utils.CommandsLigne.Menu;
-import fr.teamKasAnd.Utils.CommandsLigne.Option;
+import xyz.teamkasand.Utils.CommandsLigne.Action;
+import xyz.teamkasand.Utils.CommandsLigne.Menu;
+import xyz.teamkasand.Utils.CommandsLigne.Option;
 
 class ExempleMenus
 {
@@ -24,8 +24,8 @@ class ExempleMenus
 			// Méthode exécutée lorsque l'option calculatrice est sélectionnée.
 			public void optionSelectionnee()
 			{
-				int a = fr.teamKasAnd.Utils.InOut.getInt("Saisissez la première opérande : "),
-						b = fr.teamKasAnd.Utils.InOut.getInt("Saisissez la deuxième opérande : ");
+				int a = xyz.teamkasand.Utils.InOut.getInt("Saisissez la première opérande : "),
+						b = xyz.teamkasand.Utils.InOut.getInt("Saisissez la deuxième opérande : ");
 				System.out.println("" + a + " + " + b + " = " + (a+b));
 			}
 		});
