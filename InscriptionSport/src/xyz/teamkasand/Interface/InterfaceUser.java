@@ -39,7 +39,7 @@ public class InterfaceUser {
     {
         Inscriptions i = Inscriptions.getInscriptions();
         p = i.getPersonnes();
-        for(int incr = 0;incr<p.size();incr++)
+        for(int incr = 0;incr<=p.size();incr++)
         {
             System.out.println ("ID : "+p.get(incr).getId()+" Nom : "+p.get(incr).getNom());
             incr=+1;
