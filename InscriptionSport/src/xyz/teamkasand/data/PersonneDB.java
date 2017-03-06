@@ -41,24 +41,24 @@ public class PersonneDB {
     }
     
     public boolean CreatePersonne(String nom, String prenom, String mail){
-                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-                            //BDD
-                if (ms.connect()) {
-                    try {
-                    ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT FROM `candidat` WHERE CANDIDAT.Nom = \""+nom+"\"");
-                    if (rs.next()) {
-                        return false;
-                    }else{
-                        ms.exec("call creatPers('"+nom+",'"+prenom+"','"+mail+"')");
-                        return true;
-                    }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    return false;
-                }
-                ms.close();
+        MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+                    //BDD
+        if (ms.connect()) {
+            try {
+            ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT FROM `candidat` WHERE CANDIDAT.Nom = \""+nom+"\"");
+            if (rs.next()) {
+                return false;
+            }else{
+                ms.exec("call creatPers('"+nom+",'"+prenom+"','"+mail+"')");
+                return true;
+            }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
             return false;
+        }
+        ms.close();
+        return false;
     }
 }
