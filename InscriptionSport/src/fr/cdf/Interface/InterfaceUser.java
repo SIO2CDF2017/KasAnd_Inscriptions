@@ -1,5 +1,10 @@
-package fr.cdf;
+package fr.cdf.Interface;
 
+import fr.cdf.Candidat;
+import fr.cdf.Competition;
+import fr.cdf.Equipe;
+import fr.cdf.Inscriptions;
+import fr.cdf.Personne;
 import fr.cdf.Utils.CommandsLigne.Action;
 import fr.cdf.Utils.CommandsLigne.Option;
 import fr.cdf.Utils.CommandsLigne.Menu;

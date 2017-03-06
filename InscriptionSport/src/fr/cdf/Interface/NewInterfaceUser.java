@@ -1,4 +1,4 @@
-package fr.cdf;
+package fr.cdf.Interface;
 
 import fr.cdf.Utils.CommandsLigne.Menu;
 
