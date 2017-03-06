@@ -11,8 +11,6 @@ import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  *
@@ -23,9 +21,6 @@ public class EquipeDB {
     private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
     private static final String MYSQL_USER = "root";
     private static final String MYSQL_PSW = "";
-    private int id;
-    private String nom;
-    private SortedSet<Personne> membres = new TreeSet<>();
     
     public ArrayList<Equipe> getEquipes(){
         MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);

@@ -470,4 +470,8 @@ public class Inscriptions implements Serializable
 			System.out.println("Sauvegarde impossible." + e);
 		}
 	} */
+
+    public Personne createPersonne(String nString, int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
