@@ -9,11 +9,8 @@ package fr.cdf.data;
 import fr.cdf.Equipe;
 import fr.cdf.Inscriptions;
 import fr.cdf.Personne;
-import fr.cdf.data.MySQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
