@@ -28,7 +28,8 @@ public class PersonneDB {
             ms.connect();
             ResultSet rs = ms.execSelect("call getPers()");
             while (rs.next()) {
-                Personne p = i.createPersonne(rs.getNString("nom"), rs.getNString("prenom"), rs.getNString("mail"), rs.getInt("ID"));
+                Personne p = i.createPersonne(rs.getString("nom"), rs.getString("prenom"), rs.getString("mail"), rs.getInt("ID"));
+                //System.out.println(p.getNom()+" "+p.getPrenom());
                 personnes.add(p);
             }
         } catch (Exception e) {
@@ -60,5 +61,9 @@ public class PersonneDB {
         }
         ms.close();
         return false;
+    }
+    
+    public static void main(String[] args){
+        getPersonnes();
     }
 }
