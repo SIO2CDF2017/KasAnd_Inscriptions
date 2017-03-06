@@ -20,8 +20,8 @@ public class PersonneDB {
     private static final String MYSQL_USER = "root";
     private static final String MYSQL_PSW = "";
     
-    public ArrayList<Personne> getPersonnes(){
-                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+    public static ArrayList<Personne> getPersonnes(){
+        MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
         Inscriptions i = Inscriptions.getInscriptions(); 
         ArrayList<Personne> personnes = null;
         try {
@@ -40,8 +40,8 @@ public class PersonneDB {
         return personnes;
     }
     
-    public boolean CreatePersonne(String nom, String prenom, String mail){
-        MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+    public static boolean CreatePersonne(String nom, String prenom, String mail){
+        MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
                     //BDD
         if (ms.connect()) {
             try {
