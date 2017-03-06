@@ -1,5 +1,6 @@
 package fr.cdf;
 
+import fr.cdf.data.MySQL;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -276,7 +277,7 @@ public class Inscriptions implements Serializable
                             //BDD
                 if (ms.connect()) {
                     try {
-                    ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, EQUIPE WHERE CANDIDAT.idCandidat = EQUIPE.idCandidat AND CANDIDAT.Nom = \""+nom+"\"");
+                    ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT FROM `candidat` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = \""+nom+"\"");
                     if (rs.next()) {
                         return false;
                     }else{

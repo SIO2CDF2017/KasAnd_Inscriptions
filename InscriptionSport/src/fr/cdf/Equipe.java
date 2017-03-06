@@ -1,5 +1,6 @@
 package fr.cdf;
 
+import fr.cdf.data.MySQL;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.LinkedHashSet;
