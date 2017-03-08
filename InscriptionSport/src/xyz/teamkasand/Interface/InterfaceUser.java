@@ -35,14 +35,15 @@ public class InterfaceUser {
        } 
     }
     
-    static void AffichPers(ArrayList<Personne> p)
+    static void AffichPers(Set<Personne> p)
     {
-        Inscriptions i = Inscriptions.getInscriptions();
-        p = i.getPersonnes();
-        for(int incr = 0;incr<=p.size();incr++)
-        {
-            System.out.println ("ID : "+p.get(incr).getId()+" Nom : "+p.get(incr).getNom());
-            incr=+1;
+       Inscriptions i = Inscriptions.getInscriptions();
+       Set<Integer> ide = i.getIdPers();
+       Iterator iterE = p.iterator();
+       Iterator iterIde = ide.iterator();
+       while(iterE.hasNext() && iterIde.hasNext())
+       {
+            System.out.println ("ID : "+iterIde.next()+" Nom : "+iterE.next());
         }
     }
     
@@ -116,7 +117,7 @@ public class InterfaceUser {
             public void optionSelectionnee() {
                 Inscriptions i = Inscriptions.getInscriptions();
                 Set<Candidat>  c1 = i.getCandidats();
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 AffichPers(p);
                 AffichEquipe(e);
@@ -141,7 +142,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
@@ -185,7 +186,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions(); 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 AffichPers(p);
                 Menu rechCand = new Menu("Recherche de Personnes : ");
                 rechCand.ajouteRevenir("r");
@@ -309,7 +310,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();                 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
@@ -359,7 +360,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();                 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
@@ -607,7 +608,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
@@ -634,7 +635,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();                 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Competition> c = i.getCompetitions();
                 
                 AffichPers(p);
@@ -780,7 +781,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();                 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 
                 AffichPers(p);
@@ -873,7 +874,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 Set<Equipe> e = i.getEquipes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
@@ -902,7 +903,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions();
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 System.out.println("Personnes : ");
                 AffichPers(p);
                 int Id =  InOut.getInt("entrez l ID du candidat : ");
@@ -968,7 +969,7 @@ public class InterfaceUser {
             public void optionSelectionnee()
             {
                 Inscriptions i = Inscriptions.getInscriptions(); 
-                ArrayList<Personne> p = i.getPersonnes();
+                Set<Personne> p = i.getPersonnes();
                 AffichPers(p);
                 Personne p1 = i.createPersonne("", "", "");
                 int id =  InOut.getInt("ID de la personne : ");

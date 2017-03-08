@@ -23,7 +23,7 @@ public class PersonneDB {
     public static ArrayList<Personne> getPersonnes(){
         MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
         Inscriptions i = Inscriptions.getInscriptions(); 
-        ArrayList<Personne> personnes = null;
+        ArrayList<Personne> personnes = new ArrayList<>();
         try {
             ms.connect();
             ResultSet rs = ms.execSelect("call getPers()");
@@ -61,9 +61,5 @@ public class PersonneDB {
         }
         ms.close();
         return false;
-    }
-    
-    public static void main(String[] args){
-        getPersonnes();
     }
 }

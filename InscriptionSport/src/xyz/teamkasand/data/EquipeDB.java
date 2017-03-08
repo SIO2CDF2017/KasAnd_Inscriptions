@@ -22,10 +22,10 @@ public class EquipeDB {
     private static final String MYSQL_USER = "root";
     private static final String MYSQL_PSW = "";
     
-    public ArrayList<Equipe> getEquipes(){
-        MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+    public static ArrayList<Equipe> getEquipes(){
+        MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
         Inscriptions i = Inscriptions.getInscriptions(); 
-        ArrayList<Equipe> equipes = null;
+        ArrayList<Equipe> equipes = new ArrayList<>();
         try {
             ms.connect();
             ResultSet rs = ms.execSelect("call getEquipe()");
@@ -42,9 +42,9 @@ public class EquipeDB {
         return equipes;
     } 
     
-    public ArrayList<Personne> getMembres(){
-        MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-        ArrayList<Personne> membres = null;
+    public static ArrayList<Personne> getMembres(){
+        MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+        ArrayList<Personne> membres = new ArrayList<>();
         try {
             ms.connect();
             
@@ -62,8 +62,8 @@ public class EquipeDB {
         return membres;
     }
    
-    public boolean createEquipe(String nom){
-        MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+    public static boolean createEquipe(String nom){
+        MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
                             //BDD
                 if (ms.connect()) {
                     try {

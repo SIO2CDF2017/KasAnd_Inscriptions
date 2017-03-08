@@ -10,12 +10,10 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import xyz.teamkasand.data.PersonneDB;
 
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
@@ -116,10 +114,23 @@ public class Inscriptions implements Serializable
             return Collections.unmodifiableSet(idpers);
         }
 	
-	public ArrayList<Personne> getPersonnes()
-	{       
-            return PersonneDB.getPersonnes();
-            
+	public Set<Personne> getPersonnes()
+	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		Set<Personne> personnes = new LinkedHashSet<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getPers();");
+                    while (r.next()) {                        
+                        Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"), r.getInt("ID"));
+                        
+                        personnes.add(p);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
+		return Collections.unmodifiableSet(personnes);
 	}
 
 	/**
