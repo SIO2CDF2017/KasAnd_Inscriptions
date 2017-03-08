@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import xyz.teamkasand.Interface.frame.Frame;
 import xyz.teamkasand.Utils.*;
 import xyz.teamkasand.Utils.InOut;
 import xyz.teamkasand.Utils.CommandsLigne.*;
@@ -1028,7 +1029,11 @@ public class InterfaceUser {
     }
     public static void main(String[] args)
     {
-        Menu m = MenuP();
-        m.start();
+        
+       Frame f = new Frame();
+       f.repaint();
+       
+       Menu m = MenuP();
+       m.start();
     }
 }

@@ -47,9 +47,9 @@ public class NewInterfaceUser {
         MenuP.ajouteQuitter("q");
         return MenuP;
     }
-    public static void main(String []args){
+   // public static void main(String []args){
         
-        Menu m = menuPrincipal();
-        m.start();
-    }
+   //     Menu m = menuPrincipal();
+   //     m.start();
+   // }
 }
