@@ -7,22 +7,17 @@ package xyz.teamkasand.Interface.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.text.JTextComponent;
 import xyz.teamkasand.Inscriptions;
 
 /**
@@ -34,10 +29,10 @@ public class Frame extends JFrame{
     private Inscriptions i;
     private final JPanel p,footer;
     private final Content c;
-    private final JLabel footext;
+    private JLabel footext;
     private final JMenuBar mb;
-    //private final JMenu m;
     private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
+    private String page = null;
     
     public Frame(){
         //this.i = i;
@@ -116,13 +111,40 @@ public class Frame extends JFrame{
             
         });
         this.setJMenuBar(mb);
+    
+
         
     }
+    public String getPage(){
+        return this.page;
+    }
+
+    public void setPage(String p){
+        this.page = p;
+    } 
     
     private class Content extends JPanel{
         
+        @Override
+        public void paintComponent(Graphics g){
+            if(page == null) setPage("home");
+            switch(getPage()){
+                case "home":
+                    g.drawString("Home", 10, 20);
+                    break;
+                case "pers":
+                    g.drawString("Pers", 10, 20);
+                    break;
+                case "equipe":
+                    g.drawString("Equipe", 10, 20);
+                    break;
+                case "comp":
+                    g.drawString("Comp", 10, 20);
+                    break;
+            }   
+        }
     }
-    
+
     private class BtnListener implements ActionListener{
 
         @Override
@@ -130,12 +152,20 @@ public class Frame extends JFrame{
             try {
                 switch(e.getActionCommand()){
                     case "a":
+                        setPage("home");
+                        c.repaint();
                         break;
                     case "p":
+                        setPage("pers");
+                        c.repaint();
                         break;
                     case "e":
+                        setPage("equipe");
+                        c.repaint();
                         break;
                     case "c":
+                        setPage("comp");
+                        c.repaint();
                         break;
                     case "q":
                         if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
