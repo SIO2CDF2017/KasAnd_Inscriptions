@@ -15,6 +15,9 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import xyz.teamkasand.Inscriptions;
@@ -26,10 +29,12 @@ import xyz.teamkasand.Inscriptions;
 public class Frame extends JFrame{
     
     private Inscriptions i;
-    private final JPanel p,footer, mb;
+    private final JPanel p,footer;
     private final Content c;
     private JLabel footext;
-    private final JButton btn_home, btn_pers, btn_equip, btn_comp, btn_quit;
+    private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
+    private JMenuBar mb;
+    private JMenu m;
     private String page = null;
     
     public Frame(){
@@ -44,32 +49,32 @@ public class Frame extends JFrame{
         
         this.c = new Content();
         
-        this.btn_quit = new JButton("Quitter");
-        this.btn_quit.setActionCommand("q");
-        this.btn_quit.addActionListener(b);
+        this.mi_quit = new JMenuItem("Quitter");
+        this.mi_quit.setActionCommand("q");
+        this.mi_quit.addActionListener(b);
         
-        this.btn_home = new JButton("Home");
-        this.btn_home.setActionCommand("a");
-        this.btn_home.addActionListener(b);
+        this.mi_home = new JMenuItem("Home");
+        this.mi_home.setActionCommand("a");
+        this.mi_home.addActionListener(b);
 
-        this.btn_pers = new JButton("Personne");
-        this.btn_pers.setActionCommand("p");
-        this.btn_pers.addActionListener(b);
+        this.mi_pers = new JMenuItem("Personne");
+        this.mi_pers.setActionCommand("p");
+        this.mi_pers.addActionListener(b);
 
-        this.btn_equip = new JButton("Equipe");
-        this.btn_equip.setActionCommand("e");
-        this.btn_equip.addActionListener(b);
+        this.mi_equip = new JMenuItem("Equipe");
+        this.mi_equip.setActionCommand("e");
+        this.mi_equip.addActionListener(b);
 
-        this.btn_comp = new JButton("Competition");
-        this.btn_comp.setActionCommand("c");
-        this.btn_comp.addActionListener(b);        
+        this.mi_comp = new JMenuItem("Competition");
+        this.mi_comp.setActionCommand("c");
+        this.mi_comp.addActionListener(b);        
         
-        this.mb = new JPanel();
-        this.mb.add(btn_home);
-        this.mb.add(btn_pers);
-        this.mb.add(btn_equip);
-        this.mb.add(btn_comp);
-        this.mb.add(btn_quit);
+        this.mb = new JMenuBar();
+        this.mb.add(mi_home);
+        this.mb.add(mi_pers);
+        this.mb.add(mi_equip);
+        this.mb.add(mi_comp);
+        this.mb.add(mi_quit);
       
         
         this.p = new JPanel();
@@ -110,7 +115,7 @@ public class Frame extends JFrame{
             }
             
         });
-    
+         this.setJMenuBar(mb);
 
         
     }
@@ -126,9 +131,9 @@ public class Frame extends JFrame{
         
         @Override
         public void paintComponent(Graphics g){
-            if(page == null) setPage("home");
+           if(page == null) setPage("home");
             switch(getPage()){
-                case "home":
+                case "home": 
                     g.drawString("Home", 10, 20);
                     break;
                 case "pers":
@@ -152,21 +157,19 @@ public class Frame extends JFrame{
                 switch(e.getActionCommand()){
                     case "a":
                         setPage("home");
+                        p.repaint();
                         break;
                     case "p":
                         setPage("pers");
-                        mb.repaint();
-                        c.repaint();
+                        p.repaint();
                         break;
                     case "e":
                         setPage("equipe");
-                        mb.repaint();
-                        c.repaint();
+                        p.repaint();
                         break;
                     case "c":
                         setPage("comp");
-                        mb.repaint();
-                        c.repaint();
+                        p.repaint();
                         break;
                     case "q":
                         if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
