@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,14 +30,13 @@ public class Frame extends JFrame{
     private Inscriptions i;
     private final JPanel p,footer;
     private final Content c;
-    private JLabel footext;
+    private final JLabel footext;
     private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
-    private JMenuBar mb;
-    private JMenu m;
+    private final JMenuBar mb;
     private String page = null;
     
-    public Frame(){
-        //this.i = i;
+    public Frame(Inscriptions i){
+        this.i = i;
         BtnListener b = new BtnListener();
         Dimension d = new Dimension(600, 600);
         

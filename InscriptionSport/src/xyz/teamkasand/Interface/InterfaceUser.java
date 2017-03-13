@@ -1029,8 +1029,9 @@ public class InterfaceUser {
     }
     public static void main(String[] args)
     {
-        
-       Frame f = new Frame();
+       
+       Inscriptions i = new Inscriptions(); 
+       Frame f = new Frame(i);
        f.repaint();
        
        Menu m = MenuP();
