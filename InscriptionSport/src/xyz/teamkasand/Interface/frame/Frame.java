@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -77,13 +76,11 @@ public class Frame extends JFrame{
         
         this.p = new JPanel();
         this.p.setLayout(new BorderLayout());
-        this.p.add(this.mb, BorderLayout.NORTH);
         this.p.add(this.c, BorderLayout.CENTER);
         this.p.add(this.footer, BorderLayout.SOUTH);
         
 
-        
-        
+       
         this.setTitle("Inscriptions");
         this.setSize(d);
         this.setResizable(false);
@@ -132,16 +129,20 @@ public class Frame extends JFrame{
            if(page == null) setPage("home");
             switch(getPage()){
                 case "home": 
-                    g.drawString("Home", 10, 20);
+                     HomeFrame h = new HomeFrame();
+                     h.paintComponent(g);
                     break;
                 case "pers":
-                    g.drawString("Pers", 10, 20);
+                    PersFrame persFrame = new PersFrame();
+                    persFrame.paintComponent(g);
                     break;
                 case "equipe":
-                    g.drawString("Equipe", 10, 20);
+                    EquipFrame equipFrame = new EquipFrame();
+                    equipFrame.paintComponent(g);
                     break;
                 case "comp":
-                    g.drawString("Comp", 10, 20);
+                    CompFrame compFrame = new CompFrame();
+                    compFrame.paintComponent(g);
                     break;
             }   
         }
