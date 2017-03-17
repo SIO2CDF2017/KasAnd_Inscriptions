@@ -33,11 +33,12 @@ public class Frame extends JFrame{
     private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
     private final JMenuBar mb;
     private String page = null;
+    private Dimension d = new Dimension(600, 600);
     
     public Frame(Inscriptions i){
         this.i = i;
         BtnListener b = new BtnListener();
-        Dimension d = new Dimension(600, 600);
+        
         
         this.footext = new JLabel("par : Alexandre SANDOLO et Victor KASPERSKI");
         
@@ -82,7 +83,7 @@ public class Frame extends JFrame{
 
        
         this.setTitle("Inscriptions");
-        this.setSize(d);
+        this.setSize(this.d);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setContentPane(this.p);
@@ -133,8 +134,8 @@ public class Frame extends JFrame{
                      h.paintComponent(g);
                     break;
                 case "pers":
-                    PersFrame persFrame = new PersFrame();
-                    persFrame.paintComponent(g);
+                    PersFrame persFrame = new PersFrame(i);
+                    persFrame.setVisible(true);
                     break;
                 case "equipe":
                     EquipFrame equipFrame = new EquipFrame();
@@ -159,8 +160,14 @@ public class Frame extends JFrame{
                         p.repaint();
                         break;
                     case "p":
-                        setPage("pers");
-                        p.repaint();
+                        //setPage("pers");
+                        //p.repaint();
+                        PersFrame pf = new PersFrame(i);
+                        pf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                        pf.setSize(d);
+                        pf.setLocationRelativeTo(null);
+                        pf.setResizable(false);
+                        pf.setVisible(true);
                         break;
                     case "e":
                         setPage("equipe");
