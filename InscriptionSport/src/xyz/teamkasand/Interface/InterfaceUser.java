@@ -50,13 +50,14 @@ public class InterfaceUser {
     
     static void AffichComp(Set<Competition> comp)
     {
-        Inscriptions i = Inscriptions.getInscriptions();
-        Set<Integer> in = i.getIDComp();
+       /* Inscriptions i = Inscriptions.getInscriptions();
+        Set<Integer> in = i.getIDComp();*/
         Iterator iterP = comp.iterator();
-        Iterator iterIn = in.iterator();
-        while(iterP.hasNext() && iterIn.hasNext())
+        //Iterator iterIn = in.iterator();
+        while(iterP.hasNext())// && iterIn.hasNext())
         {
-            System.out.println ("ID : "+iterIn.next()+" Nom : "+iterP.next());
+            Competition c = (Competition)iterP.next();
+            System.out.println ("ID : "+c.getId()+" Nom : "+c);
         }
     }
     
@@ -1027,10 +1028,11 @@ public class InterfaceUser {
         menuPrincipal.ajouteQuitter("q");
         return menuPrincipal;
     }
+    
     public static void main(String[] args)
     {
        
-       Inscriptions i = new Inscriptions(); 
+       Inscriptions i = Inscriptions.getInscriptions(); 
        Frame f = new Frame(i);
        f.repaint();
        

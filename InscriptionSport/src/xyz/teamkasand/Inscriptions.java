@@ -82,7 +82,28 @@ public class Inscriptions implements Serializable
                 
 		return Collections.unmodifiableSet(competitions);
 	}
-	
+
+	public ArrayList<Competition> getCompetitionsInArray()
+	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		ArrayList<Competition> competitions = new ArrayList<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getComp();");
+                    while (r.next()) {                        
+                        Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"), r.getInt("idCompetition"));
+                        
+                        competitions.add(c);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
+                
+		return competitions;
+	}
+        
+        
 	/**
 	 * Retourne tous les candidats (personnes et équipes confondues).
 	 * @return
@@ -134,17 +155,23 @@ public class Inscriptions implements Serializable
 		return Collections.unmodifiableSet(personnes);
 	}
         
-        	public ArrayList<Personne> getPersonnesInArray()
+        public ArrayList<Personne> getPersonnesInArray()
 	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<Personne> personnes = new ArrayList<>();
                 try {
                 ms.connect();
                 
                     ResultSet r = ms.execSelect("call getPers();");
-                    while (r.next()) {                        
-                        Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"), r.getInt("ID"));
+                    while (r.next()) {
+                        Personne p = inscriptions.createPersonne(
+                                r.getNString("nom"),
+                                r.getNString("prenom"),
+                                r.getNString("mail"),
+                                r.getInt("ID"));
+                        if(p != null){
+                          personnes.add(p);  
+                        }
                         
-                        personnes.add(p);
                     }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -194,6 +221,27 @@ public class Inscriptions implements Serializable
 		return Collections.unmodifiableSet(equipes);
 	}
 
+
+	public ArrayList<Equipe> getEquipesInArray()
+	{
+                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		ArrayList<Equipe> equipes = new ArrayList<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call getEquipe();");
+                    while (r.next()) {                        
+                        Equipe e = inscriptions.createEquipe(r.getNString("nom"), r.getInt("id"));
+                        
+                        equipes.add(e);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();                
+		return equipes;
+	}        
+        
 	/**
 	 * Créée une compétition. Ceci est le seul moyen, il n'y a pas
 	 * de constructeur public dans {@link Competition}.

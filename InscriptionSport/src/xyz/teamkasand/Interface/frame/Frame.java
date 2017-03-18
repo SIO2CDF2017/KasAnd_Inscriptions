@@ -33,7 +33,7 @@ public class Frame extends JFrame{
     private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
     private final JMenuBar mb;
     private String page = null;
-    private Dimension d = new Dimension(600, 600);
+    private Dimension d = new Dimension(700, 700);
     
     public Frame(Inscriptions i){
         this.i = i;
@@ -88,7 +88,7 @@ public class Frame extends JFrame{
         this.setLocationRelativeTo(null);
         this.setContentPane(this.p);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowListener(){
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -106,8 +106,8 @@ public class Frame extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
-                       "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == 0)
-                System.exit(0); 
+                       "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    System.exit(0);
             }
             
         });
@@ -134,16 +134,16 @@ public class Frame extends JFrame{
                      h.paintComponent(g);
                     break;
                 case "pers":
-                    PersFrame persFrame = new PersFrame(i);
-                    persFrame.setVisible(true);
+                    //PersFrame persFrame = new PersFrame(i);
+                    //persFrame.setVisible(true);
                     break;
                 case "equipe":
-                    EquipFrame equipFrame = new EquipFrame();
-                    equipFrame.paintComponent(g);
+                   // EquipFrame equipFrame = new EquipFrame();
+                   // equipFrame.paintComponent(g);
                     break;
                 case "comp":
-                    CompFrame compFrame = new CompFrame();
-                    compFrame.paintComponent(g);
+                    //CompFrame compFrame = new CompFrame();
+                    //compFrame.paintComponent(g);
                     break;
             }   
         }
@@ -160,27 +160,36 @@ public class Frame extends JFrame{
                         p.repaint();
                         break;
                     case "p":
-                        //setPage("pers");
-                        //p.repaint();
                         PersFrame pf = new PersFrame(i);
                         pf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                        pf.setTitle("Personnes");
                         pf.setSize(d);
                         pf.setLocationRelativeTo(null);
                         pf.setResizable(false);
                         pf.setVisible(true);
                         break;
                     case "e":
-                        setPage("equipe");
-                        p.repaint();
+                        EquipFrame eq = new EquipFrame(i);
+                        eq.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                        eq.setTitle("Equipes");
+                        eq.setSize(d);
+                        eq.setLocationRelativeTo(null);
+                        eq.setResizable(false);
+                        eq.setVisible(true);
                         break;
                     case "c":
-                        setPage("comp");
-                        p.repaint();
+                        CompFrame co = new CompFrame(i);
+                        co.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                        co.setTitle("Competitions");
+                        co.setSize(d);
+                        co.setLocationRelativeTo(null);
+                        co.setResizable(false);
+                        co.setVisible(true);
                         break;
                     case "q":
                         if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
-                                "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == 0)
-                        System.exit(0);
+                                "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                            System.exit(0);
                        break;
                 }
             } catch (Exception ex) {
