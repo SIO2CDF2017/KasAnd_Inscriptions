@@ -7,7 +7,9 @@ package xyz.teamkasand.Interface.frame;
 
 import java.awt.Graphics;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,7 +33,7 @@ public class CompFrame extends JFrame {
         String[] header = {"#","Nom","Date de cloture","En equipe ?"};
         
         ArrayList<Competition> comp = i.getCompetitionsInArray();
-        SimpleDateFormat df = new SimpleDateFormat("dd/mm/YYYY");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY");
         
         Object[][] datas = new Object[comp.size()][];
         for (int j = 0 ; j<comp.size(); j++) {
@@ -42,7 +44,7 @@ public class CompFrame extends JFrame {
             datas[j] = new Object[4];
             datas[j][0] = c.getId();
             datas[j][1] = c.getNom();
-            datas[j][2] = df.format(c.getDateCloture());
+            datas[j][2] = df.format(Date.from(c.getDateCloture().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             datas[j][3] = c.estEnEquipe()?"Oui":"Non";
         }
         
