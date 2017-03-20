@@ -1,5 +1,8 @@
 package xyz.teamkasand;
 
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import xyz.teamkasand.data.MySQL;
 import java.util.Collections;
 import java.util.Set;
@@ -130,5 +133,24 @@ public class Personne extends Candidat
 	public String toString()
 	{
 		return super.toString() + /*" membre de " + equipes.toString()*/ " " + this.getPrenom();
+	}
+        
+        public ArrayList<String> getCompetitionsInArray(int id)                
+	{       
+                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		ArrayList<String> eq = new ArrayList<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
+                    while (r.next()) {                        
+                        eq.add(r.getNString("NomEquipe"));
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
+                
+		return eq;
 	}
 }

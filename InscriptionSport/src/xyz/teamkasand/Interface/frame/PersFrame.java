@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
 
@@ -27,7 +28,7 @@ public class PersFrame extends JFrame {
      public PersFrame(Inscriptions i){
          
          
-        String[] header = {"#","Nom","Prenom","Mail"};
+        String[] header = {"#","Nom","Prenom","Mail","Equipe(si incluse)"};
         
         ArrayList<Personne> pers = i.getPersonnesInArray();
          
@@ -35,11 +36,17 @@ public class PersFrame extends JFrame {
         for (int j = 0 ; j<pers.size(); j++) {
             Personne p = pers.get(j);
             
-            datas[j] = new Object[4];
+            datas[j] = new Object[5];
             datas[j][0] = p.getId();
             datas[j][1] = p.getNom();
             datas[j][2] = p.getPrenom();
             datas[j][3] = p.getMail();
+            String listPers;
+            for(Equipe e : p.getEquipes()){
+                if(p.getId()==e.getId()){
+                    
+                }
+            }
         }
         
         
