@@ -2,6 +2,7 @@ package xyz.teamkasand;
 
 import xyz.teamkasand.data.MySQL;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class Equipe extends Candidat
         private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
         private static final String MYSQL_USER = "root";
         private static final String MYSQL_PSW = "";
+        private Inscriptions inscriptions = new Inscriptions();
 	
 	Equipe(Inscriptions inscriptions, String nom)
 	{
@@ -155,5 +157,30 @@ public class Equipe extends Candidat
 	public String toString()
 	{
 		return "Equipe " + super.toString();
+	}
+        
+        public ArrayList<Personne> getMembresEquipe(int id)
+	{       MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		ArrayList<Personne> personnes = new ArrayList<>();
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call RetourPersonnEquipe("+id+")");
+                    while (r.next()) {
+                        Personne p = inscriptions.createPersonne(
+                                r.getNString("Nom"),
+                                r.getNString("Prenom"),
+                                r.getNString("Mail"),
+                                r.getInt("IdCandidat"));
+                        if(p != null){
+                          personnes.add(p);  
+                        }
+                        
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
+		return personnes;
 	}
 }
