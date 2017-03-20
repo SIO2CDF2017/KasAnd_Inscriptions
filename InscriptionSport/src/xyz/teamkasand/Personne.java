@@ -135,7 +135,7 @@ public class Personne extends Candidat
 		return super.toString() + /*" membre de " + equipes.toString()*/ " " + this.getPrenom();
 	}
         
-        public ArrayList<String> getCompetitionsInArray(int id)                
+        public ArrayList<String> NomEquipe(int id)                
 	{       
                 MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<String> eq = new ArrayList<>();
