@@ -52,6 +52,7 @@ public class PersFrame extends JFrame {
             else
                 listPers = "N'a aucune equipe";
             datas[j][4] = listPers;
+            
         }
         
         
@@ -84,13 +85,18 @@ public class PersFrame extends JFrame {
                 };
                 int j = JOptionPane.showConfirmDialog(th, ob,"Créer une personne",JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
-                    if(i.BDCreatePersonne(nom.getText(), prenom.getText(), mail.getText())){
-                        JOptionPane.showMessageDialog(th, "La personne à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
-                        th.dispose();
-                        th.setVisible(true);
+                    if(!nom.getText().isEmpty() || !prenom.getText().isEmpty() || !mail.getText().isEmpty() ){
+                        if(i.BDCreatePersonne(nom.getText(), prenom.getText(), mail.getText())){
+                            JOptionPane.showMessageDialog(th, "La personne à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            th.setVisible(true);
+                        }else{
+                            JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
                     }else{
-                        JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(th, "Erreur : Tous les champs doivent être remplie", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
+                    
                 }
             }
         });

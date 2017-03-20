@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Personne;
 
 /**
  *
@@ -31,7 +32,7 @@ public class EquipFrame extends JFrame {
     
     public EquipFrame(Inscriptions i){
         
-        String[] header = {"#","Nom"};
+        String[] header = {"#","Nom","membres"};
         JFrame th = this;
         
         ArrayList<Equipe> eq = i.getEquipesInArray();
@@ -40,9 +41,19 @@ public class EquipFrame extends JFrame {
         for (int j = 0 ; j<eq.size(); j++) {
             Equipe e = eq.get(j);
             
-            datas[j] = new Object[2];
+            datas[j] = new Object[3];
             datas[j][0] = e.getId();
             datas[j][1] = e.getNom();
+            String listMembreEq = " ";
+            ArrayList<Personne> checkPers = e.getMembresEquipe(e.getId());
+            if(!checkPers.isEmpty()){
+                for(Personne p : checkPers){
+                   listMembreEq = listMembreEq + p.getNom() + " " + p.getPrenom()+ ", ";
+                }
+            } else{
+                listMembreEq = "Equipe sans membre ";
+            }
+            datas[j][2] = listMembreEq;
         }
         
         JButton btn_retour = new JButton("Retour");
@@ -64,12 +75,17 @@ public class EquipFrame extends JFrame {
                 };
                 int j = JOptionPane.showConfirmDialog(th, ob, "Créée une équipe", JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
-                    if (i.BDCreateEquipe(nom.getText())) {
-                        JOptionPane.showMessageDialog(th, "L'équipe à bien été créé","OK",JOptionPane.INFORMATION_MESSAGE);
-                        th.dispose();
-                        th.setVisible(true);
-                    }else{
-                      JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    if(!nom.getText().isEmpty()){
+                        if (i.BDCreateEquipe(nom.getText())) {
+                            JOptionPane.showMessageDialog(th, "L'équipe à bien été créé","OK",JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            th.setVisible(true);
+                        }else{
+                            JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(th,"Erreur : Tous les champs doivent être remplie", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
