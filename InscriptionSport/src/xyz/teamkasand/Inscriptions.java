@@ -344,7 +344,7 @@ public class Inscriptions implements Serializable
                             //BDD
                 if (ms.connect()) {
                     try {
-                    ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT FROM `candidat` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = \""+nom+"\"");
+                    ResultSet  rs = ms.execSelect("SELECT * FROM `candidat` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
                     if (rs.next()) {
                         return false;
                     }else{

@@ -30,14 +30,11 @@ public class Frame extends JFrame{
     private final JPanel p,footer;
     private final Content c;
     private final JLabel footext;
-    public final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
+    private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
     private final JMenuBar mb;
     private String page = null;
-    private Dimension d = new Dimension(700, 700);
-    private Frame mainFrame;
-    
+    private Dimension d = new Dimension(700, 700);    
     public Frame(Inscriptions i){
-        this.mainFrame = this;
         this.i = i;
         BtnListener b = new BtnListener();
         
@@ -162,7 +159,7 @@ public class Frame extends JFrame{
                         p.repaint();
                         break;
                     case "p":
-                        PersFrame pf = new PersFrame(i, mainFrame);
+                        PersFrame pf = new PersFrame(i);
                         pf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                         pf.setTitle("Personnes");
                         pf.setSize(d);
