@@ -8,6 +8,7 @@ package xyz.teamkasand.Interface.frame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Clock;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +29,7 @@ public class PersFrame extends JFrame {
      public PersFrame(Inscriptions i){
          
          
-        String[] header = {"#","Nom","Prenom","Mail","Equipe(si incluse)"};
+        String[] header = {"#","Nom","Prenom","Mail","Equipe"};
         
         ArrayList<Personne> pers = i.getPersonnesInArray();
          
@@ -41,12 +42,16 @@ public class PersFrame extends JFrame {
             datas[j][1] = p.getNom();
             datas[j][2] = p.getPrenom();
             datas[j][3] = p.getMail();
-            String listPers;
-            for(Equipe e : p.getEquipes()){
-                if(p.getId()==e.getId()){
-                    
+            String listPers = "";
+            ArrayList<String> checkAppartenir = p.getNomEquipe(p.getId());
+            if(!checkAppartenir.isEmpty()){
+                for(String ca : checkAppartenir){
+                    listPers = listPers + " " + ca + ", ";
                 }
             }
+            else
+                listPers = "N'a aucune equipe";
+            datas[j][4] = listPers;
         }
         
         
