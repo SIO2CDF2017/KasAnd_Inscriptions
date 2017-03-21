@@ -26,7 +26,7 @@ import xyz.teamkasand.Personne;
  */
 public class PersFrame extends JFrame {
      private JScrollPane p;        
-     public PersFrame(Inscriptions i){
+     public PersFrame(Inscriptions i, Frame f){
          
          
         String[] header = {"#","Nom","Prenom","Mail","Equipe"};
@@ -89,7 +89,7 @@ public class PersFrame extends JFrame {
                         if(i.BDCreatePersonne(nom.getText(), prenom.getText(), mail.getText())){
                             JOptionPane.showMessageDialog(th, "La personne à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
                             th.dispose();
-                            th.setVisible(true);
+                            f.getm_pers().doClick();
                         }else{
                             JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }

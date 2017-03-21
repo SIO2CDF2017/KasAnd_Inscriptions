@@ -30,7 +30,7 @@ public class EquipFrame extends JFrame {
     
     private JScrollPane p;
     
-    public EquipFrame(Inscriptions i){
+    public EquipFrame(Inscriptions i, Frame f){
         
         String[] header = {"#","Nom","membres"};
         JFrame th = this;
@@ -79,7 +79,7 @@ public class EquipFrame extends JFrame {
                         if (i.BDCreateEquipe(nom.getText())) {
                             JOptionPane.showMessageDialog(th, "L'équipe à bien été créé","OK",JOptionPane.INFORMATION_MESSAGE);
                             th.dispose();
-                            th.setVisible(true);
+                            f.getm_equip().doClick();
                         }else{
                             JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }

@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -33,8 +34,10 @@ public class Frame extends JFrame{
     private final JMenuItem mi_home, mi_pers, mi_equip, mi_comp, mi_quit;
     private final JMenuBar mb;
     private String page = null;
-    private Dimension d = new Dimension(700, 700);    
+    private Dimension d = new Dimension(700, 700); 
+    private Frame f;
     public Frame(Inscriptions i){
+        this.f = this;
         this.i = i;
         BtnListener b = new BtnListener();
         
@@ -159,7 +162,7 @@ public class Frame extends JFrame{
                         p.repaint();
                         break;
                     case "p":
-                        PersFrame pf = new PersFrame(i);
+                        PersFrame pf = new PersFrame(i, f);
                         pf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                         pf.setTitle("Personnes");
                         pf.setSize(d);
@@ -168,7 +171,7 @@ public class Frame extends JFrame{
                         pf.setVisible(true);
                         break;
                     case "e":
-                        EquipFrame eq = new EquipFrame(i);
+                        EquipFrame eq = new EquipFrame(i, f);
                         eq.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                         eq.setTitle("Equipes");
                         eq.setSize(d);
@@ -177,7 +180,7 @@ public class Frame extends JFrame{
                         eq.setVisible(true);
                         break;
                     case "c":
-                        CompFrame co = new CompFrame(i);
+                        CompFrame co = new CompFrame(i, f);
                         co.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                         co.setTitle("Competitions");
                         co.setSize(d);
@@ -199,4 +202,19 @@ public class Frame extends JFrame{
     }
     
     
+    public JMenuItem getm_home(){
+        return this.mi_home;
+    }
+
+    public JMenuItem getm_comp(){
+        return this.mi_comp;
+    }
+        
+    public JMenuItem getm_equip(){
+        return this.mi_equip;
+    }
+    
+    public JMenuItem getm_pers(){
+        return this.mi_pers;
+    }
 }

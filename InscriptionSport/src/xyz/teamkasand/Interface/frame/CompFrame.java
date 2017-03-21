@@ -35,7 +35,7 @@ public class CompFrame extends JFrame {
     
     private JScrollPane p;
     
-    public CompFrame(Inscriptions i){
+    public CompFrame(Inscriptions i, Frame f){
         
         String[] header = {"#","Nom","Date de cloture","En equipe ?"};
         
@@ -97,7 +97,7 @@ public class CompFrame extends JFrame {
                             LocalDate date = LocalDate.of((int)anne.getValue(), (int)moi.getValue(), (int)jour.getValue());
                             if (i.BDCompetition(nom.getText(), date, ee)) {
                                 th.dispose();
-                                th.setVisible(true);
+                               f.getm_comp().doClick();
                             }
                         }
                     }else if (k == 1){    
