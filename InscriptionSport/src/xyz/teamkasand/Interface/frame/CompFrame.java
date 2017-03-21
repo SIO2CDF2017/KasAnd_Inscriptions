@@ -20,6 +20,7 @@ import javafx.util.converter.LocalDateStringConverter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -129,12 +130,42 @@ public class CompFrame extends JFrame {
             
         });
         
+            
+        JButton btn_sup = new JButton("Supprimé une Competition");
+        btn_sup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                
+                Object[] ob = {
+                    "Id de la competiton à suprimé",id
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une competition", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if(i.supComp((int)id.getValue())){
+                            JOptionPane.showMessageDialog(th, "La Competition à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            f.getm_comp().doClick();                      
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });    
+            
+            
          JTable table = new JTable(datas, header);
          table.setEnabled(false);
          
+         JPanel btn = new JPanel();
+         btn.setLayout(new BorderLayout());
+         btn.add(btn_create, BorderLayout.WEST);
+         btn.add(btn_sup, BorderLayout.EAST);
+         
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);
-        this.add(btn_create, BorderLayout.SOUTH);
+        this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
     } 
 }
