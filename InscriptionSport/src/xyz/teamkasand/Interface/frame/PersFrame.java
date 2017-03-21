@@ -67,6 +67,7 @@ public class PersFrame extends JFrame {
          JFrame th = this;
          
          JButton btn_create = new JButton("Créer une personne");
+         JButton btn_modif = new JButton("Modifier une personne");
          JButton btn_retour = new JButton("Retour");
          btn_retour.addActionListener(new ActionListener() {
             @Override
@@ -105,6 +106,59 @@ public class PersFrame extends JFrame {
                 }
             }
         });
+        
+        
+        btn_modif.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                Object[] ob = {
+                    "Id De la personne à modifier", id,
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if((int)id.getValue()>=0){
+                        String name,prename,email;
+                        ArrayList<Personne> cPers = i.getPersonnesInArray();
+                        boolean IdExist = false;
+                        for(Personne p : cPers){
+                            //TROUVER DANS LA BDD
+                            if((int)id.getValue()==p.getId()){
+                                name = p.getNom();
+                                prename = p.getPrenom();
+                                email = p.getMail();
+                                IdExist = true;
+                            }
+                        }
+                        if(IdExist){
+                        JTextField nom = new JTextField(/*CF BDD*/);
+                            JTextField prenom = new JTextField(/*CF BDD*/);
+                            JTextField mail = new JTextField(/*CF BDD*/);
+                            Object[] ob2 = {
+                                "Nom",nom,
+                                "Prenom",prenom,
+                                "Mail",mail,
+                            };
+                            if(i.BDCreatePersonne(nom.getText(), prenom.getText(), mail.getText())){
+                                JOptionPane.showMessageDialog(th, "La personne à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                th.dispose();
+                                f.getm_pers().doClick();
+                            }else{
+                                JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }
+            }
+        }); 
+         
          
         JButton btn_sup = new JButton("Supprimé une Personne");
         btn_sup.addActionListener(new ActionListener() {
