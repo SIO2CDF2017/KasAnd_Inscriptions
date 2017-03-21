@@ -6,6 +6,7 @@
 package xyz.teamkasand.Interface.frame;
 
 import java.awt.BorderLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -89,34 +90,43 @@ public class CompFrame extends JFrame {
                 
                 int j = JOptionPane.showConfirmDialog(th, ob1, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
-                    int k = JOptionPane.showConfirmDialog(th, "En equipe ? ", "En equipe ?", JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (k == 0) {
-                        ee = true;
+                    if(!nom.getText().isEmpty()){
+                        int k = JOptionPane.showConfirmDialog(th, "En equipe ? ", "En equipe ?", JOptionPane.YES_NO_CANCEL_OPTION);
+                        if (k == 0) 
+                            ee = true;
+                        else if (k == 1)
+                            ee = false;
                         int m = JOptionPane.showConfirmDialog(th, ob2, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
                         if (m == JOptionPane.OK_OPTION)  {
-                            LocalDate date = LocalDate.of((int)anne.getValue(), (int)moi.getValue(), (int)jour.getValue());
-                            if (i.BDCompetition(nom.getText(), date, ee)) {
-                                th.dispose();
-                               f.getm_comp().doClick();
+                            if((int)anne.getValue()>0 && (int)moi.getValue()>0 && (int)jour.getValue()>0){
+                                try {
+                                    LocalDate auj = LocalDate.now();
+                                    LocalDate date = LocalDate.of((int)anne.getValue(), (int)moi.getValue(), (int)jour.getValue());
+                                    if(date.isAfter(auj)){
+                                        if (i.BDCompetition(nom.getText(), date, ee)) {
+                                            th.dispose();
+                                            f.getm_comp().doClick();
+                                        }
+                                    }
+                                    else
+                                        JOptionPane.showMessageDialog(th, "Erreur : La date de cloture doit être supperieur à la date d'aujourd'hui.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                                catch(Exception ex){
+                                        JOptionPane.showMessageDialog(th, "Erreur : La date rentre est invalide.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    
+                                }
+                                
                             }
-                        }
-                    }else if (k == 1){    
-                     ee = false;
-                        int o = JOptionPane.showConfirmDialog(th, ob2, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
-                        if (o == JOptionPane.OK_OPTION)  {
-                            LocalDate date = LocalDate.of((int)anne.getValue(), (int)moi.getValue(), (int)jour.getValue());
-                            if (i.BDCompetition(nom.getText(), date, ee)) {
-                                JOptionPane.showMessageDialog(th, "La compet à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
-                                th.dispose();
-                                th.setVisible(true);
-                            }else{
-                                JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            }
+                            else
+                                JOptionPane.showMessageDialog(th, "Erreur : la valeur 0 pour le jour, le mois, ou l'année est impossible.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            
                         }
                     }
-                    
+                    else
+                        JOptionPane.showMessageDialog(th, "Erreur : aucun nom entre.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            
         });
         
          JTable table = new JTable(datas, header);
