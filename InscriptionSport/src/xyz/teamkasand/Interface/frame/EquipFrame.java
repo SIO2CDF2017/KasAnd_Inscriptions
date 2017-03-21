@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
@@ -95,9 +96,37 @@ public class EquipFrame extends JFrame {
          JTable table = new JTable(datas, header);
          table.setEnabled(false);
          
+        JButton btn_sup = new JButton("Supprimé une equipe");
+        btn_sup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                
+                Object[] ob = {
+                    "Id de l'Equipe à suprimé",id
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une Equipe", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if(i.supequip((int)id.getValue())){
+                            JOptionPane.showMessageDialog(th, "L'Equipe à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            f.getm_equip().doClick();                      
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+         
+         JPanel btn = new JPanel();
+         btn.setLayout(new BorderLayout());
+         btn.add(btn_add, BorderLayout.EAST);
+         btn.add(btn_sup, BorderLayout.WEST);
+         
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);
-        this.add(btn_add, BorderLayout.SOUTH);
+        this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
-    } 
+    }
 }

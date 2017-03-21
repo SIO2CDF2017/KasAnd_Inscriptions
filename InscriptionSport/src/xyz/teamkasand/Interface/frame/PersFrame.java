@@ -8,12 +8,16 @@ package xyz.teamkasand.Interface.frame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 import java.time.Clock;
 import java.util.ArrayList;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import xyz.teamkasand.Equipe;
@@ -52,6 +56,7 @@ public class PersFrame extends JFrame {
             else
                 listPers = "N'a aucune equipe";
             datas[j][4] = listPers;
+           
             
         }
         
@@ -81,7 +86,7 @@ public class PersFrame extends JFrame {
                 Object[] ob = {
                   "Nom",nom,
                   "Prenom",prenom,
-                  "Mail",mail
+                  "Mail",mail,
                 };
                 int j = JOptionPane.showConfirmDialog(th, ob,"Créer une personne",JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
@@ -101,10 +106,37 @@ public class PersFrame extends JFrame {
             }
         });
          
+        JButton btn_sup = new JButton("Supprimé une Personne");
+        btn_sup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                
+                Object[] ob = {
+                    "Id de la personne à suprimé",id
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une personne", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if(i.suppers((int)id.getValue())){
+                            JOptionPane.showMessageDialog(th, "La personne à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            f.getm_pers().doClick();                      
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+         
+         JPanel btn = new JPanel();
+         btn.setLayout(new BorderLayout());
+         btn.add(btn_create, BorderLayout.EAST);
+         btn.add(btn_sup, BorderLayout.WEST);
          
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);
-        this.add(btn_create, BorderLayout.SOUTH);
+        this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
     }
 }
