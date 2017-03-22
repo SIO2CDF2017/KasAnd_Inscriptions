@@ -119,11 +119,10 @@ public class PersFrame extends JFrame {
                 int j = JOptionPane.showConfirmDialog(th, ob,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
                     if((int)id.getValue()>=0){
-                        String name,prename,email;
+                        String name="",prename="",email = "";
                         ArrayList<Personne> cPers = i.getPersonnesInArray();
                         boolean IdExist = false;
                         for(Personne p : cPers){
-                            //TROUVER DANS LA BDD
                             if((int)id.getValue()==p.getId()){
                                 name = p.getNom();
                                 prename = p.getPrenom();
@@ -132,20 +131,33 @@ public class PersFrame extends JFrame {
                             }
                         }
                         if(IdExist){
-                        JTextField nom = new JTextField(/*CF BDD*/);
-                            JTextField prenom = new JTextField(/*CF BDD*/);
-                            JTextField mail = new JTextField(/*CF BDD*/);
+                            
+                            JTextField nom = new JTextField(name);
+                            JTextField prenom = new JTextField(prename);
+                            JTextField mail = new JTextField(email);
                             Object[] ob2 = {
                                 "Nom",nom,
                                 "Prenom",prenom,
                                 "Mail",mail,
                             };
-                            if(i.BDCreatePersonne(nom.getText(), prenom.getText(), mail.getText())){
-                                JOptionPane.showMessageDialog(th, "La personne à bien été créée", "OK", JOptionPane.INFORMATION_MESSAGE);
-                                th.dispose();
-                                f.getm_pers().doClick();
-                            }else{
-                                JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
+                            if(k == JOptionPane.OK_OPTION) {
+                                if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() &&  !mail.getText().isEmpty()){
+                                    Personne p = i.createPersonne(name, prename, email);
+                                    try{
+                                        p.modifNom((int)id.getValue(), nom.getText());
+                                        p.modifPrenom((int)id.getValue(), prenom.getText());
+                                        p.modifMail((int)id.getValue(), mail.getText());
+                                        JOptionPane.showMessageDialog(th, "La personne à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                        th.dispose();
+                                        f.getm_pers().doClick();
+                                    }
+                                    catch(Exception echecModif){             
+                                        JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
                         }
                         else{
@@ -186,6 +198,7 @@ public class PersFrame extends JFrame {
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_create, BorderLayout.EAST);
+         btn.add(btn_modif, BorderLayout.CENTER);
          btn.add(btn_sup, BorderLayout.WEST);
          
         this.setLayout(new BorderLayout());
