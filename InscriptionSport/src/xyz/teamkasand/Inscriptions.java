@@ -564,7 +564,23 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
                 return false;
             }
-        } 
+        }
+        
+        /**
+	 * Supprime la compétition de l'application.
+	 */
+	public boolean supComp(int id){
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            try {
+                ms.connect();
+                
+                ms.exec("call suprComp("+id+")");
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 
     public Personne createPersonne(String nString, int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

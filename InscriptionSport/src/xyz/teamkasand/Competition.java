@@ -356,20 +356,6 @@ public class Competition implements Comparable<Competition>, Serializable
 		candidat.remove(this);
 		return candidats.remove(candidat);
 	}
-	
-	/**
-	 * Supprime la compétition de l'application.
-	 */
-	public void supComp(int id){
-            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
-            try {
-                ms.connect();
-                
-                ms.exec("call suprComp("+id+")");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         
 	public void delete()
 	{
