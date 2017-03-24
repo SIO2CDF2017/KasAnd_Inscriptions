@@ -92,6 +92,64 @@ public class EquipFrame extends JFrame {
             }
         });
         
+            
+            JButton btn_modif = new JButton("Modifier le nom d'une équipe");
+            btn_modif.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                Object[] ob = {
+                    "Id De l'équipe à modifier", id,
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier le nom d'une équipe",JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if((int)id.getValue()>=0){
+                        String name="" ;
+                        ArrayList<Equipe> cPers = i.getEquipesInArray();
+                        boolean IdExist = false;
+                        for(Equipe eq : cPers){
+                            if((int)id.getValue()==eq.getId()){
+                                name = eq.getNom();
+
+                                IdExist = true;
+                            }
+                        }
+                        if(IdExist){
+                            
+                            JTextField nom = new JTextField(name);
+                            Object[] ob2 = {
+                                "Nom",nom,
+                            };
+                            int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier le nom d'une équipe",JOptionPane.OK_CANCEL_OPTION);
+                            if(k == JOptionPane.OK_OPTION) {
+                                if(!nom.getText().isEmpty()){
+                                    Equipe eq = i.createEquipe(name);
+                                    try{
+                                        eq.modifNom((int)id.getValue(), nom.getText());
+                                        JOptionPane.showMessageDialog(th, "L'équipe à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                        th.dispose();
+                                        f.getm_equip().doClick();
+                                    }
+                                    catch(Exception echecModif){             
+                                        JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }
+            }
+        });
+        
         
          JTable table = new JTable(datas, header);
          table.setEnabled(false);
@@ -122,6 +180,7 @@ public class EquipFrame extends JFrame {
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_add, BorderLayout.EAST);
+         btn.add(btn_modif,BorderLayout.CENTER);
          btn.add(btn_sup, BorderLayout.WEST);
          
         this.setLayout(new BorderLayout());
