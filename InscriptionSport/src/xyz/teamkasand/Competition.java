@@ -173,7 +173,7 @@ public class Competition implements Comparable<Competition>, Serializable
 	 */
 	public boolean modifDateCloture(int id, LocalDate DateC){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
-             if (DateC.isAfter(this.dateCloture) || DateC.isBefore(ajd)) { 
+             if (DateC.isBefore(this.dateCloture)){ 
                  return false; 
              }else{
                  if(ms.connect()){
