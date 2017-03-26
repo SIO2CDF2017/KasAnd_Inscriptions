@@ -65,7 +65,7 @@ public class Competition implements Comparable<Competition>, Serializable
             try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT INSCRIRE.IdCompetition As id FROM INSCRIRE WHERE IdCandidat = "+id+"");
+                ResultSet rs = ms.execSelect("SELECT inscrire.IdCompetition As id FROM INSCRIRE WHERE IdCandidat = "+id+"");
                 while (rs.next()) {                    
                     ids.add(rs.getInt("id"));
                 }
@@ -237,7 +237,7 @@ public class Competition implements Comparable<Competition>, Serializable
             
             if (ms.connect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM INSCRIRE WHERE IdCandidat = "+p.getId()+" AND IdCompetition = "+this.getId()+"");
+                    ResultSet rs = ms.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+p.getId()+" AND IdCompetition = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{
@@ -260,7 +260,7 @@ public class Competition implements Comparable<Competition>, Serializable
             
             if (ms.connect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM INSCRIRE WHERE IdCandidat = "+e.getId()+" AND IdCompetition = "+this.getId()+"");
+                    ResultSet rs = ms.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+e.getId()+" AND IdCompetition = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{

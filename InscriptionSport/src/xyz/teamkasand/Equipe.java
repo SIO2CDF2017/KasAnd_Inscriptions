@@ -47,7 +47,7 @@ public class Equipe extends Candidat
              try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT IdCandidatEquipe As id FROM APPARTENIR WHERE IdCandidatPersonne = "+id+" ");
+                ResultSet rs = ms.execSelect("SELECT IdCandidatEquipe As id FROM appartenir WHERE IdCandidatPersonne = "+id+" ");
                  while (rs.next()) {                     
                      ids.add(rs.getInt("id"));
                  }
@@ -64,7 +64,7 @@ public class Equipe extends Candidat
             try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT Nom FROM CANDIDAT, APPARTENIR WHERE CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND CANDIDAT.IdCandidat = APPARTENIR.IdCandidatEquipe AND APPARTENIR.IdCandidatPersonne = "+id+"");
+                ResultSet rs = ms.execSelect("SELECT Nom FROM CANDIDAT, appartenir WHERE CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND appartenir.IdCandidatPersonne = "+id+"");
                 while (rs.next()) {                    
                     noms.add(rs.getNString("Nom"));
                 }
@@ -94,7 +94,7 @@ public class Equipe extends Candidat
             
             if (ms.connect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM APPARTENIR WHERE IdCandidatPersonne = "+p.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
+                    ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+p.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{
