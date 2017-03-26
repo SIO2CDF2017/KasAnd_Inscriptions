@@ -122,7 +122,8 @@ public class Equipe extends Candidat
 	 * @param membre
 	 * @return
 	 */
-	
+
+        
         public boolean supPers(Personne membre){
             MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             Personne p = membre;

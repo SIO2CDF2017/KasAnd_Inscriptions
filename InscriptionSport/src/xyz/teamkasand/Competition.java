@@ -253,6 +253,7 @@ public class Competition implements Comparable<Competition>, Serializable
             ms.close();
             return false;            
         }
+ 
         
 	public boolean addBD(Equipe equipe){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
