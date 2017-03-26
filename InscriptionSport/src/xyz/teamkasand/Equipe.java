@@ -20,9 +20,9 @@ public class Equipe extends Candidat
 {
 	private static final long serialVersionUID = 4147819927233466035L;
 	private SortedSet<Personne> membres = new TreeSet<>();
-        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
-        private static final String MYSQL_USER = "root";
-        private static final String MYSQL_PSW = "";
+        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
+        private static final String MYSQL_USER = "ins";
+        private static final String MYSQL_PSW = "yolo";
         private Inscriptions inscriptions = new Inscriptions();
 	
 	Equipe(Inscriptions inscriptions, String nom)

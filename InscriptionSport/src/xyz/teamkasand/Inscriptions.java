@@ -27,9 +27,9 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
-        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
-        private static final String MYSQL_USER = "root";
-        private static final String MYSQL_PSW = "";
+        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
+        private static final String MYSQL_USER = "ins";
+        private static final String MYSQL_PSW = "yolo";
         
         
 	

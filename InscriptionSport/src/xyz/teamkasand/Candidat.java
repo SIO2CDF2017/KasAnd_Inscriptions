@@ -19,9 +19,9 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	private Inscriptions inscriptions;
 	private String nom;
 	private Set<Competition> competitions;
-        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
-        private static final String MYSQL_USER = "root";
-        private static final String MYSQL_PSW = "";
+        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
+        private static final String MYSQL_USER = "ins";
+        private static final String MYSQL_PSW = "yolo";
         private int id;
 	
 	Candidat(Inscriptions inscriptions, String nom)

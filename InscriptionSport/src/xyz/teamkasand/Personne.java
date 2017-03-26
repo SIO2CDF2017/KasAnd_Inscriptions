@@ -18,9 +18,9 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
-        private static final String MYSQL_URL = "jdbc:mysql://localhost/inscription";
-        private static final String MYSQL_USER = "root";
-        private static final String MYSQL_PSW = "";
+        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
+        private static final String MYSQL_USER = "ins";
+        private static final String MYSQL_PSW = "yolo";
         
      
 	
