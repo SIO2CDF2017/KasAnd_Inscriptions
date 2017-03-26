@@ -255,7 +255,7 @@ public class Inscriptions implements Serializable
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             if (ms.connect()) {
                     try {
-                        ResultSet  rs = ms.execSelect("SELECT * FROM competitiob WHERE Epreuve = \""+nom+"\"");
+                        ResultSet  rs = ms.execSelect("SELECT * FROM competition WHERE Epreuve = \""+nom+"\"");
                         if (rs.next()) {
                             return false;
                         }else{
