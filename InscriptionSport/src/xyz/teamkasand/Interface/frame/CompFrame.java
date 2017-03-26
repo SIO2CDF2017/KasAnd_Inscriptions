@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,6 +26,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
+import javax.swing.SpinnerModel;
 import xyz.teamkasand.Competition;
 import xyz.teamkasand.Inscriptions;
 
@@ -114,13 +115,10 @@ public class CompFrame extends JFrame {
                                 }
                                 catch(Exception ex){
                                         JOptionPane.showMessageDialog(th, "Erreur : La date rentre est invalide.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                    
-                                }
-                                
+                                }    
                             }
                             else
                                 JOptionPane.showMessageDialog(th, "Erreur : la valeur 0 pour le jour, le mois, ou l'année est impossible.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            
                         }
                     }
                     else
@@ -130,6 +128,86 @@ public class CompFrame extends JFrame {
             
         });
         
+            
+        
+        JButton btn_modif = new JButton("Modifier une compétition");
+            btn_modif.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                Object[] ob = {
+                    "Id De la compétition à modifier", id,
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier uue Compétition",JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    if((int)id.getValue()>=0){
+                        String name="" ;
+                        LocalDate dateActuelle = LocalDate.MAX;
+                        ArrayList<Competition> cComp = i.getCompetitionsInArray();
+                        boolean IdExist = false;
+                        for(Competition comp : cComp){
+                            if((int)id.getValue()==comp.getId()){
+                                name = comp.getNom();
+                                dateActuelle = comp.dateClotureInscriptions(comp.getId());
+                                IdExist = true;
+                            }
+                        }
+                        if(IdExist){
+                            JTextField nom = new JTextField(name);
+                            JSpinner jour = new JSpinner();
+                            JSpinner mois = new JSpinner();
+                            JSpinner annee = new JSpinner();
+                            jour.setValue(dateActuelle.getDayOfMonth());
+                            mois.setValue(dateActuelle.getMonthValue());
+                            annee.setValue(dateActuelle.getYear());
+                            Object[] ob2 = {
+                                "Nom",nom,
+                                "jour",jour,
+                                "mois",mois,
+                                "annee",annee,
+                            };
+                            int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier le nom d'une Compétition",JOptionPane.OK_CANCEL_OPTION);
+                            if(k == JOptionPane.OK_OPTION) {
+                                if(!nom.getText().isEmpty()){
+                                    try{
+                                        LocalDate dateFin = LocalDate.of((int)annee.getValue(),(int)mois.getValue(),(int)jour.getValue());
+                                        Competition compet = i.createCompetition(nom.getText(), dateFin, true);
+                                        try{
+                                            
+                                            if(dateFin.isBefore(dateActuelle))
+                                                JOptionPane.showMessageDialog(th, "Erreure : La date saisie doit être suppérieur à la date initial", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                            else{
+                                                compet.modifNom((int)id.getValue(), nom.getText());
+                                                compet.modifDateCloture((int)id.getValue(), dateFin);
+                                                JOptionPane.showMessageDialog(th, "La compétition à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                            }
+                                            th.dispose();
+                                            f.getm_comp().doClick();
+                                        }
+                                        catch(Exception echecModif){             
+                                            JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                    }
+                                    catch(Exception exCompDate){
+                                        JOptionPane.showMessageDialog(th, "Erreur : La date saisie est invalide", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }
+            }
+        });
+            
             
         JButton btn_sup = new JButton("Supprimé une Competition");
         btn_sup.addActionListener(new ActionListener() {
@@ -161,6 +239,7 @@ public class CompFrame extends JFrame {
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_create, BorderLayout.WEST);
+         btn.add(btn_modif, BorderLayout.CENTER);
          btn.add(btn_sup, BorderLayout.EAST);
          
         this.setLayout(new BorderLayout());
