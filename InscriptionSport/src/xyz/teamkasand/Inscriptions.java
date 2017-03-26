@@ -50,7 +50,7 @@ public class Inscriptions implements Serializable
             try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT idCompetition FROM COMPETITION;");
+                ResultSet rs = ms.execSelect("SELECT idCompetition FROM competition;");
                 while (rs.next()) {                    
                     idcomp.add(rs.getInt("idCompetition"));
                 }
@@ -125,7 +125,7 @@ public class Inscriptions implements Serializable
             try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT idCandidat FROM PERSONNE;");
+                ResultSet rs = ms.execSelect("SELECT idCandidat FROM personne;");
                 while (rs.next()) {                    
                     idpers.add(rs.getInt("idCandidat"));
                 }
@@ -189,7 +189,7 @@ public class Inscriptions implements Serializable
             try {
                 ms.connect();
                 
-                ResultSet rs = ms.execSelect("SELECT idCandidat FROM EQUIPE;");
+                ResultSet rs = ms.execSelect("SELECT idCandidat FROM equipe;");
                 while (rs.next()) {                    
                     idequip.add(rs.getInt("idCandidat"));
                 }
@@ -255,7 +255,7 @@ public class Inscriptions implements Serializable
             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             if (ms.connect()) {
                     try {
-                        ResultSet  rs = ms.execSelect("SELECT * FROM COMPETITION WHERE Epreuve = \""+nom+"\"");
+                        ResultSet  rs = ms.execSelect("SELECT * FROM competitiob WHERE Epreuve = \""+nom+"\"");
                         if (rs.next()) {
                             return false;
                         }else{
@@ -299,7 +299,7 @@ public class Inscriptions implements Serializable
                             //BDD
                 if (ms.connect()) {
                     try {
-                        ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, PERSONNE WHERE CANDIDAT.idCandidat = PERSONNE.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND PERSONNE.Mail = \""+mail+"\" AND PERSONNE.Prenom = \""+prenom+"\"");
+                        ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, personne WHERE CANDIDAT.idCandidat = personne.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND personne.Mail = \""+mail+"\" AND personne.Prenom = \""+prenom+"\"");
                         if (rs.next()) {
                             return false;
                         }else{
@@ -344,7 +344,7 @@ public class Inscriptions implements Serializable
                             //BDD
                 if (ms.connect()) {
                     try {
-                    ResultSet  rs = ms.execSelect("SELECT * FROM `candidat` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
+                    ResultSet  rs = ms.execSelect("SELECT * FROM `CANDIDAT` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
                     if (rs.next()) {
                         return false;
                     }else{
