@@ -4,10 +4,12 @@ import xyz.teamkasand.data.MySQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import xyz.teamkasand.config.config;
 
 /**
  * Représente une Equipe. C'est-à-dire un ensemble de personnes pouvant 
@@ -20,19 +22,27 @@ public class Equipe extends Candidat
 {
 	private static final long serialVersionUID = 4147819927233466035L;
 	private SortedSet<Personne> membres = new TreeSet<>();
-        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
-        private static final String MYSQL_USER = "ins";
-        private static final String MYSQL_PSW = "yolo";
+        private String MYSQL_URL;
+        private String MYSQL_USER;
+        private String MYSQL_PSW;
         private Inscriptions inscriptions = new Inscriptions();
-	
+	private config c = new config();
+        private final HashMap<String, Object> conf = c.getConfigMysql();
+        
 	Equipe(Inscriptions inscriptions, String nom)
 	{
 		this(inscriptions, nom,-1);
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
         
         Equipe(Inscriptions inscriptions, String nom, int id)
 	{
 		super(inscriptions, nom,id);
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
 
 	/**

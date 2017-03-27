@@ -4,9 +4,12 @@ import xyz.teamkasand.data.MySQL;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
+import xyz.teamkasand.config.config;
 
 /**
  * Candidat à un événement sportif, soit une personne physique, soit une équipe.
@@ -19,14 +22,19 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	private Inscriptions inscriptions;
 	private String nom;
 	private Set<Competition> competitions;
-        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
-        private static final String MYSQL_USER = "ins";
-        private static final String MYSQL_PSW = "yolo";
+        private String MYSQL_URL;
+        private String MYSQL_USER;
+        private String MYSQL_PSW;
         private int id;
+        private config c = new config();
+        private final HashMap<String, Object> conf = c.getConfigMysql();
 	
 	Candidat(Inscriptions inscriptions, String nom)
 	{
 		this(inscriptions,nom,-1);
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
         
         
@@ -36,6 +44,9 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 		this.nom = nom;
 		competitions = new TreeSet<>();
                 this.id = id;
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
 
 	/**

@@ -11,10 +11,12 @@ import java.sql.ResultSet;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import xyz.teamkasand.config.config;
 
 /**
  * Point d'entrée dans l'application, un seul objet de type Inscription
@@ -27,9 +29,11 @@ public class Inscriptions implements Serializable
 	private static final long serialVersionUID = -3095339436048473524L;
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
-        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
-        private static final String MYSQL_USER = "ins";
-        private static final String MYSQL_PSW = "yolo";
+        private String MYSQL_URL;
+        private String MYSQL_USER;
+        private String MYSQL_PSW;
+        private config c = new config();
+        private final HashMap<String, Object> conf = c.getConfigMysql();
         
         
 	
@@ -38,6 +42,9 @@ public class Inscriptions implements Serializable
 
 	public Inscriptions()
 	{
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
 	
 	/**
@@ -45,7 +52,7 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	public Set<Integer> getIDComp(){
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
            Set<Integer> idcomp = new LinkedHashSet<>();
             try {
                 ms.connect();
@@ -64,7 +71,7 @@ public class Inscriptions implements Serializable
         }
         
 	public Set<Competition> getCompetitions()
-	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+	{       MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Set<Competition> competitions = new LinkedHashSet<>();
                 try {
                 ms.connect();
@@ -84,7 +91,7 @@ public class Inscriptions implements Serializable
 	}
 
 	public ArrayList<Competition> getCompetitionsInArray()
-	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+	{       MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<Competition> competitions = new ArrayList<>();
                 try {
                 ms.connect();
@@ -120,7 +127,7 @@ public class Inscriptions implements Serializable
 	 */
         
         public Set<Integer> getIdPers(){
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             Set<Integer> idpers = new LinkedHashSet<>();
             try {
                 ms.connect();
@@ -137,7 +144,7 @@ public class Inscriptions implements Serializable
         }
 	
 	public Set<Personne> getPersonnes()
-	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+	{       MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Set<Personne> personnes = new LinkedHashSet<>();
                 try {
                 ms.connect();
@@ -156,7 +163,7 @@ public class Inscriptions implements Serializable
 	}
         
         public ArrayList<Personne> getPersonnesInArray()
-	{       MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+	{       MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<Personne> personnes = new ArrayList<>();
                 try {
                 ms.connect();
@@ -184,7 +191,7 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	public Set<Integer> getIdEquipe(){
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             Set<Integer> idequip = new LinkedHashSet<Integer>();
             try {
                 ms.connect();
@@ -203,7 +210,7 @@ public class Inscriptions implements Serializable
         
 	public Set<Equipe> getEquipes()
 	{
-                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		Set<Equipe> equipes = new LinkedHashSet<>();
                 try {
                 ms.connect();
@@ -224,7 +231,7 @@ public class Inscriptions implements Serializable
 
 	public ArrayList<Equipe> getEquipesInArray()
 	{
-                MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<Equipe> equipes = new ArrayList<>();
                 try {
                 ms.connect();
@@ -252,7 +259,7 @@ public class Inscriptions implements Serializable
 	 */
         public boolean BDCompetition(String nom, LocalDate dateCloture, boolean enEquipe){
             this.createCompetition(nom, dateCloture, enEquipe);
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             if (ms.connect()) {
                     try {
                         ResultSet  rs = ms.execSelect("SELECT * FROM competition WHERE Epreuve = \""+nom+"\"");
@@ -295,7 +302,7 @@ public class Inscriptions implements Serializable
 	
         public boolean BDCreatePersonne(String nom, String prenom, String mail){
             this.createPersonne(nom, prenom, mail);
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
                             //BDD
                 if (ms.connect()) {
                     try {
@@ -340,7 +347,7 @@ public class Inscriptions implements Serializable
 	 */
 	public boolean BDCreateEquipe(String nom){
             this.createEquipe(nom);
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
                             //BDD
                 if (ms.connect()) {
                     try {
@@ -389,7 +396,7 @@ public class Inscriptions implements Serializable
 	 */
         
         public Set<String> getinsCand(int idcand){
-             MySQL ms = new MySQL(Inscriptions.MYSQL_URL, Inscriptions.MYSQL_USER, this.MYSQL_PSW);
+             MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
              Set<String> comp = new LinkedHashSet<>();
              try {
                 ms.connect();
@@ -405,7 +412,7 @@ public class Inscriptions implements Serializable
         }
         
         public Set<String> getinscomp(int idcomp){
-            MySQL ms = new MySQL(Inscriptions.MYSQL_URL, Inscriptions.MYSQL_USER, this.MYSQL_PSW);
+            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             Set<String> pers = new LinkedHashSet<>();
             try {
                 ms.connect();

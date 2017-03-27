@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import xyz.teamkasand.data.MySQL;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
+import xyz.teamkasand.config.config;
 
 /**
  * Représente une personne physique pouvant s'inscrire à une compétition.
@@ -18,9 +20,11 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
-        private static final String MYSQL_URL = "jdbc:mysql://217.182.50.221/inscription";
-        private static final String MYSQL_USER = "ins";
-        private static final String MYSQL_PSW = "yolo";
+        private String MYSQL_URL;
+        private String MYSQL_USER;
+        private String MYSQL_PSW;
+        private config c = new config();
+        private final HashMap<String, Object> conf = c.getConfigMysql();
         
      
 	
@@ -35,6 +39,10 @@ public class Personne extends Candidat
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
+                
+                this.MYSQL_URL = (String) conf.get("url");
+                this.MYSQL_USER = (String) conf.get("user");
+                this.MYSQL_PSW = (String) conf.get("pass");
 	}
 	/**
 	 * Retourne le prénom de la personne.
