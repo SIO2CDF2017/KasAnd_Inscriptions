@@ -29,12 +29,19 @@ public class Equipe extends Candidat
 	private config c = new config();
         private final HashMap<String, Object> conf = c.getConfigMysql();
         
+        Equipe(String nom)
+        {
+            this(nom, -1);
+        }
+        
+        Equipe(String nom, int id)
+        {
+            this(new Inscriptions(), nom, id);
+        }
+        
 	Equipe(Inscriptions inscriptions, String nom)
 	{
-		this(inscriptions, nom,-1);
-                this.MYSQL_URL = (String) conf.get("url");
-                this.MYSQL_USER = (String) conf.get("user");
-                this.MYSQL_PSW = (String) conf.get("pass");
+            this(inscriptions, nom,-1);
 	}
         
         Equipe(Inscriptions inscriptions, String nom, int id)

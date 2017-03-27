@@ -161,4 +161,28 @@ public class Personne extends Candidat
                 
 		return eq;
 	}
+        
+        public ArrayList<Equipe> getEquipeDB(int id)                
+	{       
+                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
+		ArrayList<Equipe> eq = new ArrayList<>();
+                 
+                try {
+                ms.connect();
+                
+                    ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
+                    while (r.next()) {
+                        
+                        Equipe e = new Equipe(
+                            r.getNString("NomEquipe"),
+                            r.getInt("id"));
+                        eq.add(e);
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+                ms.close();
+                
+		return eq;
+	}
 }

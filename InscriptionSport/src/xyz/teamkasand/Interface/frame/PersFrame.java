@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -34,7 +33,7 @@ import xyz.teamkasand.mail.Mail;
 public class PersFrame extends JFrame {  
      private JScrollPane p; 
      private JTable table;
-     private int[] ids;
+     private Personne[] personnes;
      
      public PersFrame(Inscriptions i, Frame f){
          
@@ -42,13 +41,11 @@ public class PersFrame extends JFrame {
         String[] header = {"Nom","Prenom","Mail","Equipe"};
         
         ArrayList<Personne> pers = i.getPersonnesInArray();
+        this.personnes = pers.toArray(new Personne[0]);
         
-        this.ids = new int[pers.size()];
         Object[][] datas = new Object[pers.size()][];
         for (int j = 0 ; j<pers.size(); j++) {
             Personne p = pers.get(j);
-            
-            this.ids[j] = p.getId();
             
             datas[j] = new Object[4];
             datas[j][0] = p.getNom();
@@ -264,24 +261,49 @@ public class PersFrame extends JFrame {
                 
                 Equipe[] eq = i.getEquipesInArray().toArray(new Equipe[0]);
                 
-                Equipe ee = (Equipe)JOptionPane.showInputDialog(th, "Choisir un phallus", "weshalors", 
+                Equipe ee = (Equipe)JOptionPane.showInputDialog(th, "Choisir une equipe", "Choisir", 
                         JOptionPane.QUESTION_MESSAGE, null, eq, null);
                 
                 if (ee == null)
                     return;
                 
                if(ee.addBD(uuid)){
-                   JOptionPane.showMessageDialog(th, "La personne a bien été ajouté", "ok",JOptionPane.INFORMATION_MESSAGE);
+                   JOptionPane.showMessageDialog(th, "La personne a bien été ajoutée", "ok",JOptionPane.INFORMATION_MESSAGE);
                }else{
-                   JOptionPane.showMessageDialog(th, "Une erreur c'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
+                   JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
                }
             }
         });
         
-        
+        JButton btn_supEquip = new JButton("Suprimé d'une éqyipe");
+        btn_supEquip.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            int uuid = getSelectedId();
+            Personne pers = getSelectedPersonne();
+            
+           Equipe[] eq = pers.getEquipeDB(uuid).toArray(new Equipe[0]);
+           
+           
+            Equipe ee  = (Equipe)JOptionPane.showInputDialog(th, "Choisir une equipe", "Choisir", 
+                        JOptionPane.QUESTION_MESSAGE, null, eq, null);
+            
+                if (ee == null)
+                    return;
+               
+               if(ee.supPers(pers)){
+                   JOptionPane.showMessageDialog(th, "La personne a bien été supprimée", "ok",JOptionPane.INFORMATION_MESSAGE);
+               }else{
+                   JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
+               }
+
+            }
+        });
+                
          JPanel btn2 = new JPanel();
          btn2.setLayout(new BorderLayout());
          btn2.add(btn_mail, BorderLayout.WEST);
+         btn2.add(btn_supEquip, BorderLayout.CENTER);
          btn2.add(btn_addEquip, BorderLayout.EAST);
          
          
@@ -299,14 +321,19 @@ public class PersFrame extends JFrame {
     }
 
 
-     private int getSelectedId() {
+    private Personne getSelectedPersonne() {
         if(table.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(table, "Vous devez selectionner une pazjepoazjepoajz", "", JOptionPane.WARNING_MESSAGE);
-            return -1;
+            return null;
         }
         
-        return this.ids[ table.getSelectedRow() ];
-     }
+        return this.personnes[ table.getSelectedRow() ];
+    }
+     
+    private int getSelectedId() {
+        Personne o = getSelectedPersonne();
+        return (o == null) ? -1 : o.getId();
+    }
 }
 
  class NonEditableModel extends DefaultTableModel {
