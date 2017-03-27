@@ -22,6 +22,7 @@ public class config {
     private static final int MAIL_PORT = 25;
     private static final String MAIL_USER = "ins@asandolo.fr";
     private static final String MAIL_PASS = "hehWzM!W73";
+    private static final String MAIL_SENDER = "ins@asandolo.fr";
     private final HashMap mysql = new HashMap<>();
     private final HashMap mail = new HashMap<>();
     
@@ -32,6 +33,7 @@ public class config {
         mail.put("port", MAIL_PORT);
         mail.put("user", MAIL_USER);
         mail.put("pass", MAIL_PASS);
+        mail.put("sender", MAIL_SENDER);
         
         mysql.put("url", MYSQL_URL);
         mysql.put("user", MYSQL_USER);

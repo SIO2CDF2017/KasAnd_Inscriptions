@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,16 +20,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
+import xyz.teamkasand.config.config;
+import xyz.teamkasand.mail.Mail;
 
 /**
  *
  * @author asandolo
  */
-public class PersFrame extends JFrame {
+public class PersFrame extends JFrame {  
      private JScrollPane p;        
      public PersFrame(Inscriptions i, Frame f){
          
@@ -194,12 +200,62 @@ public class PersFrame extends JFrame {
                 }
             }
         });
+        
+        JButton btn_mail = new JButton("Envoyer un mail a une personne");
+        btn_mail.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                JTextArea text = new JTextArea();
+                boolean checkId = false;
+                
+                Object[] ob = {
+                    "ID de la personne",id,
+                    "Texte du mail",text
+                };
+                
+                int j = JOptionPane.showConfirmDialog(th, ob,"Envoyer un mail", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    String mail = "";
+                    ArrayList<Personne> pers = i.getPersonnesInArray();
+                    for (Personne per : pers) {
+                        if (per.getId() == (int)id.getValue()) {
+                            checkId = true;
+                            mail = per.getMail();
+                        }
+                    }
+                    if (checkId) {
+                        if (!text.getText().isEmpty()) {
+                            
+                            Mail m = new Mail();
+                            if(m.sendMail(mail, "CONTACT INSCRIPTION", text.getText())){
+                                //TODO ok
+                            }else{
+                                //TODO erreur
+                            }
+                        }else {
+                            //TODO Message erreur
+                        }
+                    }else{
+                        //TODO message erreur
+                    }
+                }
+            }
+        });
+         
+        
+        
+         JPanel btn2 = new JPanel();
+         btn2.setLayout(new BorderLayout());
+         btn2.add(btn_mail, BorderLayout.WEST);
+         
          
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_create, BorderLayout.EAST);
          btn.add(btn_modif, BorderLayout.CENTER);
          btn.add(btn_sup, BorderLayout.WEST);
+         btn.add(btn2, BorderLayout.SOUTH);
          
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);
