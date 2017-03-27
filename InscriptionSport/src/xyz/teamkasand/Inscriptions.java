@@ -593,7 +593,7 @@ public class Inscriptions implements Serializable
             MySQL ms = new MySQL(this.MYSQL_URL,this.MYSQL_USER,this.MYSQL_PSW);
             try {
                 ms.connect();
-                ms.exec("call EstInscrit");
+                ms.exec("call EstInscrit();");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -605,13 +605,14 @@ public class Inscriptions implements Serializable
             MySQL ms = new MySQL(this.MYSQL_URL,this.MYSQL_USER,this.MYSQL_PSW);
             try {
                 ms.connect();
-                ms.exec("call EstInscrit");
+                ms.exec("call ajouterEquipeACompetition"+"("+idCand+","+idComp+");");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
         }
+        
     public Personne createPersonne(String nString, int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
