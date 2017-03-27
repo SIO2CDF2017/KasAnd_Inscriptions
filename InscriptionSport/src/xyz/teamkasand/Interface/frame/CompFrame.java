@@ -28,7 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SpinnerModel;
 import xyz.teamkasand.Competition;
+import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Personne;
 
 /**
  *
@@ -232,15 +234,79 @@ public class CompFrame extends JFrame {
             }
         });    
             
+         
+        JButton btn_IncCand = new JButton("Inscrire une Personne/Equipe");
+        btn_sup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSpinner id = new JSpinner();
+                
+                Object[] ob = {
+                    "Id de la competiton concernée ",id
+                };
+                int k = JOptionPane.showConfirmDialog(th, ob, "Inscrire une Personne/Equipe", JOptionPane.OK_CANCEL_OPTION);
+                if (k == JOptionPane.OK_OPTION){ 
+                    boolean checkId = false;
+                    Inscriptions i = new Inscriptions();
+                    ArrayList<Competition> compAray = i.getCompetitionsInArray();
+                    Competition comp = i.createCompetition("", LocalDate.MAX, true);
+                    for(Competition compet : compAray){
+                        if(compet.getId()== (int)id.getValue()){
+                            comp = compet;
+                            checkId = true;
+                        }
+                    }
+                    if(checkId){
+                        if(comp.estEnEquipe()){
+                            String[] header = {"#","Nom","membres"};
+                            ArrayList<Equipe> eq = i.getEquipesInArray();
+                            Object[][] datas = new Object[eq.size()][];
+                            for (int j = 0 ; j<eq.size(); j++) {
+                                Equipe equ;
+                                equ = eq.get(j);
             
+                                datas[j] = new Object[3];
+                                datas[j][0] = equ.getId();
+                                datas[j][1] = equ.getNom();
+                                String listMembreEq = " ";
+                                ArrayList<Personne> checkPers = equ.getMembresEquipe(equ.getId());
+                                if(!checkPers.isEmpty()){
+                                    for(Personne p : checkPers){
+                                        listMembreEq = listMembreEq + p.getNom() + " " + p.getPrenom()+ ", ";
+                                    }
+                                } 
+                                else{
+                                    listMembreEq = "Equipe sans membre ";
+                                }
+                                datas[j][2] = listMembreEq;
+                            }
+                        }
+                        else{
+                        
+                        }
+                    }
+                    else
+                        JOptionPane.showMessageDialog(th, "Erreur : Competition inexistante", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                   JOptionPane.showMessageDialog(th, "Erreur : Nope", "ERROR", JOptionPane.ERROR_MESSAGE); 
+            }
+        });
+        
+        
          JTable table = new JTable(datas, header);
          table.setEnabled(false);
+         
+         JPanel btn2 = new JPanel();
+         btn2.setLayout(new BorderLayout());
+         btn2.add(btn_IncCand, BorderLayout.WEST);
          
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_create, BorderLayout.WEST);
          btn.add(btn_modif, BorderLayout.CENTER);
          btn.add(btn_sup, BorderLayout.EAST);
+         btn.add(btn2, BorderLayout.SOUTH);
          
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);
