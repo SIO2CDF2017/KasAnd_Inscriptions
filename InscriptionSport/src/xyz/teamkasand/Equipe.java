@@ -100,15 +100,37 @@ public class Equipe extends Candidat
         public boolean addBD(Personne membre)
 	{
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
-            Personne p = membre;
             
             if (ms.connect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+p.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
+                    ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membre.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{
-                       ms.exec("call ajoutPers("+p.getId()+","+this.getId()+")");
+                       ms.exec("call ajoutPers("+membre.getId()+","+this.getId()+")");
+                       return true;
+                    }                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return false;
+            }
+            ms.close();
+            return false;
+	}
+        
+        public boolean addBD(int membreID)
+	{
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            
+            if (ms.connect()) {
+                try {
+                    ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membreID+" AND IdCandidatEquipe = "+this.getId()+"");
+                    if (rs.next()) {
+                        return false;
+                    }else{
+                       ms.exec("call ajoutPers("+membreID+","+this.getId()+")");
                        return true;
                     }                    
                 } catch (Exception e) {

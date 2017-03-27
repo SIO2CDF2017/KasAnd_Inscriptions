@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
 import xyz.teamkasand.mail.Mail;
@@ -49,7 +50,7 @@ public class PersFrame extends JFrame {
             
             this.ids[j] = p.getId();
             
-            datas[j] = new Object[5];
+            datas[j] = new Object[4];
             datas[j][0] = p.getNom();
             datas[j][1] = p.getPrenom();
             datas[j][2] = p.getMail();
@@ -253,10 +254,35 @@ public class PersFrame extends JFrame {
         });
          
         
+        JButton btn_addEquip = new JButton("Ajouter a une equipe");
+        btn_addEquip.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int uuid = getSelectedId();
+                if (uuid == -1)
+                    return;
+                
+                Equipe[] eq = i.getEquipesInArray().toArray(new Equipe[0]);
+                
+                Equipe ee = (Equipe)JOptionPane.showInputDialog(th, "Choisir un phallus", "weshalors", 
+                        JOptionPane.QUESTION_MESSAGE, null, eq, null);
+                
+                if (ee == null)
+                    return;
+                
+               if(ee.addBD(uuid)){
+                   JOptionPane.showMessageDialog(th, "La personne a bien été ajouté", "ok",JOptionPane.INFORMATION_MESSAGE);
+               }else{
+                   JOptionPane.showMessageDialog(th, "Une erreur c'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
+               }
+            }
+        });
+        
         
          JPanel btn2 = new JPanel();
          btn2.setLayout(new BorderLayout());
          btn2.add(btn_mail, BorderLayout.WEST);
+         btn2.add(btn_addEquip, BorderLayout.EAST);
          
          
          JPanel btn = new JPanel();
