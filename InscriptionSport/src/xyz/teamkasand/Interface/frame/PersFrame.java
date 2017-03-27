@@ -229,15 +229,15 @@ public class PersFrame extends JFrame {
                             
                             Mail m = new Mail();
                             if(m.sendMail(mail, "CONTACT INSCRIPTION", text.getText())){
-                                //TODO ok
+                                JOptionPane.showMessageDialog(th, "Le mail a été encoyé", "ERROR", JOptionPane.INFORMATION_MESSAGE);
                             }else{
-                                //TODO erreur
+                                JOptionPane.showMessageDialog(th, "La personne n'existe pas", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
                         }else {
-                            //TODO Message erreur
+                            JOptionPane.showMessageDialog(th, "Le contenu est vide", "ERROR", JOptionPane.WARNING_MESSAGE);
                         }
                     }else{
-                        //TODO message erreur
+                        JOptionPane.showMessageDialog(th, "La personne n'existe pas", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
