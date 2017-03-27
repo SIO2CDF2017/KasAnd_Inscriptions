@@ -236,7 +236,7 @@ public class CompFrame extends JFrame {
             
          
         JButton btn_IncCand = new JButton("Inscrire une Personne/Equipe");
-        btn_sup.addActionListener(new ActionListener() {
+        btn_IncCand.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JSpinner id = new JSpinner();
