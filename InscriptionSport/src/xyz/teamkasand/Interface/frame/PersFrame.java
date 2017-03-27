@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -206,29 +205,27 @@ public class PersFrame extends JFrame {
                     return;
                 
                 Object[] ob = {
-                   text
+                    "Texte du mail",text
                 };
-                JOptionPane jop = new JOptionPane(
-                    "Envoyer un mail (Ctrl + ENTREE pour envoyer)", JOptionPane.QUESTION_MESSAGE,
-                        JOptionPane.OK_CANCEL_OPTION, null, ob);
-                JDialog d = jop.createDialog(table, "slt");
                 
-                text.addKeyListener(new KeyListener() {
+                
+               /* text.addKeyListener(new KeyListener() {
                     @Override public void keyTyped(KeyEvent e) {}
                     @Override public void keyPressed(KeyEvent e) {}
 
                     @Override public void keyReleased(KeyEvent e) {
                         if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()) {
-                            d.dispose();
+                            
                         }
                     }
-                });
+                });*/
                 
-                d.setVisible(true);
-                System.out.println(jop.getValue());
-                if(1!=2)
-                    return;
-                if (1 == JOptionPane.OK_OPTION) {
+                
+               
+                int j = JOptionPane.showConfirmDialog(th, ob,
+                        "Envoyer un mail", JOptionPane.OK_CANCEL_OPTION);
+                    
+                if (j == JOptionPane.OK_OPTION) {
                     String mail = "";
                     ArrayList<Personne> pers = i.getPersonnesInArray();
                     for (Personne per : pers) {
