@@ -6,14 +6,14 @@
 package xyz.teamkasand.Interface.frame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.time.Clock;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,12 +22,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.SimpleEmail;
-import xyz.teamkasand.Equipe;
+import javax.swing.table.DefaultTableModel;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
-import xyz.teamkasand.config.config;
 import xyz.teamkasand.mail.Mail;
 
 /**
@@ -35,23 +32,29 @@ import xyz.teamkasand.mail.Mail;
  * @author asandolo
  */
 public class PersFrame extends JFrame {  
-     private JScrollPane p;        
+     private JScrollPane p; 
+     private JTable table;
+     private int[] ids;
+     
      public PersFrame(Inscriptions i, Frame f){
          
          
-        String[] header = {"#","Nom","Prenom","Mail","Equipe"};
+        String[] header = {"Nom","Prenom","Mail","Equipe", "#"};
         
         ArrayList<Personne> pers = i.getPersonnesInArray();
-         
+        
+        this.ids = new int[pers.size()];
         Object[][] datas = new Object[pers.size()][];
         for (int j = 0 ; j<pers.size(); j++) {
             Personne p = pers.get(j);
             
+            this.ids[j] = p.getId();
+            
             datas[j] = new Object[5];
-            datas[j][0] = p.getId();
-            datas[j][1] = p.getNom();
-            datas[j][2] = p.getPrenom();
-            datas[j][3] = p.getMail();
+            datas[j][4] = p.getId();
+            datas[j][0] = p.getNom();
+            datas[j][1] = p.getPrenom();
+            datas[j][2] = p.getMail();
             String listPers = "";
             ArrayList<String> checkAppartenir = p.getNomEquipe(p.getId());
             if(!checkAppartenir.isEmpty()){
@@ -61,15 +64,17 @@ public class PersFrame extends JFrame {
             }
             else
                 listPers = "N'a aucune equipe";
-            datas[j][4] = listPers;
+            datas[j][3] = listPers;
            
             
         }
         
         
-         JTable table = new JTable(datas, header);
-         table.setEnabled(false);
+         table = new JTable(
+                new NonEditableModel(datas, header));
+         //table.setEnabled(false);
          
+                 
          JFrame th = this;
          
          JButton btn_create = new JButton("Créer une personne");
@@ -117,109 +122,117 @@ public class PersFrame extends JFrame {
         btn_modif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
-                Object[] ob = {
-                    "Id De la personne à modifier", id,
-                };
+                int uuid = getSelectedId();
+                if( uuid == -1 )
+                    return;
                 
-                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if((int)id.getValue()>=0){
-                        String name="",prename="",email = "";
-                        ArrayList<Personne> cPers = i.getPersonnesInArray();
-                        boolean IdExist = false;
-                        for(Personne p : cPers){
-                            if((int)id.getValue()==p.getId()){
-                                name = p.getNom();
-                                prename = p.getPrenom();
-                                email = p.getMail();
-                                IdExist = true;
-                            }
+                
+                
+                    String name="",prename="",email = "";
+                    ArrayList<Personne> cPers = i.getPersonnesInArray();
+                    boolean IdExist = false;
+                    for(Personne p : cPers){
+                        if(uuid==p.getId()){
+                            name = p.getNom();
+                            prename = p.getPrenom();
+                            email = p.getMail();
+                            IdExist = true;
                         }
-                        if(IdExist){
-                            
-                            JTextField nom = new JTextField(name);
-                            JTextField prenom = new JTextField(prename);
-                            JTextField mail = new JTextField(email);
-                            Object[] ob2 = {
-                                "Nom",nom,
-                                "Prenom",prenom,
-                                "Mail",mail,
-                            };
-                            int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
-                            if(k == JOptionPane.OK_OPTION) {
-                                if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() &&  !mail.getText().isEmpty()){
-                                    Personne p = i.createPersonne(name, prename, email);
-                                    try{
-                                        p.modifNom((int)id.getValue(), nom.getText());
-                                        p.modifPrenom((int)id.getValue(), prenom.getText());
-                                        p.modifMail((int)id.getValue(), mail.getText());
-                                        JOptionPane.showMessageDialog(th, "La personne à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
-                                        th.dispose();
-                                        f.getm_pers().doClick();
-                                    }
-                                    catch(Exception echecModif){             
-                                        JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                }else{
-                                    JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(IdExist){
+
+                        JTextField nom = new JTextField(name);
+                        JTextField prenom = new JTextField(prename);
+                        JTextField mail = new JTextField(email);
+                        Object[] ob2 = {
+                            "Nom",nom,
+                            "Prenom",prenom,
+                            "Mail",mail,
+                        };
+                        int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
+                        if(k == JOptionPane.OK_OPTION) {
+                            if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() &&  !mail.getText().isEmpty()){
+                                Personne p = i.createPersonne(name, prename, email);
+                                try{
+                                    p.modifNom(uuid, nom.getText());
+                                    p.modifPrenom(uuid, prenom.getText());
+                                    p.modifMail(uuid, mail.getText());
+                                    JOptionPane.showMessageDialog(th, "La personne à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
+                                    th.dispose();
+                                    f.getm_pers().doClick();
                                 }
+                                catch(Exception echecModif){             
+                                    JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                        else{
-                            JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }else{
+                    }
+                    else{
                         JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                    
-                }
             }
         }); 
          
          
-        JButton btn_sup = new JButton("Supprimé une Personne");
+        JButton btn_sup = new JButton("Supprimer la personne");
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
-                
-                Object[] ob = {
-                    "Id de la personne à suprimé",id
-                };
-                
-                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une personne", JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if(i.suppers((int)id.getValue())){
+                int uuid = getSelectedId();
+                if (uuid == -1)
+                    return;
+                    if(i.suppers(uuid)){
                             JOptionPane.showMessageDialog(th, "La personne à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
                             th.dispose();
                             f.getm_pers().doClick();                      
                     }else{
                         JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                }
-            }
+            }      
         });
         
-        JButton btn_mail = new JButton("Envoyer un mail a une personne");
+        JButton btn_mail = new JButton("Envoyer un mail à la personne");
         btn_mail.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
+                
                 JTextArea text = new JTextArea();
+                text.setPreferredSize(new Dimension(300, 150));
+                int uuid = getSelectedId();
                 boolean checkId = false;
+                if (uuid == -1)
+                    return;
                 
                 Object[] ob = {
-                    "ID de la personne",id,
-                    "Texte du mail",text
+                   text
                 };
+                JOptionPane jop = new JOptionPane(
+                    "Envoyer un mail (Ctrl + ENTREE pour envoyer)", JOptionPane.QUESTION_MESSAGE,
+                        JOptionPane.OK_CANCEL_OPTION, null, ob);
+                JDialog d = jop.createDialog(table, "slt");
                 
-                int j = JOptionPane.showConfirmDialog(th, ob,"Envoyer un mail", JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
+                text.addKeyListener(new KeyListener() {
+                    @Override public void keyTyped(KeyEvent e) {}
+                    @Override public void keyPressed(KeyEvent e) {}
+
+                    @Override public void keyReleased(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isControlDown()) {
+                            d.dispose();
+                        }
+                    }
+                });
+                
+                d.setVisible(true);
+                System.out.println(jop.getValue());
+                if(1!=2)
+                    return;
+                if (1 == JOptionPane.OK_OPTION) {
                     String mail = "";
                     ArrayList<Personne> pers = i.getPersonnesInArray();
                     for (Personne per : pers) {
-                        if (per.getId() == (int)id.getValue()) {
+                        if (per.getId() == uuid) {
                             checkId = true;
                             mail = per.getMail();
                         }
@@ -262,4 +275,25 @@ public class PersFrame extends JFrame {
         this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
     }
+
+
+     private int getSelectedId() {
+        if(table.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(table, "Vous devez selectionner une pazjepoazjepoajz", "", JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+        
+        return this.ids[ table.getSelectedRow() ];
+     }
 }
+
+ class NonEditableModel extends DefaultTableModel {
+    public NonEditableModel(Object[][] datas, String[] cols) {
+        super(datas, cols);
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return false;
+    }
+ }

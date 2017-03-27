@@ -557,8 +557,8 @@ public class Inscriptions implements Serializable
                 e.printStackTrace();
                 return false;
             }
-        } 
- 
+        }
+
         public boolean supequip(int id){
             MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW); 
             try {
