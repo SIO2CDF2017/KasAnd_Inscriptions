@@ -98,7 +98,11 @@ public class Inscriptions implements Serializable
                 
                     ResultSet r = ms.execSelect("call getComp();");
                     while (r.next()) {                        
-                        Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"), r.getInt("idCompetition"));
+                        Competition c = inscriptions.createCompetition(
+                                r.getNString("Epreuve"),
+                                r.getDate("Date_Cloture").toLocalDate(),
+                                r.getBoolean("enEquipe"),
+                                r.getInt("idCompetition"));
                         
                         competitions.add(c);
                     }
