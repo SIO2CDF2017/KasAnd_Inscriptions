@@ -38,7 +38,7 @@ public class PersFrame extends JFrame {
      public PersFrame(Inscriptions i, Frame f){
          
          
-        String[] header = {"Nom","Prenom","Mail","Equipe", "#"};
+        String[] header = {"Nom","Prenom","Mail","Equipe"};
         
         ArrayList<Personne> pers = i.getPersonnesInArray();
         
@@ -50,7 +50,6 @@ public class PersFrame extends JFrame {
             this.ids[j] = p.getId();
             
             datas[j] = new Object[5];
-            datas[j][4] = p.getId();
             datas[j][0] = p.getNom();
             datas[j][1] = p.getPrenom();
             datas[j][2] = p.getMail();
