@@ -258,27 +258,35 @@ public class CompFrame extends JFrame {
                     }
                     if(checkId){
                         if(comp.estEnEquipe()){
-                            String[] header = {"#","Nom","membres"};
-                            ArrayList<Equipe> eq = i.getEquipesInArray();
-                            Object[][] datas = new Object[eq.size()][];
-                            for (int j = 0 ; j<eq.size(); j++) {
-                                Equipe equ;
-                                equ = eq.get(j);
-            
-                                datas[j] = new Object[3];
-                                datas[j][0] = equ.getId();
-                                datas[j][1] = equ.getNom();
-                                String listMembreEq = " ";
-                                ArrayList<Personne> checkPers = equ.getMembresEquipe(equ.getId());
-                                if(!checkPers.isEmpty()){
-                                    for(Personne p : checkPers){
-                                        listMembreEq = listMembreEq + p.getNom() + " " + p.getPrenom()+ ", ";
+                            f.getm_equip().doClick();
+                            JSpinner idEq = new JSpinner();
+                            Object [] ob2 = {
+                                "Id de l'équipe à inscrire ",idEq
+                            };
+                            k = JOptionPane.showConfirmDialog(th, ob, "Inscrire une Personne/Equipe", JOptionPane.OK_CANCEL_OPTION);
+                            if(k==JOptionPane.OK_OPTION){
+                                Equipe eq = i.createEquipe("");
+                                ArrayList<Equipe> eqi = i.getEquipesInArray();
+                                checkId = false;
+                                for(Equipe equi : eqi){
+                                    if(equi.getId()== (int)idEq.getValue()){
+                                        eq = equi;
+                                        checkId = true;
                                     }
-                                } 
-                                else{
-                                    listMembreEq = "Equipe sans membre ";
                                 }
-                                datas[j][2] = listMembreEq;
+                                if(checkId){
+                                    LocalDate dateClo = comp.dateClotureInscriptions((int)id.getValue());
+                                    if(dateClo.isBefore(LocalDate.now())){
+                                        if(i.estInscrit((int)id.getValue(),(int)idEq.getValue())){
+                                            JOptionPane.showMessageDialog(th, "Equipe déjà inscrite à cette compétition", "ERROR", JOptionPane.ERROR_MESSAGE); 
+                                        }
+                                        else{
+                                            
+                                        }
+                                    }
+                                }
+                                else
+                                   JOptionPane.showMessageDialog(th, "Erreur : Equipe inexistante", "ERROR", JOptionPane.ERROR_MESSAGE); 
                             }
                         }
                         else{
@@ -288,8 +296,6 @@ public class CompFrame extends JFrame {
                     else
                         JOptionPane.showMessageDialog(th, "Erreur : Competition inexistante", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-                else
-                   JOptionPane.showMessageDialog(th, "Erreur : Nope", "ERROR", JOptionPane.ERROR_MESSAGE); 
             }
         });
         
