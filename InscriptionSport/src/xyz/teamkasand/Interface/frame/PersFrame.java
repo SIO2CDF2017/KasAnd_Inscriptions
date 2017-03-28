@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Interface.frame.model.NonEditableModel;
 import xyz.teamkasand.Personne;
 import xyz.teamkasand.mail.Mail;
 
@@ -335,14 +336,3 @@ public class PersFrame extends JFrame {
         return (o == null) ? -1 : o.getId();
     }
 }
-
- class NonEditableModel extends DefaultTableModel {
-    public NonEditableModel(Object[][] datas, String[] cols) {
-        super(datas, cols);
-    }
-    
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        return false;
-    }
- }
