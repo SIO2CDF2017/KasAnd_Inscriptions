@@ -6,17 +6,13 @@
 package xyz.teamkasand.Interface.frame;
 
 import java.awt.BorderLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import javafx.util.converter.LocalDateStringConverter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,40 +21,39 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.SpinnerModel;
 import xyz.teamkasand.Competition;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
-import xyz.teamkasand.Personne;
+import xyz.teamkasand.Interface.frame.model.NonEditableModel;
 
 /**
  *
  * @author asandolo
  */
 public class CompFrame extends JFrame {
-    
-    private JScrollPane p;
+    private JTable table; 
+   private JScrollPane p;
+   private Competition[] competitions;
     
     public CompFrame(Inscriptions i, Frame f){
         
-        String[] header = {"#","Nom","Date de cloture","En equipe ?"};
+        String[] header = {"Nom","Date de cloture","En equipe ?"};
         
         JFrame th = this;
         
         ArrayList<Competition> comp = i.getCompetitionsInArray();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY");
+        this.competitions = comp.toArray(new Competition[0]);
         
         Object[][] datas = new Object[comp.size()][];
         for (int j = 0 ; j<comp.size(); j++) {
             Competition c = comp.get(j);
             
             
-            datas[j] = new Object[4];
-            datas[j][0] = c.getId();
-            datas[j][1] = c.getNom();
-            datas[j][2] = df.format(Date.from(c.getDateCloture().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            datas[j][3] = c.estEnEquipe()?"Oui":"Non";
+            datas[j] = new Object[3];
+            datas[j][0] = c.getNom();
+            datas[j][1] = df.format(Date.from(c.getDateCloture().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            datas[j][2] = c.estEnEquipe()?"Oui":"Non";
         }
         
             JButton btn_retour = new JButton("Retour");
@@ -136,20 +131,17 @@ public class CompFrame extends JFrame {
             btn_modif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
-                Object[] ob = {
-                    "Id De la compétition à modifier", id,
-                };
+                int uuid = getSelectedId();
                 
-                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier uue Compétition",JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if((int)id.getValue()>=0){
+                if(uuid == -1)
+                    return;
+                
                         String name="" ;
                         LocalDate dateActuelle = LocalDate.MAX;
                         ArrayList<Competition> cComp = i.getCompetitionsInArray();
                         boolean IdExist = false;
                         for(Competition comp : cComp){
-                            if((int)id.getValue()==comp.getId()){
+                            if(uuid==comp.getId()){
                                 name = comp.getNom();
                                 dateActuelle = comp.dateClotureInscriptions(comp.getId());
                                 IdExist = true;
@@ -180,8 +172,8 @@ public class CompFrame extends JFrame {
                                             if(dateFin.isBefore(dateActuelle))
                                                 JOptionPane.showMessageDialog(th, "Erreure : La date saisie doit être suppérieur à la date initial", "OK", JOptionPane.INFORMATION_MESSAGE);
                                             else{
-                                                compet.modifNom((int)id.getValue(), nom.getText());
-                                                compet.modifDateCloture((int)id.getValue(), dateFin);
+                                                compet.modifNom(uuid, nom.getText());
+                                                compet.modifDateCloture(uuid, dateFin);
                                                 JOptionPane.showMessageDialog(th, "La compétition à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
                                             }
                                             th.dispose();
@@ -202,11 +194,6 @@ public class CompFrame extends JFrame {
                         else{
                             JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
-                    }else{
-                        JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-                    
-                }
             }
         });
             
@@ -215,22 +202,15 @@ public class CompFrame extends JFrame {
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
+                int uuid = getSelectedId();
                 
-                Object[] ob = {
-                    "Id de la competiton à suprimé",id
-                };
-                
-                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une competition", JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if(i.supComp((int)id.getValue())){
+                    if(i.supComp(uuid)){
                             JOptionPane.showMessageDialog(th, "La Competition à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
                             th.dispose();
                             f.getm_comp().doClick();                      
                     }else{
                         JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                }
             }
         });    
             
@@ -300,8 +280,8 @@ public class CompFrame extends JFrame {
         });
         
         
-         JTable table = new JTable(datas, header);
-         table.setEnabled(false);
+         table = new JTable(new NonEditableModel(datas, header));
+         //table.setEnabled(false);
          
          JPanel btn2 = new JPanel();
          btn2.setLayout(new BorderLayout());
@@ -319,4 +299,18 @@ public class CompFrame extends JFrame {
         this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
     } 
+    
+    private Competition getSelectedCompetion() {
+        if(table.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(table, "Vous devez selectionner une pazjepoazjepoajz", "", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        
+        return this.competitions[table.getSelectedRow()];
+    }
+     
+    private int getSelectedId() {
+        Competition o = getSelectedCompetion();
+        return (o == null) ? -1 : o.getId();
+    }
 }

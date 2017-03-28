@@ -141,7 +141,7 @@ public class Competition implements Comparable<Competition>, Serializable
                 try {
                     ResultSet rs = ms.execSelect("call dateClotureInscriptions("+id+");");
                     if(rs.next())
-                        dci = rs.getObject("Date_Cloture", LocalDate.class);
+                        dci = rs.getDate("Date_Cloture").toLocalDate();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
