@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.Interface.frame.model.NonEditableModel;
 import xyz.teamkasand.Personne;
 
 /**
@@ -29,22 +30,24 @@ import xyz.teamkasand.Personne;
  */
 public class EquipFrame extends JFrame {
     
+    private JTable table;
     private JScrollPane p;
+    private Equipe[] equipes;
     
     public EquipFrame(Inscriptions i, Frame f){
         
-        String[] header = {"#","Nom","membres"};
+        String[] header = {"Nom","membres"};
         JFrame th = this;
         
         ArrayList<Equipe> eq = i.getEquipesInArray();
-         
+        this.equipes = eq.toArray(new Equipe[0]);
+        
         Object[][] datas = new Object[eq.size()][];
         for (int j = 0 ; j<eq.size(); j++) {
             Equipe e = eq.get(j);
             
-            datas[j] = new Object[3];
-            datas[j][0] = e.getId();
-            datas[j][1] = e.getNom();
+            datas[j] = new Object[2];
+            datas[j][0] = e.getNom();
             String listMembreEq = " ";
             ArrayList<Personne> checkPers = e.getMembresEquipe(e.getId());
             if(!checkPers.isEmpty()){
@@ -54,7 +57,7 @@ public class EquipFrame extends JFrame {
             } else{
                 listMembreEq = "Equipe sans membre ";
             }
-            datas[j][2] = listMembreEq;
+            datas[j][1] = listMembreEq;
         }
         
         JButton btn_retour = new JButton("Retour");
@@ -97,86 +100,49 @@ public class EquipFrame extends JFrame {
             btn_modif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
-                Object[] ob = {
-                    "Id De l'équipe à modifier", id,
-                };
-                
-                int j = JOptionPane.showConfirmDialog(th, ob,"Modifier le nom d'une équipe",JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if((int)id.getValue()>=0){
-                        String name="" ;
-                        ArrayList<Equipe> cPers = i.getEquipesInArray();
-                        boolean IdExist = false;
-                        for(Equipe eq : cPers){
-                            if((int)id.getValue()==eq.getId()){
-                                name = eq.getNom();
-
-                                IdExist = true;
-                            }
-                        }
-                        if(IdExist){
-                            
-                            JTextField nom = new JTextField(name);
-                            Object[] ob2 = {
-                                "Nom",nom,
-                            };
-                            int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier le nom d'une équipe",JOptionPane.OK_CANCEL_OPTION);
-                            if(k == JOptionPane.OK_OPTION) {
-                                if(!nom.getText().isEmpty()){
-                                    Equipe eq = i.createEquipe(name);
-                                    try{
-                                        eq.modifNom((int)id.getValue(), nom.getText());
-                                        JOptionPane.showMessageDialog(th, "L'équipe à bien été modifié", "OK", JOptionPane.INFORMATION_MESSAGE);
-                                        th.dispose();
-                                        f.getm_equip().doClick();
-                                    }
-                                    catch(Exception echecModif){             
-                                        JOptionPane.showMessageDialog(th, "Une erreur est survenue ! Merci de contacter votre administrateur", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                }else{
-                                    JOptionPane.showMessageDialog(th, "Erreur : aucun champs ne doit être vide. ", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }else{
-                        JOptionPane.showMessageDialog(th, "Erreur : Id Inconnu. ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                int uuid = getSelectedId();
+                Equipe eq = getSelectedEquipe();
+                if(uuid == -1)
+                    return;
+                JTextField name = new JTextField(eq.getNom());
+                Object[] ob = {"Nom",name};
+                int j = JOptionPane.showConfirmDialog(th,name,"Modifier le nom de l'équipe",JOptionPane.OK_CANCEL_OPTION);
+                if(j == JOptionPane.OK_OPTION){
+                    if(eq.modifNom(uuid,name.getText())){
+                        JOptionPane.showMessageDialog(th, "Le nom de l'équipe à bien été modifié","OK",JOptionPane.INFORMATION_MESSAGE);
+                        th.dispose();
+                        f.getm_equip().doClick();
                     }
-                    
+                    else
+                       JOptionPane.showMessageDialog(th,"Erreur : une erreur est survenue", "ERROR", JOptionPane.ERROR_MESSAGE); 
                 }
             }
         });
         
         
-         JTable table = new JTable(datas, header);
-         table.setEnabled(false);
+         
          
         JButton btn_sup = new JButton("Supprimé une equipe");
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
+                int uuid = getSelectedId();
                 
-                Object[] ob = {
-                    "Id de l'Equipe à suprimé",id
-                };
-                
-                int j = JOptionPane.showConfirmDialog(th, ob, "Supprimé une Equipe", JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    if(i.supequip((int)id.getValue())){
-                            JOptionPane.showMessageDialog(th, "L'Equipe à bien été supprimé", "OK", JOptionPane.INFORMATION_MESSAGE);
-                            th.dispose();
-                            f.getm_equip().doClick();                      
-                    }else{
-                        JOptionPane.showMessageDialog(th, "Unne erreur c'est produit", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
+                if(uuid == -1)
+                    return;
+                if(i.supequip(uuid)){
+                    JOptionPane.showMessageDialog(th, "L'équipe à bien été supprimée","OK",JOptionPane.INFORMATION_MESSAGE);
+                    th.dispose();
+                    f.getm_equip().doClick();
                 }
+                else
+                    JOptionPane.showMessageDialog(th,"Erreur : une erreur est survenue", "ERROR", JOptionPane.ERROR_MESSAGE); 
             }
         });
          
+        
+        table = new JTable(new NonEditableModel(datas, header));
+        
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
          btn.add(btn_add, BorderLayout.EAST);
@@ -187,5 +153,19 @@ public class EquipFrame extends JFrame {
         this.add(btn_retour, BorderLayout.NORTH);
         this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
+    }
+    
+    private Equipe getSelectedEquipe() {
+        if(table.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(table, "Vous devez selectionner une pazjepoazjepoajz", "", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        
+        return this.equipes[ table.getSelectedRow() ];
+    }
+     
+    private int getSelectedId() {
+        Equipe o = getSelectedEquipe();
+        return (o == null) ? -1 : o.getId();
     }
 }

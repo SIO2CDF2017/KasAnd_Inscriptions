@@ -25,6 +25,7 @@ import xyz.teamkasand.Competition;
 import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Interface.frame.model.NonEditableModel;
+import xyz.teamkasand.Personne;
 
 /**
  *
@@ -132,7 +133,6 @@ public class CompFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int uuid = getSelectedId();
-                
                 if(uuid == -1)
                     return;
                 
@@ -219,66 +219,51 @@ public class CompFrame extends JFrame {
         btn_IncCand.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSpinner id = new JSpinner();
+                int uuid = getSelectedId();
+                Competition comp = getSelectedCompetion();
+                if(uuid == -1)
+                    return;             
+                    
+                    if(comp.estEnEquipe()){
+                        Equipe[] eq = i.getEquipesInArray().toArray(new Equipe[0]);
                 
-                Object[] ob = {
-                    "Id de la competiton concernée ",id
-                };
-                int k = JOptionPane.showConfirmDialog(th, ob, "Inscrire une Personne/Equipe", JOptionPane.OK_CANCEL_OPTION);
-                if (k == JOptionPane.OK_OPTION){ 
-                    boolean checkId = false;
-                    Inscriptions i = new Inscriptions();
-                    ArrayList<Competition> compAray = i.getCompetitionsInArray();
-                    Competition comp = i.createCompetition("", LocalDate.MAX, true);
-                    for(Competition compet : compAray){
-                        if(compet.getId()== (int)id.getValue()){
-                            comp = compet;
-                            checkId = true;
+                        Equipe ee = (Equipe)JOptionPane.showInputDialog(th, "Choisir une equipe", "Choisir", 
+                        JOptionPane.QUESTION_MESSAGE, null, eq, null);
+                        if (ee == null)
+                            return;
+                        if(i.inscrirCand(ee, uuid)){
+                            JOptionPane.showMessageDialog(th, "L'équipe à été inscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
                         }
+                        else
+                           JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE); 
                     }
-                    if(checkId){
-                        if(comp.estEnEquipe()){
-                            f.getm_equip().doClick();
-                            JSpinner idEq = new JSpinner();
-                            Object [] ob2 = {
-                                "Id de l'équipe à inscrire ",idEq
-                            };
-                            k = JOptionPane.showConfirmDialog(th, ob, "Inscrire une Personne/Equipe", JOptionPane.OK_CANCEL_OPTION);
-                            if(k==JOptionPane.OK_OPTION){
-                                Equipe eq = i.createEquipe("");
-                                ArrayList<Equipe> eqi = i.getEquipesInArray();
-                                checkId = false;
-                                for(Equipe equi : eqi){
-                                    if(equi.getId()== (int)idEq.getValue()){
-                                        eq = equi;
-                                        checkId = true;
-                                    }
-                                }
-                                if(checkId){
-                                    LocalDate dateClo = comp.dateClotureInscriptions((int)id.getValue());
-                                    if(dateClo.isBefore(LocalDate.now())){
-                                        if(i.estInscrit((int)id.getValue(),(int)idEq.getValue())){
-                                            JOptionPane.showMessageDialog(th, "Equipe déjà inscrite à cette compétition", "ERROR", JOptionPane.ERROR_MESSAGE); 
-                                        }
-                                        else{
-                                            
-                                        }
-                                    }
-                                }
-                                else
-                                   JOptionPane.showMessageDialog(th, "Erreur : Equipe inexistante", "ERROR", JOptionPane.ERROR_MESSAGE); 
-                            }
-                        }
-                        else{
-                        
-                        }
+                    else{
+                        Personne[] p = i.getPersonnesInArray().toArray(new Personne[0]);
+                        Personne pp = (Personne)JOptionPane.showInputDialog(th,"Choisir une personne","Choisir",JOptionPane.QUESTION_MESSAGE, null, p, null);
+                        if(pp==null)
+                            return;
+                        if(i.inscrirCand(pp,uuid))
+                            JOptionPane.showMessageDialog(th, "L'équipe à été inscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
+                        else
+                           JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE); 
                     }
-                    else
-                        JOptionPane.showMessageDialog(th, "Erreur : Competition inexistante", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
             }
         });
         
+        JButton btn_DesincCand = new JButton("Inscrire une Personne/Equipe");
+        btn_DesincCand.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int uuid = getSelectedId();
+                Competition comp = getSelectedCompetion();
+                if(uuid == -1)
+                    return;
+                if(comp.estEnEquipe()){
+                    
+                }
+                
+            }
+        }); 
         
          table = new JTable(new NonEditableModel(datas, header));
          //table.setEnabled(false);

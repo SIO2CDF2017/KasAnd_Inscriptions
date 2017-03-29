@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -219,6 +220,23 @@ public class Competition implements Comparable<Competition>, Serializable
             return Collections.unmodifiableSet(names);
         }
         
+        public ArrayList<Candidat> getEquipesInscrit(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            ArrayList<Candidat> names = new ArrayList<Candidat>();
+            try {
+                ms.connect();
+                ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
+                while (rs.next()) {
+                    Candidat c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("idCandidat"));
+                    names.add(c);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ms.close();
+            return names;
+        }
+        
 	public Set<Candidat> getCandidats()
 	{
 		return Collections.unmodifiableSet(candidats);
@@ -334,6 +352,7 @@ public class Competition implements Comparable<Competition>, Serializable
             ms.close();
             return false;  
         }
+        
         public boolean deInsCand(Personne membre){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
             Personne p = membre;
