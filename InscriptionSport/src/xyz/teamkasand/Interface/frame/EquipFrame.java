@@ -118,9 +118,48 @@ public class EquipFrame extends JFrame {
                 }
             }
         });
-        
-        
-         
+        JButton btn_supP = new JButton("Supprimer une personne");
+        btn_supP.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int uuid = getSelectedId();
+                if(uuid == -1)
+                    return;
+                Equipe eq = getSelectedEquipe();
+                Personne [] p = eq.getMembresEquipe(uuid).toArray(new Personne[0]);
+                Personne pe = (Personne)JOptionPane.showInputDialog(th,"Choisir la personne","Choisir", JOptionPane.QUESTION_MESSAGE,null,p,null);
+                if(pe==null)
+                    return;
+                if(eq.supPers(pe)){
+                    JOptionPane.showMessageDialog(th, "La personne a bien été supprimé de l'équipe", "ok",JOptionPane.INFORMATION_MESSAGE);
+                    th.dispose();
+                    f.getm_equip().doClick();
+                }
+                else
+                    JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE); 
+            }
+        });
+        JButton btn_addP = new JButton("Ajouter une personne");
+        btn_addP.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Equipe eq = getSelectedEquipe();
+                int uuid = getSelectedId();
+                if(uuid == -1)
+                    return;
+                Personne[] pers = i.getPersonnesInArray().toArray(new Personne[0]);
+                Personne pe = (Personne)JOptionPane.showInputDialog(th,"Choisir une Personne","Choisir",JOptionPane.QUESTION_MESSAGE,null,pers,null);
+                if(pe==null)
+                    return;
+                if(eq.addBD(pe)){
+                    JOptionPane.showMessageDialog(th, "La personne a bien été ajouté à l'équipe", "ok",JOptionPane.INFORMATION_MESSAGE);
+                    th.dispose();
+                    f.getm_equip().doClick();
+                }
+                else
+                    JOptionPane.showMessageDialog(th, "Une erreur s'est produite, verifiez que la personne n'appartient pas déjà à cette équipe", "ERROR",JOptionPane.ERROR_MESSAGE);
+            }
+        });
          
         JButton btn_sup = new JButton("Supprimé une equipe");
         btn_sup.addActionListener(new ActionListener() {
@@ -142,12 +181,18 @@ public class EquipFrame extends JFrame {
          
         
         table = new JTable(new NonEditableModel(datas, header));
-        
+         
+         JPanel btn2 = new JPanel();
+         btn2.setLayout(new BorderLayout());
+         btn2.add(btn_addP, BorderLayout.LINE_START);
+         btn2.add(btn_supP, BorderLayout.LINE_END);
+         
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
-         btn.add(btn_add, BorderLayout.EAST);
+         btn.add(btn_add, BorderLayout.LINE_START);
          btn.add(btn_modif,BorderLayout.CENTER);
-         btn.add(btn_sup, BorderLayout.WEST);
+         btn.add(btn_sup, BorderLayout.LINE_END);
+         btn.add(btn2, BorderLayout.SOUTH);
          
         this.setLayout(new BorderLayout());
         this.add(btn_retour, BorderLayout.NORTH);

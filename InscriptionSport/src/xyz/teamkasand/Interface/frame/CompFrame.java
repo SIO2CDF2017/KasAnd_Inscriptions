@@ -233,6 +233,8 @@ public class CompFrame extends JFrame {
                             return;
                         if(i.inscrirCand(ee, uuid)){
                             JOptionPane.showMessageDialog(th, "L'équipe à été inscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            f.getm_comp().doClick();
                         }
                         else
                            JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE); 
@@ -242,15 +244,17 @@ public class CompFrame extends JFrame {
                         Personne pp = (Personne)JOptionPane.showInputDialog(th,"Choisir une personne","Choisir",JOptionPane.QUESTION_MESSAGE, null, p, null);
                         if(pp==null)
                             return;
-                        if(i.inscrirCand(pp,uuid))
-                            JOptionPane.showMessageDialog(th, "L'équipe à été inscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
-                        else
+                        if(i.inscrirCand(pp,uuid)){
+                            JOptionPane.showMessageDialog(th, "La personne à été inscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
+                            th.dispose();
+                            f.getm_comp().doClick();
+                        }else
                            JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE); 
                     }
             }
         });
         
-        JButton btn_DesincCand = new JButton("Inscrire une Personne/Equipe");
+        JButton btn_DesincCand = new JButton("Desinscrire une Personne/Equipe");
         btn_DesincCand.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
