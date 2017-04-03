@@ -21,8 +21,7 @@ public class Personne extends Candidat
 	private Set<Equipe> equipes;
         private int id;
         private MySQL ms;
-        private int commit;
-        
+ 
      
 	
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail)
