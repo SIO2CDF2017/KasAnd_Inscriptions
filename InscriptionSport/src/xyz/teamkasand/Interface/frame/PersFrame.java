@@ -237,7 +237,7 @@ public class PersFrame extends JFrame {
                             
                             Mail m = new Mail();
                             if(m.sendMail(mail, "CONTACT INSCRIPTION", text.getText())){
-                                JOptionPane.showMessageDialog(th, "Le mail a été encoyé", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(th, "Le mail a été envoyé", "ERROR", JOptionPane.INFORMATION_MESSAGE);
                             }else{
                                 JOptionPane.showMessageDialog(th, "La personne n'existe pas", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
