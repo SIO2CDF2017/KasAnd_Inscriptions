@@ -263,9 +263,29 @@ public class CompFrame extends JFrame {
                 if(uuid == -1)
                     return;
                 if(comp.estEnEquipe()){
-                    
+                    Equipe[] eq = comp.getEquipesInscrit(uuid).toArray(new Equipe[0]);
+                    Equipe ee = (Equipe)JOptionPane.showInputDialog(th, "Choisir une equipe", "Choisir", 
+                    JOptionPane.QUESTION_MESSAGE, null, eq, null);
+                    if(comp.deInsCand(ee)){
+                        JOptionPane.showMessageDialog(th, "L'équipe à été désinscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
+                        th.dispose();
+                        f.getm_comp();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
                 }
-                
+                else{
+                    Personne[] p = i.getPersonnesInArray().toArray(new Personne[0]);
+                    Personne pp = (Personne)JOptionPane.showInputDialog(th,"Choisir une personne","Choisir",
+                             JOptionPane.QUESTION_MESSAGE,null,p,null);
+                    if(comp.deInsCand(pp)){
+                        JOptionPane.showMessageDialog(th, "La Personne à bien été désinscrite","ok",JOptionPane.INFORMATION_MESSAGE);
+                        th.dispose();
+                        f.getm_comp();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
+                }
             }
         }); 
         
@@ -275,6 +295,7 @@ public class CompFrame extends JFrame {
          JPanel btn2 = new JPanel();
          btn2.setLayout(new BorderLayout());
          btn2.add(btn_IncCand, BorderLayout.WEST);
+         btn2.add(btn_DesincCand,BorderLayout.EAST);
          
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());

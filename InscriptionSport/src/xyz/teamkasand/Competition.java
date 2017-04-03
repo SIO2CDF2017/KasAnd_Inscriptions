@@ -220,14 +220,14 @@ public class Competition implements Comparable<Competition>, Serializable
             return Collections.unmodifiableSet(names);
         }
         
-        public ArrayList<Candidat> getEquipesInscrit(int id){
+        public ArrayList<Equipe> getEquipesInscrit(int id){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
-            ArrayList<Candidat> names = new ArrayList<Candidat>();
+            ArrayList<Equipe> names = new ArrayList<Equipe>();
             try {
                 ms.connect();
                 ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
                 while (rs.next()) {
-                    Candidat c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("idCandidat"));
+                    Equipe c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("idCandidat"));
                     names.add(c);
                 }
             } catch (Exception e) {
@@ -235,6 +235,12 @@ public class Competition implements Comparable<Competition>, Serializable
             }
             ms.close();
             return names;
+        }
+        
+        public ArrayList<Personne> getPersonneInscrit(int id){
+            MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
+            ArrayList<Personne> p = null; 
+            return p;
         }
         
 	public Set<Candidat> getCandidats()
