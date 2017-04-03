@@ -54,15 +54,18 @@ public class Personne extends Candidat
 	 * @param prenom
 	 */
 	public void modifPrenom(int id, String name){
-            try {
-                ms.connect();
-                
-                ms.execUpdate("call RENAMEPERSONNE("+id+",'"+name+"')");
-                        
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (ms.isConnect()) {
+                try {
+
+
+                    ms.execUpdate("call RENAMEPERSONNE("+id+",'"+name+"')");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }   
             }
-            ms.close();
+
+           
         }
         
 	public void setPrenom(String prenom)
@@ -85,15 +88,19 @@ public class Personne extends Candidat
 	 * @param mail
 	 */
 	public void modifMail(int id, String mail){
-            try {
-                ms.connect();
-                
-                ms.execUpdate("call CHANGEMAIL("+id+",'"+mail+"')");
-                        
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (ms.isConnect()) {
+                try {
+
+
+                    ms.execUpdate("call CHANGEMAIL("+id+",'"+mail+"')");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }                
             }
-            ms.close();
+    
+
+           
         }
                 
 	public void setMail(String mail)
@@ -139,17 +146,20 @@ public class Personne extends Candidat
         public ArrayList<String> getNomEquipe(int id)                
 	{       
 		ArrayList<String> eq = new ArrayList<>();
-                try {
-                ms.connect();
+                if (ms.isConnect()) {
+                               try {
+               
                 
                     ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
                     while (r.next()) {                        
                         eq.add(r.getNString("NomEquipe"));
                     }
-            } catch (Exception e) {
+             } catch (Exception e) {
                 e.printStackTrace();
+                } 
             }
-                ms.close();
+
+                
                 
 		return eq;
 	}
@@ -157,9 +167,9 @@ public class Personne extends Candidat
         public ArrayList<Equipe> getEquipeDB(int id)                
 	{       
 		ArrayList<Equipe> eq = new ArrayList<>();
-                 
-                try {
-                ms.connect();
+                if (ms.isConnect()) {
+                   try {
+                
                 
                     ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
                     while (r.next()) {
@@ -172,7 +182,8 @@ public class Personne extends Candidat
             } catch (Exception e) {
                 e.printStackTrace();
             }
-                ms.close();
+            }
+    
                 
 		return eq;
 	}
