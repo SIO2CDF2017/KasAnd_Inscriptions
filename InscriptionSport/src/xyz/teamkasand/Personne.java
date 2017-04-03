@@ -21,6 +21,7 @@ public class Personne extends Candidat
 	private Set<Equipe> equipes;
         private int id;
         private MySQL ms;
+        private int commit;
         
      
 	
