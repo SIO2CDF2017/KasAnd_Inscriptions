@@ -275,7 +275,7 @@ public class CompFrame extends JFrame {
                         JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    Personne[] p = i.getPersonnesInArray().toArray(new Personne[0]);
+                    Personne[] p = comp.getPersonneInscrit(uuid).toArray(new Personne[0]);
                     Personne pp = (Personne)JOptionPane.showInputDialog(th,"Choisir une personne","Choisir",
                              JOptionPane.QUESTION_MESSAGE,null,p,null);
                     if(comp.deInsCand(pp)){

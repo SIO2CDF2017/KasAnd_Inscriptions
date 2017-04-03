@@ -239,8 +239,20 @@ public class Competition implements Comparable<Competition>, Serializable
         
         public ArrayList<Personne> getPersonneInscrit(int id){
             MySQL ms = new MySQL(MYSQL_URL, MYSQL_USER, MYSQL_PSW);
-            ArrayList<Personne> p = null; 
-            return p;
+            ArrayList<Personne> pList = new ArrayList<Personne>();
+            try{
+                ms.connect();
+                ResultSet rs = ms.execSelect("call getInsP("+id+")");
+                Personne p;
+                while(rs.next()){
+                    p = inscriptions.createPersonne(rs.getNString("nom"),rs.getNString("prenom"),rs.getNString("mail"),rs.getInt("id"));
+                    pList.add(p);
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+            ms.close();
+            return pList;
         }
         
 	public Set<Candidat> getCandidats()
