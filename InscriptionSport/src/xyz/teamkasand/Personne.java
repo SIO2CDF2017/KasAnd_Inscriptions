@@ -20,17 +20,14 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
-        private String MYSQL_URL;
-        private String MYSQL_USER;
-        private String MYSQL_PSW;
-        private config c = new config();
-        private final HashMap<String, Object> conf = c.getConfigMysql();
+        private MySQL ms;
         
      
 	
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail)
 	{
 		this(inscriptions,nom,prenom,mail,-1);
+                this.ms = new MySQL();
 	}
         
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail, int id)
@@ -39,10 +36,8 @@ public class Personne extends Candidat
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
+                this.ms = new MySQL();
                 
-                this.MYSQL_URL = (String) conf.get("url");
-                this.MYSQL_USER = (String) conf.get("user");
-                this.MYSQL_PSW = (String) conf.get("pass");
 	}
 	/**
 	 * Retourne le prénom de la personne.
@@ -59,7 +54,6 @@ public class Personne extends Candidat
 	 * @param prenom
 	 */
 	public void modifPrenom(int id, String name){
-            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             try {
                 ms.connect();
                 
@@ -91,7 +85,6 @@ public class Personne extends Candidat
 	 * @param mail
 	 */
 	public void modifMail(int id, String mail){
-            MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
             try {
                 ms.connect();
                 
@@ -145,7 +138,6 @@ public class Personne extends Candidat
         
         public ArrayList<String> getNomEquipe(int id)                
 	{       
-                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<String> eq = new ArrayList<>();
                 try {
                 ms.connect();
@@ -164,7 +156,6 @@ public class Personne extends Candidat
         
         public ArrayList<Equipe> getEquipeDB(int id)                
 	{       
-                MySQL ms = new MySQL(this.MYSQL_URL, this.MYSQL_USER, this.MYSQL_PSW);
 		ArrayList<Equipe> eq = new ArrayList<>();
                  
                 try {

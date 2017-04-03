@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import xyz.teamkasand.Inscriptions;
+import xyz.teamkasand.data.MySQL;
 
 /**
  *
@@ -28,6 +29,7 @@ import xyz.teamkasand.Inscriptions;
 public class Frame extends JFrame{
     
     private Inscriptions i;
+    private MySQL ms;
     private final JPanel p,footer;
     private final Content c;
     private final JLabel footext;
@@ -36,9 +38,10 @@ public class Frame extends JFrame{
     private String page = null;
     private Dimension d = new Dimension(700, 700); 
     private Frame f;
-    public Frame(Inscriptions i){
+    public Frame(Inscriptions i,MySQL ms){
         this.f = this;
         this.i = i;
+        this.ms = ms;
         BtnListener b = new BtnListener();
         
         
@@ -109,6 +112,7 @@ public class Frame extends JFrame{
             public void windowClosing(WindowEvent e) {
                 if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
                        "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    ms.close();
                     System.exit(0);
             }
             
@@ -191,6 +195,7 @@ public class Frame extends JFrame{
                     case "q":
                         if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
                                 "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                            ms.close();
                             System.exit(0);
                        break;
                 }

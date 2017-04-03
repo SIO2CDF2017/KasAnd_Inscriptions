@@ -50,9 +50,10 @@ public class config {
     }
     
     /**
-     *
+     *.
      * @return retourne les configuration Mysql
      */
+    @Deprecated
     public HashMap getConfigMysql(){
         return this.mysql;
     }    

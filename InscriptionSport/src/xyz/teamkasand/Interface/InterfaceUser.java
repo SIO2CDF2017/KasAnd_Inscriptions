@@ -9,12 +9,15 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import xyz.teamkasand.Interface.frame.Frame;
 import xyz.teamkasand.Utils.*;
 import xyz.teamkasand.Utils.InOut;
 import xyz.teamkasand.Utils.CommandsLigne.*;
+import xyz.teamkasand.config.config;
+import xyz.teamkasand.data.MySQL;
 
 /**
  *
@@ -1032,8 +1035,12 @@ public class InterfaceUser {
     public static void main(String[] args)
     {
        
-       Inscriptions i = Inscriptions.getInscriptions(); 
-       Frame f = new Frame(i);
+       Inscriptions i = Inscriptions.getInscriptions();
+       config c = new config();
+       HashMap<String, Object> conf = c.getConfigMysql();
+       MySQL ms = new MySQL((String)conf.get("url"),(String) conf.get("user"),(String)conf.get("pass"));
+       ms.connect();
+       Frame f = new Frame(i,ms);
        f.repaint();
        
        Menu m = MenuP();
