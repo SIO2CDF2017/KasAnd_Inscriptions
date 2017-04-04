@@ -8,12 +8,10 @@ import xyz.teamkasand.Personne;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import xyz.teamkasand.Interface.frame.Frame;
-import xyz.teamkasand.Utils.*;
 import xyz.teamkasand.Utils.InOut;
 import xyz.teamkasand.Utils.CommandsLigne.*;
 import xyz.teamkasand.config.config;
@@ -1036,9 +1034,7 @@ public class InterfaceUser {
     {
        
        Inscriptions i = Inscriptions.getInscriptions();
-       config c = new config();
-       HashMap<String, Object> conf = c.getConfigMysql();
-       MySQL ms = new MySQL((String)conf.get("url"),(String) conf.get("user"),(String)conf.get("pass"));
+       MySQL ms = new MySQL();
        ms.connect();
        Frame f = new Frame(i,ms);
        f.repaint();

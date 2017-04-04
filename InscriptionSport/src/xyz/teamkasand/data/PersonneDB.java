@@ -21,7 +21,7 @@ public class PersonneDB {
     private String mail;
     private HashMap<Integer, Personne> pers = new HashMap<Integer, Personne>();
     private Inscriptions i;
-    private MySQL msql = new MySQL();
+    private MySQL ms = new MySQL();
 
     
     public PersonneDB(int id, String nom, String prenom, String mail){
@@ -32,7 +32,11 @@ public class PersonneDB {
     }
     
     private HashMap<Integer, Personne> getPersonnes(){
-      return null;  
+      HashMap<Integer, Personne> pers = new HashMap<>();
+        if (ms.isConnect()) {
+            
+        }
+        return null;
     }
     
     

@@ -36,7 +36,7 @@ public class MySQL {
     }
     
     public MySQL(){
-        
+        this.connect();
     }
     
     
@@ -57,10 +57,7 @@ public class MySQL {
     
     
     public boolean isConnect(){
-        if (connected) {
-            return true;
-        }
-        return false;
+        return connected;
     }
     
     public ResultSet execSelect(String s){

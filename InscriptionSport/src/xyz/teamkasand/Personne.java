@@ -1,14 +1,11 @@
 package xyz.teamkasand;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import xyz.teamkasand.data.MySQL;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
-import xyz.teamkasand.config.config;
 
 /**
  * Représente une personne physique pouvant s'inscrire à une compétition.
