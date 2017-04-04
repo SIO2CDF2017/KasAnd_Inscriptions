@@ -20,14 +20,13 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
-        private MySQL ms;
+        private MySQL ms = new MySQL();
  
      
 	
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail)
 	{
 		this(inscriptions,nom,prenom,mail,-1);
-                this.ms = new MySQL();
 	}
         
 	Personne(Inscriptions inscriptions, String nom, String prenom, String mail, int id)
