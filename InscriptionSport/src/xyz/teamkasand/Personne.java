@@ -145,46 +145,41 @@ public class Personne extends Candidat
         
         public ArrayList<String> getNomEquipe(int id)                
 	{       
-		ArrayList<String> eq = new ArrayList<>();
-                if (ms.isConnect()) {
-                               try {
-               
-                
+            ArrayList<String> eq = new ArrayList<String>();
+            if (ms.isConnect()) {
+                try {
                     ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
                     while (r.next()) {                        
-                        eq.add(r.getNString("NomEquipe"));
+                        eq.add(r.getNString("Nom"));
                     }
-             } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } 
             }
-
-                
-                
-		return eq;
+            return eq;
 	}
         
         public ArrayList<Equipe> getEquipeDB(int id)                
 	{       
-		ArrayList<Equipe> eq = new ArrayList<>();
+		ArrayList<Equipe> eq = new ArrayList<Equipe>();
                 if (ms.isConnect()) {
+                   System.out.println("lol");
                    try {
                 
                 
-                    ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
-                    while (r.next()) {
+                        ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
+                        while (r.next()) {
                         
-                        Equipe e = new Equipe(
-                            r.getNString("NomEquipe"),
-                            r.getInt("id"));
-                        eq.add(e);
-                    }
-            } catch (Exception e) {
+                            Equipe e = new Equipe(
+                                r.getNString("Nom"),
+                                r.getInt("IdCandidat"));
+                            System.out.println(e.getNom()+" " + e.getId());
+                            eq.add(e);
+                        }
+                    } catch (Exception e) {
                 e.printStackTrace();
+                }
             }
-            }
-    
-                
 		return eq;
 	}
 }
