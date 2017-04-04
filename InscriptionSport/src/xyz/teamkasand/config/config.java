@@ -18,10 +18,10 @@ public class config {
     private static final String MYSQL_USER = "ins";
     private static final String MYSQL_PSW = "yolo";
     
-    private static final String MAIL_HOST = "smtp.asandolo.fr";
-    private static final int MAIL_PORT = 25;
-    private static final String MAIL_USER = "ins@asandolo.fr";
-    private static final String MAIL_PASS = "hehWzM!W73";
+    private static final String MAIL_HOST = "smtp.gmail.com";
+    private static final int MAIL_PORT = 465;
+    private static final String MAIL_USER = "inssportcdfyoloswag@gmail.com";
+    private static final String MAIL_PASS = "Yolo123456";
     private static final String MAIL_SENDER = "ins@asandolo.fr";
     private final HashMap mysql = new HashMap<>();
     private final HashMap mail = new HashMap<>();

@@ -26,7 +26,6 @@ public class Competition implements Comparable<Competition>, Serializable
 	private boolean enEquipe = false;
         private LocalDate ajd = LocalDate.now();
         private int id;
-        private MySQL ms = new MySQL();
 
         
         Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
@@ -59,10 +58,10 @@ public class Competition implements Comparable<Competition>, Serializable
         
         public Set<Integer> getIdComp(int id){
             Set<Integer> ids = new LinkedHashSet<>();
-            if(ms.isConnect()){
+            if(MySQL.isConnect()){
                 try {
 
-                    ResultSet rs = ms.execSelect("SELECT inscrire.IdCompetition As id FROM INSCRIRE WHERE IdCandidat = "+id+"");
+                    ResultSet rs = MySQL.execSelect("SELECT inscrire.IdCompetition As id FROM INSCRIRE WHERE IdCandidat = "+id+"");
                     while (rs.next()) {                    
                         ids.add(rs.getInt("id"));
                     }
@@ -84,10 +83,10 @@ public class Competition implements Comparable<Competition>, Serializable
 	 */
         
        public void modifNom(int id, String name){
-           if (ms.isConnect()) {
+           if (MySQL.isConnect()) {
             try {
 
-                 ms.execUpdate("call modifnomcompetition("+id+",'"+name+"')");
+                 MySQL.execUpdate("call modifnomcompetition("+id+",'"+name+"')");
 
              } catch (Exception e) {
                  e.printStackTrace();
@@ -135,9 +134,9 @@ public class Competition implements Comparable<Competition>, Serializable
         
 	public LocalDate dateClotureInscriptions(int id){
             LocalDate dci = LocalDate.MIN;
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                    ResultSet rs = ms.execSelect("call dateClotureInscriptions("+id+");");
+                    ResultSet rs = MySQL.execSelect("call dateClotureInscriptions("+id+");");
                     if(rs.next())
                         dci = rs.getDate("Date_Cloture").toLocalDate();
                 } catch (Exception e) {
@@ -173,9 +172,9 @@ public class Competition implements Comparable<Competition>, Serializable
              if (DateC.isBefore(this.dateCloture)){ 
                  return false; 
              }else{
-                 if(ms.isConnect()){
+                 if(MySQL.isConnect()){
                      try {
-                         ms.execUpdate("call modifdatecloture("+id+",'"+DateC+"')");
+                         MySQL.execUpdate("call modifdatecloture("+id+",'"+DateC+"')");
                          return true;
                      } catch (Exception e) {
                          e.printStackTrace();
@@ -202,9 +201,9 @@ public class Competition implements Comparable<Competition>, Serializable
 	 */
 	public Set<String> getCandidatInscrit(int id){
             Set<String> names = new LinkedHashSet<>();
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                     ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
+                     ResultSet rs = MySQL.execSelect("call candidatsInscrits("+id+")");
                      while (rs.next()) {                    
                          names.add(rs.getNString("nom"));
                      }
@@ -218,9 +217,9 @@ public class Competition implements Comparable<Competition>, Serializable
         
         public ArrayList<Equipe> getEquipesInscrit(int id){
             ArrayList<Equipe> names = new ArrayList<Equipe>();
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
               try {
-                ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
+                ResultSet rs = MySQL.execSelect("call candidatsInscrits("+id+")");
                 while (rs.next()) {
                     Equipe c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("IdCandidat"));
                     names.add(c);
@@ -235,9 +234,9 @@ public class Competition implements Comparable<Competition>, Serializable
         
         public ArrayList<Personne> getPersonneInscrit(int id){
             ArrayList<Personne> pList = new ArrayList<Personne>();
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
              try{
-                ResultSet rs = ms.execSelect("call getInsP("+id+")");
+                ResultSet rs = MySQL.execSelect("call getInsP("+id+")");
                 Personne p;
                 while(rs.next()){
                     p = inscriptions.createPersonne(rs.getNString("nom"),rs.getNString("prenom"),rs.getNString("mail"),rs.getInt("IdCandidat"));
@@ -266,13 +265,13 @@ public class Competition implements Comparable<Competition>, Serializable
 	public boolean addBD(Personne personne){
             Personne p = personne;
             
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+p.getId()+" AND IdCompetition = "+this.getId()+"");
+                    ResultSet rs = MySQL.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+p.getId()+" AND IdCompetition = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{
-                       ms.exec("call ajouterPersonneACompetition("+p.getId()+","+this.getId()+")");
+                       MySQL.exec("call ajouterPersonneACompetition("+p.getId()+","+this.getId()+")");
                        return true;
                     }                    
                 } catch (Exception e) {
@@ -288,13 +287,13 @@ public class Competition implements Comparable<Competition>, Serializable
 	public boolean addBD(Equipe equipe){
             Equipe e = equipe;
             
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                    ResultSet rs = ms.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+e.getId()+" AND IdCompetition = "+this.getId()+"");
+                    ResultSet rs = MySQL.execSelect("SELECT * FROM inscrire WHERE IdCandidat = "+e.getId()+" AND IdCompetition = "+this.getId()+"");
                     if (rs.next()) {
                         return false;
                     }else{
-                       ms.exec("call ajouterEquipeACompetition("+e.getId()+","+this.getId()+")");
+                       MySQL.exec("call ajouterEquipeACompetition("+e.getId()+","+this.getId()+")");
                        return true;
                     }                    
                 } catch (Exception ex) {
@@ -303,7 +302,7 @@ public class Competition implements Comparable<Competition>, Serializable
             }else{
                 return false;
             }
-            ms.close();
+            MySQL.close();
             return false;            
         }
         
@@ -349,9 +348,9 @@ public class Competition implements Comparable<Competition>, Serializable
         public boolean deInsCand(Equipe equipe){
             Equipe e = equipe;
             
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                       ms.exec("call DesinscritCandidat("+e.getId()+","+this.getId()+")");
+                       MySQL.exec("call DesinscritCandidat("+e.getId()+","+this.getId()+")");
                        return true;                   
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -359,16 +358,16 @@ public class Competition implements Comparable<Competition>, Serializable
             }else{
                 return false;
             }
-            ms.close();
+            MySQL.close();
             return false;  
         }
         
         public boolean deInsCand(Personne membre){
             Personne p = membre;
             
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                       ms.exec("call DesinscritCandidat("+p.getId()+","+this.getId()+")");
+                       MySQL.exec("call DesinscritCandidat("+p.getId()+","+this.getId()+")");
                        return true;                   
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -376,7 +375,7 @@ public class Competition implements Comparable<Competition>, Serializable
             }else{
                 return false;
             }
-            ms.close();
+            MySQL.close();
             return false;  
         }
         

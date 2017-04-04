@@ -29,7 +29,6 @@ public class Inscriptions implements Serializable
     private static final long serialVersionUID = -3095339436048473524L;
     private static final String FILE_NAME = "Inscriptions.srz";
     private static Inscriptions inscriptions;
-    private MySQL ms = new MySQL();
     
     
     
@@ -47,10 +46,10 @@ public class Inscriptions implements Serializable
      */
     public Set<Integer> getIDComp(){
         Set<Integer> idcomp = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet rs = ms.execSelect("SELECT idCompetition FROM competition;");
+                ResultSet rs = MySQL.execSelect("SELECT idCompetition FROM competition;");
                 while (rs.next()) {
                     idcomp.add(rs.getInt("idCompetition"));
                 }
@@ -64,10 +63,10 @@ public class Inscriptions implements Serializable
     public Set<Competition> getCompetitions()
     {
         Set<Competition> competitions = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getComp();");
+                ResultSet r = MySQL.execSelect("call getComp();");
                 while (r.next()) {
                     Competition c = inscriptions.createCompetition(r.getNString("Epreuve"), r.getObject("Date_Cloture", LocalDate.class), r.getBoolean("enEquipe"), r.getInt("idCompetition"));
                     
@@ -86,10 +85,10 @@ public class Inscriptions implements Serializable
     {
         
         ArrayList<Competition> competitions = new ArrayList<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getComp();");
+                ResultSet r = MySQL.execSelect("call getComp();");
                 while (r.next()) {
                     Competition c = inscriptions.createCompetition(
                             r.getNString("Epreuve"),
@@ -125,10 +124,10 @@ public class Inscriptions implements Serializable
     
     public Set<Integer> getIdPers(){
         Set<Integer> idpers = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet rs = ms.execSelect("SELECT idCandidat FROM personne;");
+                ResultSet rs = MySQL.execSelect("SELECT idCandidat FROM personne;");
                 while (rs.next()) {
                     idpers.add(rs.getInt("idCandidat"));
                 }
@@ -144,10 +143,10 @@ public class Inscriptions implements Serializable
     public Set<Personne> getPersonnes()
     {
         Set<Personne> personnes = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getPers();");
+                ResultSet r = MySQL.execSelect("call getPers();");
                 while (r.next()) {
                     Personne p = inscriptions.createPersonne(r.getNString("nom"), r.getNString("prenom"), r.getNString("mail"), r.getInt("ID"));
                     
@@ -164,10 +163,10 @@ public class Inscriptions implements Serializable
     public ArrayList<Personne> getPersonnesInArray()
     {
         ArrayList<Personne> personnes = new ArrayList<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getPers();");
+                ResultSet r = MySQL.execSelect("call getPers();");
                 while (r.next()) {
                     Personne p = inscriptions.createPersonne(
                             r.getNString("nom"),
@@ -192,10 +191,10 @@ public class Inscriptions implements Serializable
      */
     public Set<Integer> getIdEquipe(){
         Set<Integer> idequip = new LinkedHashSet<Integer>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet rs = ms.execSelect("SELECT idCandidat FROM equipe;");
+                ResultSet rs = MySQL.execSelect("SELECT idCandidat FROM equipe;");
                 while (rs.next()) {
                     idequip.add(rs.getInt("idCandidat"));
                 }
@@ -212,10 +211,10 @@ public class Inscriptions implements Serializable
     public Set<Equipe> getEquipes()
     {
         Set<Equipe> equipes = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getEquipe();");
+                ResultSet r = MySQL.execSelect("call getEquipe();");
                 while (r.next()) {
                     Equipe e = inscriptions.createEquipe(r.getNString("nom"), r.getInt("id"));
                     
@@ -233,10 +232,10 @@ public class Inscriptions implements Serializable
     public ArrayList<Equipe> getEquipesInArray()
     {
         ArrayList<Equipe> equipes = new ArrayList<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet r = ms.execSelect("call getEquipe();");
+                ResultSet r = MySQL.execSelect("call getEquipe();");
                 while (r.next()) {
                     Equipe e = inscriptions.createEquipe(r.getNString("nom"), r.getInt("id"));
                     
@@ -260,13 +259,13 @@ public class Inscriptions implements Serializable
      */
     public boolean BDCompetition(String nom, LocalDate dateCloture, boolean enEquipe){
         this.createCompetition(nom, dateCloture, enEquipe);
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet  rs = ms.execSelect("SELECT * FROM competition WHERE Epreuve = \""+nom+"\"");
+                ResultSet  rs = MySQL.execSelect("SELECT * FROM competition WHERE Epreuve = \""+nom+"\"");
                 if (rs.next()) {
                     return false;
                 }else{
-                    ms.exec("call creatComp('"+nom+"','"+dateCloture+"',"+enEquipe+")");
+                    MySQL.exec("call creatComp('"+nom+"','"+dateCloture+"',"+enEquipe+")");
                     return true;
                 }
             } catch (Exception e) {
@@ -302,13 +301,13 @@ public class Inscriptions implements Serializable
     public boolean BDCreatePersonne(String nom, String prenom, String mail){
         this.createPersonne(nom, prenom, mail);
         //BDD
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet  rs = ms.execSelect("SELECT * FROM CANDIDAT, personne WHERE CANDIDAT.idCandidat = personne.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND personne.Mail = \""+mail+"\" AND personne.Prenom = \""+prenom+"\"");
+                ResultSet  rs = MySQL.execSelect("SELECT * FROM CANDIDAT, personne WHERE CANDIDAT.idCandidat = personne.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND personne.Mail = \""+mail+"\" AND personne.Prenom = \""+prenom+"\"");
                 if (rs.next()) {
                     return false;
                 }else{
-                    ms.exec("call creatPers('"+nom+"','"+prenom+"','"+mail+"');");
+                    MySQL.exec("call creatPers('"+nom+"','"+prenom+"','"+mail+"');");
                     return true;
                 }
             } catch (Exception e) {
@@ -345,13 +344,13 @@ public class Inscriptions implements Serializable
     public boolean BDCreateEquipe(String nom){
         this.createEquipe(nom);
         //BDD
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet  rs = ms.execSelect("SELECT * FROM `CANDIDAT` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
+                ResultSet  rs = MySQL.execSelect("SELECT * FROM `CANDIDAT` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
                 if (rs.next()) {
                     return false;
                 }else{
-                    ms.exec("call creatEquipe('"+nom+"')");
+                    MySQL.exec("call creatEquipe('"+nom+"')");
                     return true;
                 }
             } catch (Exception e) {
@@ -392,9 +391,9 @@ public class Inscriptions implements Serializable
     
     public Set<String> getinsCand(int idcand){
         Set<String> comp = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet rs = ms.execSelect("call COMPETCANDIDAT("+idcand+")");
+                ResultSet rs = MySQL.execSelect("call COMPETCANDIDAT("+idcand+")");
                 while (rs.next()) {
                     comp.add(rs.getNString("Epreuve"));
                 }
@@ -410,9 +409,9 @@ public class Inscriptions implements Serializable
     
     public Set<String> getinscomp(int idcomp){
         Set<String> pers = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet rs = ms.execSelect("call candidatsInscrits("+idcomp+")");
+                ResultSet rs = MySQL.execSelect("call candidatsInscrits("+idcomp+")");
                 while (rs.next()) {
                     pers.add(rs.getNString("nom"));
                 }
@@ -543,10 +542,10 @@ public class Inscriptions implements Serializable
     } */
     
     public boolean suppers(int id){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ms.exec("call DELETEPERS("+id+")");
+                MySQL.exec("call DELETEPERS("+id+")");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -556,10 +555,10 @@ public class Inscriptions implements Serializable
     }
     
     public boolean supequip(int id){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ms.exec("call DELETEEQUIP("+id+")");
+                MySQL.exec("call DELETEEQUIP("+id+")");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -573,10 +572,10 @@ public class Inscriptions implements Serializable
      * Supprime la compétition de l'application.
      */
     public boolean supComp(int id){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ms.exec("call suprComp("+id+")");
+                MySQL.exec("call suprComp("+id+")");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -587,9 +586,9 @@ public class Inscriptions implements Serializable
     }
     
     public boolean estInscrit(int idcand, int idComp){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.exec("call EstInscrit();");
+                MySQL.exec("call EstInscrit();");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -600,9 +599,9 @@ public class Inscriptions implements Serializable
     }
     
     public boolean inscrirCand(int idCand, int idComp){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.exec("call ajouterEquipeACompetition"+"("+idCand+","+idComp+");");
+                MySQL.exec("call ajouterEquipeACompetition"+"("+idCand+","+idComp+");");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -613,10 +612,10 @@ public class Inscriptions implements Serializable
     }
     
     public boolean inscrirCand(Candidat cand, int idComp){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.connect();
-                ms.exec("call ajouterEquipeACompetition"+"("+cand.getId()+","+idComp+");");
+                MySQL.connect();
+                MySQL.exec("call ajouterEquipeACompetition"+"("+cand.getId()+","+idComp+");");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

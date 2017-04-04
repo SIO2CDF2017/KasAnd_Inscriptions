@@ -8,7 +8,6 @@ package xyz.teamkasand.data;
 import java.util.HashMap;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Personne;
-import xyz.teamkasand.config.config;
 
 /**
  *
@@ -21,7 +20,6 @@ public class PersonneDB {
     private String mail;
     private HashMap<Integer, Personne> pers = new HashMap<Integer, Personne>();
     private Inscriptions i;
-    private MySQL ms = new MySQL();
 
     
     public PersonneDB(int id, String nom, String prenom, String mail){
@@ -33,7 +31,7 @@ public class PersonneDB {
     
     private HashMap<Integer, Personne> getPersonnes(){
       HashMap<Integer, Personne> pers = new HashMap<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             
         }
         return null;

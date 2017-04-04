@@ -21,7 +21,6 @@ public class Equipe extends Candidat
     private static final long serialVersionUID = 4147819927233466035L;
     private SortedSet<Personne> membres = new TreeSet<>();
     private Inscriptions inscriptions = new Inscriptions();
-    private MySQL ms = new MySQL();
     Equipe(String nom)
     {
         this(nom, -1);
@@ -50,9 +49,9 @@ public class Equipe extends Candidat
     
     public Set<Integer> getIdEqui(int id){
         Set<Integer> ids = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet rs = ms.execSelect("SELECT IdCandidatEquipe As id FROM appartenir WHERE IdCandidatPersonne = "+id+" ");
+                ResultSet rs = MySQL.execSelect("SELECT IdCandidatEquipe As id FROM appartenir WHERE IdCandidatPersonne = "+id+" ");
                 while (rs.next()) {
                     ids.add(rs.getInt("id"));
                 }
@@ -65,13 +64,13 @@ public class Equipe extends Candidat
     }
     
     public Set<String> getNomMbr(int id){
-        Set<String> noms = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        Set<String> noMySQL = new LinkedHashSet<>();
+        if (MySQL.isConnect()) {
             try {
                 
-                ResultSet rs = ms.execSelect("SELECT Nom FROM CANDIDAT, appartenir WHERE CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND appartenir.IdCandidatPersonne = "+id+"");
+                ResultSet rs = MySQL.execSelect("SELECT Nom FROM CANDIDAT, appartenir WHERE CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND CANDIDAT.IdCandidat = appartenir.IdCandidatEquipe AND appartenir.IdCandidatPersonne = "+id+"");
                 while (rs.next()) {
-                    noms.add(rs.getNString("Nom"));
+                    noMySQL.add(rs.getNString("Nom"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -79,7 +78,7 @@ public class Equipe extends Candidat
         }
         
         
-        return Collections.unmodifiableSet(noms);
+        return Collections.unmodifiableSet(noMySQL);
     }
     
     public SortedSet<Personne> getMembres()
@@ -96,13 +95,13 @@ public class Equipe extends Candidat
     public boolean addBD(Personne membre)
     {
         
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membre.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
+                ResultSet rs = MySQL.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membre.getId()+" AND IdCandidatEquipe = "+this.getId()+"");
                 if (rs.next()) {
                     return false;
                 }else{
-                    ms.exec("call ajoutPers("+membre.getId()+","+this.getId()+")");
+                    MySQL.exec("call ajoutPers("+membre.getId()+","+this.getId()+")");
                     return true;
                 }
             } catch (Exception e) {
@@ -117,13 +116,13 @@ public class Equipe extends Candidat
     public boolean addBD(int membreID)
     {
         
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ResultSet rs = ms.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membreID+" AND IdCandidatEquipe = "+this.getId()+"");
+                ResultSet rs = MySQL.execSelect("SELECT * FROM appartenir WHERE IdCandidatPersonne = "+membreID+" AND IdCandidatEquipe = "+this.getId()+"");
                 if (rs.next()) {
                     return false;
                 }else{
-                    ms.exec("call ajoutPers("+membreID+","+this.getId()+")");
+                    MySQL.exec("call ajoutPers("+membreID+","+this.getId()+")");
                     return true;
                 }
             } catch (Exception e) {
@@ -151,9 +150,9 @@ public class Equipe extends Candidat
     public boolean supPers(Personne membre){
         Personne p = membre;
         
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.exec("call supprMembrEq("+p.getId()+","+this.getId()+")");
+                MySQL.exec("call supprMembrEq("+p.getId()+","+this.getId()+")");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -185,11 +184,11 @@ public class Equipe extends Candidat
     public ArrayList<Personne> getMembresEquipe(int id)
     {
         ArrayList<Personne> personnes = new ArrayList<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.connect();
+                MySQL.connect();
                 
-                ResultSet r = ms.execSelect("call RetourPersonnEquipe("+id+")");
+                ResultSet r = MySQL.execSelect("call RetourPersonnEquipe("+id+")");
                 while (r.next()) {
                     Personne p = inscriptions.createPersonne(
                             r.getNString("Nom"),

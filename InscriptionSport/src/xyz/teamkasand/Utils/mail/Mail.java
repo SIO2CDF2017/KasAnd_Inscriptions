@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xyz.teamkasand.mail;
+package xyz.teamkasand.Utils.mail;
 
 import java.util.HashMap;
 import org.apache.commons.mail.Email;
@@ -36,6 +36,7 @@ public class Mail {
             Email m = new SimpleEmail();
             m.setHostName(MAIL_HOST);
             m.setSmtpPort(MAIL_PORT);
+            m.setSSLOnConnect(true);
             m.setAuthentication(MAIL_USER, MAIL_PASS);
             m.setFrom(MAIL_SENDER);
             

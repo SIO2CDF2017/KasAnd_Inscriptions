@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import javax.swing.JOptionPane;
 import xyz.teamkasand.Interface.frame.Frame;
 import xyz.teamkasand.Utils.InOut;
 import xyz.teamkasand.Utils.CommandsLigne.*;
@@ -1034,9 +1035,12 @@ public class InterfaceUser {
     {
        
        Inscriptions i = Inscriptions.getInscriptions();
-       MySQL ms = new MySQL();
-       ms.connect();
-       Frame f = new Frame(i,ms);
+       
+       if (!MySQL.connect()){
+           JOptionPane.showMessageDialog(null, "La connexion à la base de données a échoué", "ERROR", JOptionPane.ERROR_MESSAGE);
+           System.exit(1);
+       }
+       Frame f = new Frame(i);
        f.repaint();
        
        Menu m = MenuP();

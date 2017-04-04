@@ -23,7 +23,6 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
     private String MYSQL_USER;
     private String MYSQL_PSW;
     private int id;
-    private MySQL ms = new MySQL();
     
     Candidat(Inscriptions inscriptions, String nom)
     {
@@ -54,10 +53,10 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
      * @param nom
      */
     public boolean modifNom(int id, String name){
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
                 
-                ms.execUpdate("call RENAMECANDIDAT("+id+",'"+name+"');");
+                MySQL.execUpdate("call RENAMECANDIDAT("+id+",'"+name+"');");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -88,10 +87,10 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
     
     public Set<String> getCompetCandidat(int id){
         Set<String> c = new LinkedHashSet<>();
-        if (ms.isConnect()) {
+        if (MySQL.isConnect()) {
             try {
-                ms.connect();
-                ResultSet rs = ms.execSelect("call COMPETCAMDIDAT("+id+")");
+                MySQL.connect();
+                ResultSet rs = MySQL.execSelect("call COMPETCAMDIDAT("+id+")");
                 while (rs.next()) {
                     c.add(rs.getNString("Epreuve"));
                 }
@@ -125,10 +124,10 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
      */
     
     public void supCand(int id){
-        if(ms.isConnect()){
+        if(MySQL.isConnect()){
             try {
                 
-                ms.exec("call DELETECANDIDAT("+id+")");
+                MySQL.exec("call DELETECANDIDAT("+id+")");
             } catch (Exception e) {
                 e.printStackTrace();
             }

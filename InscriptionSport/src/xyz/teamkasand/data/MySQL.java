@@ -5,64 +5,69 @@
  */
 package xyz.teamkasand.data;
 
+import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import xyz.teamkasand.config.config;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
  * @author asandolo
  */
-public class MySQL {
+public abstract class MySQL {
     
-    private String url = "jdbc:mysql://217.182.50.221/inscription";
-    private String user = "ins";
-    private String pass = "yolo";
-    private Connection dbConnect = null;
-    private Statement dbStatement = null;
-    private config c = new config();
-    private final HashMap<String, Object> conf = c.getConfigMysql();
-    private boolean connected = false;
+    private static final String URL = "jdbc:mysql://217.182.50.221/inscription";
+    private static final String USER = "ins";
+    private static final  String PASS = "yolo";
+    private static Connection dbConnect = null;
+    private static Statement dbStatement = null;
+    private static boolean connected = false;
     
-    @Deprecated
+    /*@Deprecated
     public MySQL(String url, String user, String pass){
         this.url = url;
         this.user = user;
         this.pass = pass;
+         this.connect();
     }
     
     public MySQL(){
         this.connect();
-    }
+    }*/
     
     
-    public boolean connect(){
+    public static boolean connect() {
+        if (isConnect())
+            return false;
+        
+        LoaderFrame lf = new LoaderFrame();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.dbConnect = DriverManager.getConnection(this.url, this.user, this.pass);
-            this.dbStatement = this.dbConnect.createStatement();
+            dbConnect = DriverManager.getConnection(URL, USER, PASS);
+            dbStatement = dbConnect.createStatement();
             connected = true;
+            lf.closeLoader();
             return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
+        lf.closeLoader();
         return false;
     }
     
     
-    public boolean isConnect(){
+    public static boolean isConnect(){
         return connected;
     }
     
-    public ResultSet execSelect(String s){
+    public static ResultSet execSelect(String s){
         try {
-            ResultSet rs = this.dbStatement.executeQuery(s);
+            ResultSet rs = dbStatement.executeQuery(s);
             return rs;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -70,9 +75,9 @@ public class MySQL {
         return null;
     }
     
-    public int execUpdate(String s){
+    public static int execUpdate(String s){
         try {
-            int rs = this.dbStatement.executeUpdate(s);
+            int rs = dbStatement.executeUpdate(s);
             return rs;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -80,9 +85,9 @@ public class MySQL {
         return -1;
     }
     
-    public boolean exec(String s){
+    public static boolean exec(String s){
         try {
-            boolean rs = this.dbStatement.execute(s);
+            boolean rs = dbStatement.execute(s);
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -90,13 +95,43 @@ public class MySQL {
         return false;
     }  
     
-    public void close(){
+    public static void close(){
         try {
             connected = false;
-            this.dbStatement.close();
-            this.dbConnect.close();
+            dbStatement.close();
+            dbConnect.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    
+    private static class LoaderFrame {
+        private JFrame frame;
+        
+        public LoaderFrame() {
+            JLabel lbl = new JLabel("Chargement en cours, veuillez patienter");
+            lbl.setBorder(BorderFactory.createEmptyBorder(20, 5, 20, 5));
+            
+            this.frame = new JFrame("Loader");
+            this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            this.frame.setLocationRelativeTo(null);
+            this.frame.setContentPane(lbl);
+            this.frame.setAlwaysOnTop(true);
+            this.frame.setVisible(true);
+            this.frame.pack();
+            
+            for (Frame f : JFrame.getFrames())
+                f.setEnabled(false);
+        }
+        
+        public void closeLoader() {
+            try{Thread.sleep(100);}catch(InterruptedException ex){}
+            
+            for (Frame f : JFrame.getFrames())
+                f.setEnabled(true);
+            
+            this.frame.dispose();
         }
     }
 }

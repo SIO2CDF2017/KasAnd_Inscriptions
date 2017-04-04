@@ -17,7 +17,6 @@ public class Personne extends Candidat
 	private String prenom, mail;
 	private Set<Equipe> equipes;
         private int id;
-        private MySQL ms = new MySQL();
  
      
 	
@@ -32,7 +31,6 @@ public class Personne extends Candidat
 		this.prenom = prenom;
 		this.mail = mail;
 		equipes = new TreeSet<>();
-                this.ms = new MySQL();
                 
 	}
 	/**
@@ -50,11 +48,11 @@ public class Personne extends Candidat
 	 * @param prenom
 	 */
 	public void modifPrenom(int id, String name){
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
 
 
-                    ms.execUpdate("call RENAMEPERSONNE("+id+",'"+name+"')");
+                    MySQL.execUpdate("call RENAMEPERSONNE("+id+",'"+name+"')");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -84,11 +82,11 @@ public class Personne extends Candidat
 	 * @param mail
 	 */
 	public void modifMail(int id, String mail){
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
 
 
-                    ms.execUpdate("call CHANGEMAIL("+id+",'"+mail+"')");
+                    MySQL.execUpdate("call CHANGEMAIL("+id+",'"+mail+"')");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -142,9 +140,9 @@ public class Personne extends Candidat
         public ArrayList<String> getNomEquipe(int id)                
 	{       
             ArrayList<String> eq = new ArrayList<String>();
-            if (ms.isConnect()) {
+            if (MySQL.isConnect()) {
                 try {
-                    ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
+                    ResultSet r = MySQL.execSelect("call RetourCandidatEquipe("+id+")");
                     while (r.next()) {                        
                         eq.add(r.getNString("Nom"));
                     }
@@ -158,12 +156,12 @@ public class Personne extends Candidat
         public ArrayList<Equipe> getEquipeDB(int id)                
 	{       
 		ArrayList<Equipe> eq = new ArrayList<Equipe>();
-                if (ms.isConnect()) {
+                if (MySQL.isConnect()) {
                    System.out.println("lol");
                    try {
                 
                 
-                        ResultSet r = ms.execSelect("call RetourCandidatEquipe("+id+")");
+                        ResultSet r = MySQL.execSelect("call RetourCandidatEquipe("+id+")");
                         while (r.next()) {
                         
                             Equipe e = new Equipe(

@@ -25,7 +25,7 @@ import xyz.teamkasand.Equipe;
 import xyz.teamkasand.Inscriptions;
 import xyz.teamkasand.Interface.frame.model.NonEditableModel;
 import xyz.teamkasand.Personne;
-import xyz.teamkasand.mail.Mail;
+import xyz.teamkasand.Utils.mail.Mail;
 
 /**
  *
@@ -319,6 +319,7 @@ public class PersFrame extends JFrame {
         this.add(btn_retour, BorderLayout.NORTH);
         this.add(btn, BorderLayout.SOUTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.requestFocusInWindow();
     }
 
 
