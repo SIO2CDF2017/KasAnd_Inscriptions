@@ -38,7 +38,7 @@ public class CompFrame extends JFrame {
     
     public CompFrame(Inscriptions i, Frame f){
         
-        String[] header = {"Nom","Date de cloture","En equipe ?"};
+        String[] header = {"Nom","Date de cloture","En equipe ?","Inscrits"};
         
         JFrame th = this;
         
@@ -51,10 +51,28 @@ public class CompFrame extends JFrame {
             Competition c = comp.get(j);
             
             
-            datas[j] = new Object[3];
+            datas[j] = new Object[4];
             datas[j][0] = c.getNom();
             datas[j][1] = df.format(Date.from(c.getDateCloture().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             datas[j][2] = c.estEnEquipe()?"Oui":"Non";
+            String ListMembres = "";
+            ArrayList<Personne> p = c.getPersonneInscrit(c.getId());
+            ArrayList<Equipe> e = c.getEquipesInscrit(c.getId());
+            if(!c.estEnEquipe()){
+                if(!p.isEmpty()){
+                    for(Personne pp : p){
+                        ListMembres = ListMembres + pp.getNom()+ " " + pp.getPrenom() + ", ";
+                    }
+                }
+            }
+            else{
+                if(!e.isEmpty()){
+                    for(Equipe ee : e){
+                        ListMembres = ListMembres + ee.getNom() + ", ";
+                    }
+                }
+            }
+            datas[j][3] = ListMembres;
         }
         
             JButton btn_retour = new JButton("Retour");

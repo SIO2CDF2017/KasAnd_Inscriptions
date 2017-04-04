@@ -227,7 +227,7 @@ public class Competition implements Comparable<Competition>, Serializable
                 ms.connect();
                 ResultSet rs = ms.execSelect("call candidatsInscrits("+id+")");
                 while (rs.next()) {
-                    Equipe c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("idCandidat"));
+                    Equipe c = inscriptions.createEquipe(rs.getNString("nom"),rs.getInt("IdCandidat"));
                     names.add(c);
                 }
             } catch (Exception e) {
@@ -245,7 +245,7 @@ public class Competition implements Comparable<Competition>, Serializable
                 ResultSet rs = ms.execSelect("call getInsP("+id+")");
                 Personne p;
                 while(rs.next()){
-                    p = inscriptions.createPersonne(rs.getNString("nom"),rs.getNString("prenom"),rs.getNString("mail"),rs.getInt("id"));
+                    p = inscriptions.createPersonne(rs.getNString("nom"),rs.getNString("prenom"),rs.getNString("mail"),rs.getInt("IdCandidat"));
                     pList.add(p);
                 }
             } catch(Exception e){
