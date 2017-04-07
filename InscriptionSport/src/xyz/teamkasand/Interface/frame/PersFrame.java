@@ -270,13 +270,15 @@ public class PersFrame extends JFrame {
                 
                if(ee.addBD(uuid)){
                    JOptionPane.showMessageDialog(th, "La personne a bien été ajoutée", "ok",JOptionPane.INFORMATION_MESSAGE);
+                   th.dispose();
+                   f.getm_pers().doClick(); 
                }else{
                    JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
                }
             }
         });
         
-        JButton btn_supEquip = new JButton("Suprimé d'une éqyipe");
+        JButton btn_supEquip = new JButton("Suprimé d'une équipe");
         btn_supEquip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -294,6 +296,8 @@ public class PersFrame extends JFrame {
                
                if(ee.supPers(pers)){
                    JOptionPane.showMessageDialog(th, "La personne a bien été supprimée", "ok",JOptionPane.INFORMATION_MESSAGE);
+                   th.dispose();
+                   f.getm_pers().doClick(); 
                }else{
                    JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
                }

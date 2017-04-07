@@ -101,9 +101,11 @@ public class CompFrame extends JFrame {
                 
                 
                 Object[] ob2 = {
-                    "Année date de cloture",anne,
+                    "Jour date de cloture",jour,
                     "Mois date de cloture",moi,
-                    "Jour date de cloture",jour
+                    "Année date de cloture",anne
+                    
+                    
                 };
                 
                 int j = JOptionPane.showConfirmDialog(th, ob1, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
