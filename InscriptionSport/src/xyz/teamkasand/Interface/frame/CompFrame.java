@@ -218,7 +218,7 @@ public class CompFrame extends JFrame {
         });
             
             
-        JButton btn_sup = new JButton("Supprimé la Competition");
+        JButton btn_sup = new JButton("Supprimer la Competition");
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,7 +235,7 @@ public class CompFrame extends JFrame {
         });    
             
          
-        JButton btn_IncCand = new JButton("Inscrire une Personne/Equipe");
+        JButton btn_IncCand = new JButton("Inscrire un candidat");
         btn_IncCand.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -274,7 +274,7 @@ public class CompFrame extends JFrame {
             }
         });
         
-        JButton btn_DesincCand = new JButton("Desinscrire une Personne/Equipe");
+        JButton btn_DesincCand = new JButton("Desinscrire un candidat");
         btn_DesincCand.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
