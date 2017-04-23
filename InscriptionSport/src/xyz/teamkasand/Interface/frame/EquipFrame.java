@@ -61,7 +61,7 @@ public class EquipFrame extends JFrame {
         }
         
         JButton btn_retour = new JButton("Retour");
-        JButton btn_add = new JButton("Ajouter une Equipe");
+        JButton btn_add = new JButton("Créer une Equipe");
         btn_retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +77,7 @@ public class EquipFrame extends JFrame {
                 Object[] ob = {
                     "Nom",nom
                 };
-                int j = JOptionPane.showConfirmDialog(th, ob, "Créée une équipe", JOptionPane.OK_CANCEL_OPTION);
+                int j = JOptionPane.showConfirmDialog(th, ob, "Créer une équipe", JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
                     if(!nom.getText().isEmpty()){
                         if (i.BDCreateEquipe(nom.getText())) {
@@ -96,7 +96,7 @@ public class EquipFrame extends JFrame {
         });
         
             
-            JButton btn_modif = new JButton("Modifier le nom d'une équipe");
+            JButton btn_modif = new JButton("Modifier le nom");
             btn_modif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -161,7 +161,7 @@ public class EquipFrame extends JFrame {
             }
         });
          
-        JButton btn_sup = new JButton("Supprimé une equipe");
+        JButton btn_sup = new JButton("Supprimer une equipe");
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
