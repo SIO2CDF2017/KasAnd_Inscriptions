@@ -139,18 +139,6 @@ public class Frame extends JFrame{
                      HomeFrame h = new HomeFrame();
                      h.paintComponent(g);
                     break;
-                case "pers":
-                    //PersFrame persFrame = new PersFrame(i);
-                    //persFrame.setVisible(true);
-                    break;
-                case "equipe":
-                   // EquipFrame equipFrame = new EquipFrame();
-                   // equipFrame.paintComponent(g);
-                    break;
-                case "comp":
-                    //CompFrame compFrame = new CompFrame();
-                    //compFrame.paintComponent(g);
-                    break;
             }   
         }
     }

@@ -14,8 +14,34 @@ import javax.swing.JPanel;
  */
 public class HomeFrame extends JPanel
 {     
+     JPanel th = this;
      @Override
      public void paintComponent(Graphics g){
-         g.drawString("Home", 10, 20);
+         g.drawString("BIENVENUE !", 319, 10);
+         g.drawString("TUTORIEL : ", 325, 50);
+
+
+         g.drawString("I/ Personne", 100, 70);
+         g.drawString(" - Créé : Dans Personne -> Créer une personne ", 10, 90);
+         g.drawString(" - Supprimé : Dans Personne -> Selectionez une personne -> Supprimé la personne ", 10, 110);
+         g.drawString(" - Modifier : Dans Personne -> Selectionez une personne -> Modifier la personne ", 10, 130);
+         g.drawString(" - Ajouter a une équipe : Dans Personne -> Selectionez une personne -> Ajouter à  une équipe", 10, 150);
+         g.drawString(" - Supprimer d'une équipe : Dans Personne -> Selectionez une équipe -> Supprimer d'une équipe", 10, 170);
+         g.drawString(" - Envoyer un mail : Dans Personne -> Selectionez une équipe -> Envoyer un mail a la peronnne", 10, 190);
+         
+         g.drawString("II/ Equipe", 100, 210);
+         g.drawString(" - Créé : Dans Equipe -> Créer une équipe ", 10, 230);
+         g.drawString(" - Supprimé : Dans Equipe -> Selectionez une équipe -> Supprimé l'équipe ", 10, 250);
+         g.drawString(" - Modifier : Dans Equipe -> Selectionez une équipe -> Modifier l'équipe ", 10, 270);
+         g.drawString(" - Ajouter une Equipe : Dans Equipe -> Selectionez une équipe -> Ajouter une personne", 10, 290);
+         g.drawString(" - Supprimer une Equipe : Dans Equipe -> Selectionez une équipe -> Supprimer une personne", 10, 310);
+         
+         g.drawString("III/ Compétition", 100, 330);
+         g.drawString(" - Créé : Dans Compétition -> Créer une compétition ", 10, 350);
+         g.drawString(" - Supprimé : Dans Compétition -> Selectionez une compétition -> Supprimé la compétion ", 10, 370);
+         g.drawString(" - Modifier : Dans Compétition -> Selectionez une compétition -> Modifier la compétition ", 10, 390);
+         g.drawString(" - Inscrire un candidat : Dans Compétition -> Selectionez une compétition -> Incrire un candidat", 10, 410);
+         g.drawString(" - Deinscrire un candidat : Dans Compétition -> Selectionez une compétition -> Deincrire un candidat", 10, 430);
+         
      }
 }
