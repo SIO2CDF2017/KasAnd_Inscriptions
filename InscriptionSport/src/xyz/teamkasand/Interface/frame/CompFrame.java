@@ -76,7 +76,7 @@ public class CompFrame extends JFrame {
         }
         
             JButton btn_retour = new JButton("Retour");
-            JButton btn_create = new JButton("Créé une competition");
+            JButton btn_create = new JButton("Créer une competition");
             
             btn_retour.addActionListener(new ActionListener() {
             @Override
@@ -108,7 +108,7 @@ public class CompFrame extends JFrame {
                     
                 };
                 
-                int j = JOptionPane.showConfirmDialog(th, ob1, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
+                int j = JOptionPane.showConfirmDialog(th, ob1, "Créer une competition",JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
                     if(!nom.getText().isEmpty()){
                         int k = JOptionPane.showConfirmDialog(th, "En equipe ? ", "En equipe ?", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -116,7 +116,7 @@ public class CompFrame extends JFrame {
                             ee = true;
                         else if (k == 1)
                             ee = false;
-                        int m = JOptionPane.showConfirmDialog(th, ob2, "Ajouter une competition",JOptionPane.OK_CANCEL_OPTION);
+                        int m = JOptionPane.showConfirmDialog(th, ob2, "Créer une competition",JOptionPane.OK_CANCEL_OPTION);
                         if (m == JOptionPane.OK_OPTION)  {
                             if((int)anne.getValue()>0 && (int)moi.getValue()>0 && (int)jour.getValue()>0){
                                 try {
@@ -148,7 +148,7 @@ public class CompFrame extends JFrame {
         
             
         
-        JButton btn_modif = new JButton("Modifier une compétition");
+        JButton btn_modif = new JButton("Modifier la compétition");
             btn_modif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -218,7 +218,7 @@ public class CompFrame extends JFrame {
         });
             
             
-        JButton btn_sup = new JButton("Supprimé une Competition");
+        JButton btn_sup = new JButton("Supprimer la Competition");
         btn_sup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,7 +235,7 @@ public class CompFrame extends JFrame {
         });    
             
          
-        JButton btn_IncCand = new JButton("Inscrire une Personne/Equipe");
+        JButton btn_IncCand = new JButton("Inscrire un candidat");
         btn_IncCand.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -274,7 +274,7 @@ public class CompFrame extends JFrame {
             }
         });
         
-        JButton btn_DesincCand = new JButton("Desinscrire une Personne/Equipe");
+        JButton btn_DesincCand = new JButton("Desinscrire un candidat");
         btn_DesincCand.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){

@@ -75,7 +75,7 @@ public class PersFrame extends JFrame {
          JFrame th = this;
          
          JButton btn_create = new JButton("Créer une personne");
-         JButton btn_modif = new JButton("Modifier une personne");
+         JButton btn_modif = new JButton("Modifier la personne");
          JButton btn_retour = new JButton("Retour");
          btn_retour.addActionListener(new ActionListener() {
             @Override
@@ -146,7 +146,7 @@ public class PersFrame extends JFrame {
                             "Prenom",prenom,
                             "Mail",mail,
                         };
-                        int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier une personne",JOptionPane.OK_CANCEL_OPTION);
+                        int k = JOptionPane.showConfirmDialog(th, ob2,"Modifier la personne",JOptionPane.OK_CANCEL_OPTION);
                         if(k == JOptionPane.OK_OPTION) {
                             if(!nom.getText().isEmpty() && !prenom.getText().isEmpty() &&  !mail.getText().isEmpty()){
                                 Personne p = i.createPersonne(name, prename, email);
@@ -278,7 +278,7 @@ public class PersFrame extends JFrame {
             }
         });
         
-        JButton btn_supEquip = new JButton("Suprimé d'une équipe");
+        JButton btn_supEquip = new JButton("Supprimer d'une équipe");
         btn_supEquip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -314,9 +314,9 @@ public class PersFrame extends JFrame {
          
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
-         btn.add(btn_create, BorderLayout.EAST);
+         btn.add(btn_create, BorderLayout.WEST);
          btn.add(btn_modif, BorderLayout.CENTER);
-         btn.add(btn_sup, BorderLayout.WEST);
+         btn.add(btn_sup, BorderLayout.EAST);
          btn.add(btn2, BorderLayout.SOUTH);
          
         this.setLayout(new BorderLayout());
