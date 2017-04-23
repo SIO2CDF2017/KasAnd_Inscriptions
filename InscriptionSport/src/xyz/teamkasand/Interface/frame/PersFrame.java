@@ -314,9 +314,9 @@ public class PersFrame extends JFrame {
          
          JPanel btn = new JPanel();
          btn.setLayout(new BorderLayout());
-         btn.add(btn_create, BorderLayout.EAST);
+         btn.add(btn_create, BorderLayout.WEST);
          btn.add(btn_modif, BorderLayout.CENTER);
-         btn.add(btn_sup, BorderLayout.WEST);
+         btn.add(btn_sup, BorderLayout.EAST);
          btn.add(btn2, BorderLayout.SOUTH);
          
         this.setLayout(new BorderLayout());
