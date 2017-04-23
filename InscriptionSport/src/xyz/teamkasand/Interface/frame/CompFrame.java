@@ -289,7 +289,7 @@ public class CompFrame extends JFrame {
                     if(comp.deInsCand(ee)){
                         JOptionPane.showMessageDialog(th, "L'équipe à été désinscrite", "ok",JOptionPane.INFORMATION_MESSAGE);
                         th.dispose();
-                        f.getm_comp();
+                        f.getm_comp().doClick();
                     }
                     else
                         JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);
@@ -301,7 +301,7 @@ public class CompFrame extends JFrame {
                     if(comp.deInsCand(pp)){
                         JOptionPane.showMessageDialog(th, "La Personne à bien été désinscrite","ok",JOptionPane.INFORMATION_MESSAGE);
                         th.dispose();
-                        f.getm_comp();
+                        f.getm_comp().doClick();
                     }
                     else
                         JOptionPane.showMessageDialog(th, "Une erreur s'est produite", "ERROR",JOptionPane.ERROR_MESSAGE);

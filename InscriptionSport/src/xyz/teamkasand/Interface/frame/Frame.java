@@ -111,9 +111,11 @@ public class Frame extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
-                       "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                       "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                     MySQL.close();
-                    System.exit(0);
+                    System.exit(0);                    
+                }
+
             }
             
         });
@@ -182,9 +184,11 @@ public class Frame extends JFrame{
                         break;
                     case "q":
                         if(JOptionPane.showConfirmDialog(c,"Etes-vous certain de vouloir quitter?",
-                                "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                                "Quitter Inscriptions ?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                             MySQL.close();
                             System.exit(0);
+                        }
+                           
                        break;
                 }
             } catch (Exception ex) {

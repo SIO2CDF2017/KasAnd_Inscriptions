@@ -303,7 +303,7 @@ public class Inscriptions implements Serializable
         //BDD
         if (MySQL.isConnect()) {
             try {
-                ResultSet  rs = MySQL.execSelect("SELECT * FROM CANDIDAT, personne WHERE CANDIDAT.idCandidat = personne.idCandidat AND CANDIDAT.Nom = \""+nom+"\" AND personne.Mail = \""+mail+"\" AND personne.Prenom = \""+prenom+"\"");
+                ResultSet  rs = MySQL.execSelect("SELECT * FROM candidat, personne WHERE candidat.idCandidat = personne.idCandidat AND candidat.Nom = \""+nom+"\" AND personne.Mail = \""+mail+"\" AND personne.Prenom = \""+prenom+"\"");
                 if (rs.next()) {
                     return false;
                 }else{
@@ -346,7 +346,7 @@ public class Inscriptions implements Serializable
         //BDD
         if (MySQL.isConnect()) {
             try {
-                ResultSet  rs = MySQL.execSelect("SELECT * FROM `CANDIDAT` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND CANDIDAT.Nom = '"+nom+"'");
+                ResultSet  rs = MySQL.execSelect("SELECT * FROM `candidat` WHERE `idCandidat` NOT IN (SELECT `IdCandidat` FROM `personne`) AND candidat.Nom = '"+nom+"'");
                 if (rs.next()) {
                     return false;
                 }else{
