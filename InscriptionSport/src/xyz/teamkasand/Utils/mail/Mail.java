@@ -39,8 +39,7 @@ public class Mail {
             m.setSSLOnConnect(true);
             m.setAuthentication(MAIL_USER, MAIL_PASS);
             m.setFrom(MAIL_SENDER);
-            
-            
+           
             m.addTo(to);
             m.setSubject(sujet);
             m.setMsg(msg);
